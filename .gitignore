@@ -267,16 +267,15 @@ __pycache__/
 *.woff
 
 # Non-minified css/js
-site.css
-saltire.css
-site.js
-svg-with-js.css
-fontawesome.css
-all.css
-jquery-ui.css
-jquery-ui.js
-jquery.js
-moment.js
-moment-with-locales.js
-StreetSearch.js
+#site.css
+#saltire.css
+#svg-with-js.css
+#fontawesome.css
+#all.css
+#jquery-ui.css
+#jquery-ui.js
+#jquery.js
+#moment.js
+#moment-with-locales.js
+
 
