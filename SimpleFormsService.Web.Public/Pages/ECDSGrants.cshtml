@@ -1,0 +1,73 @@
+﻿@page
+@model ECDSGrantsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Resources;
+
+@{
+    ViewData["Title"] = StringResource_ECDSGrants.PageTitle;
+}
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="ecds">
+        <div class="col-xs-12 col-md-9">
+            <h1 class="mb-5">@StringResource_ECDSGrants.PageTitle</h1>
+            <form method="post" asp-antiforgery="true">
+                <div class="row form-group">
+                    <div class="col-sm-10">
+                        <label asp-for="ECDSGrant.Consultant" class="nslabel">@Html.Raw(StringResource_ECDSGrants.Label_Consultant)</label>
+                        <select asp-for="ECDSGrant.Consultant" asp-items="Model.Consultants()" class="dropdown fw-20">
+                            <option value="">@StringResource_ECDSGrants.Dropdown_Default</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ECDSGrant.CentreEmail" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="ECDSGrant.CentreEmail"></span>
+                    </div>
+                    <input type="text" asp-for="ECDSGrant.CentreEmail" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ECDSGrant.CentreName" class="nslabel"></label>
+
+                    <input asp-for="ECDSGrant.CentreName" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ECDSGrant.CentreId" class="nslabel">@Html.Raw(StringResource_ECDSGrants.Label_CentreId)</label>
+
+                    <input asp-for="ECDSGrant.CentreId" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+
+
+                <hr />
+                <div class="form-group mb-0" id="sppUpload">
+                    <h2>@Html.Raw(StringResource_ECDSGrants.ECDS_Submission)</h2>
+                    <div class="help-block text-danger ns--message ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    </div>
+                    <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
+                        @StringResource_ECDSGrants.Label_Upload
+                        <input type="file" id="uploadDoc" class="ns-upload-button" asp-for="ECDSGrant.File" accept=".pdf,.jpeg,.jpg" />
+                    </label>
+
+                    <div id="fileDescription" class="nshinttext mt-0">
+                        <p class="mt-0 mb-0">@Html.Raw(StringResource_ECDSGrants.AcceptedUploadType)</p>
+                        <p>@Html.Raw(StringResource_ECDSGrants.MaxFileSize)</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <input type="submit" id="ecdsSubmit" class="btn-default btn-lg ml-5" value="@StringResource_ECDSGrants.Btn_Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}

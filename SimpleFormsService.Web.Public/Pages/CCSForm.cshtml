@@ -1,0 +1,90 @@
+﻿@page
+@model CCSFormModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Resources;
+
+@{
+    ViewData["Title"] = StringResource_CCSForm.PageTitle;
+}
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="ccsForm">
+        <div class="col-xs-12 col-md-9">
+            <h1 class="mb-5">@StringResource_CCSForm.PageTitle</h1>
+            <form method="post" asp-antiforgery="true">
+                <div class="form-group">
+                    <label asp-for="CCSForm.ApplicantEmail" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="CCSForm.ApplicantEmail"></span>
+                    </div>
+                    <input type="email" asp-for="CCSForm.ApplicantEmail" data-val="true" value="" class="ns-input fw-20" autocomplete="off" spellcheck="false" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CCSForm.ApplicantName" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="CCSForm.ApplicantName"></span>
+                    </div>
+                    <input type="text" asp-for="CCSForm.ApplicantName" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-10">
+                        <label asp-for="CCSForm.RegionalOffice" class="nslabel">@Html.Raw(StringResource_CCSForm.Label_RegionalOffice)</label>
+                        <select asp-for="CCSForm.RegionalOffice" asp-items="Model.RegionalOffices()" class="dropdown fw-20">
+                            <option value="">@StringResource_CCSForm.Dropdown_Default</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-10">
+                        <fieldset>
+                            <legend class="legendQuestion"><label asp-for="CCSForm.SupportingDocument" class="nslabel"></label></legend>
+                            @foreach (var item in Model.SupportDocuments())
+                            {
+                                <div class="govns-radios govns-radios--small">
+                                    <div class="govns-radios__item">
+                                        <input type="radio" asp-for="CCSForm.SupportingDocument" value="@item.Description" class="govns-radios__input" id="@item.Code" />
+
+                                        <label class="govns-label govns-radios__label" for="@item.Code"><span class="govns-label-span">@item.Description</span></label>
+                                        <div id="reason-hint" class="ns-hint govns-radios__hint">
+                                            @Html.Raw(@item.Hint)
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </fieldset>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="form-group mb-0" id="ccsrUpload">
+                    <h2>@Html.Raw(StringResource_CCSForm.CCS_Submission)</h2>
+                    <div class="help-block text-danger ns--message ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    </div>
+                    <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
+                        @StringResource_CCSForm.Label_Upload
+                        <input type="file" id="uploadDoc" class="ns-upload-button" asp-for="CCSForm.File" multiple accept=".pdf,.jpeg,.jpg" />
+                    </label>
+
+                    <div id="fileDescription" class="nshinttext mt-0">
+                        <p class="mt-0 mb-0">@Html.Raw(StringResource_CCSForm.AcceptedUploadType)</p>
+                        <p>@Html.Raw(StringResource_CCSForm.MaxFileSize)</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <input type="submit" id="ccsSubmit" class="btn-default btn-lg ml-5" value="@StringResource_CCSForm.Btn_Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}

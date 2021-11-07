@@ -1,0 +1,123 @@
+﻿@page
+@model DISPharmacyModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Resources;
+
+@{
+    ViewData["Title"] = StringResource_DISPharmacy.PageTitle;
+}
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="dispharmacy">
+        <div class="col-xs-12 col-md-9">
+            <h1 class="mb-5">@StringResource_DISPharmacy.PageTitle</h1>
+            <form method="post" asp-antiforgery="true">
+                <div class="row form-group">
+                    <div class="col-sm-10">
+                        <label asp-for="DISPharmacy.Email" class="nslabel"></label>
+                        <div class="help-block text-danger ns-error-message">
+                            <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                            <span asp-validation-for="DISPharmacy.Email"></span>
+                        </div>
+                        <input type="text" asp-for="DISPharmacy.Email" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DISPharmacy.Subject" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="DISPharmacy.Subject"></span>
+                    </div>
+                    <input type="text" asp-for="DISPharmacy.Subject" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-10">
+                        <fieldset>
+                            <legend class="legendQuestion"><label asp-for="DISPharmacy.SourceType" class="nslabel"></label></legend>
+                            @foreach (var item in Model.SourceTypes())
+                            {
+                                <div class="govns-radios govns-radios--small">
+                                    <div class="govns-radios__item">
+                                        <input type="radio" asp-for="DISPharmacy.SourceType" value="@item.Value" class="govns-radios__input" id="@item.Value" />
+
+                                        <label class="govns-label govns-radios__label" for="@item.Value"><span class="govns-label-span">@item.Text</span></label>
+                                    </div>
+                                </div>
+                            }
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DISPharmacy.SourceName" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="DISPharmacy.SourceName"></span>
+                    </div>
+                    <input type="text" asp-for="DISPharmacy.SourceName" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DISPharmacy.Contact" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="DISPharmacy.Contact"></span>
+                    </div>
+                    <input type="text" asp-for="DISPharmacy.Contact" data-val="true" value="" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DISPharmacy.TicketNumber" class="nslabel">@Html.Raw(StringResource_DISPharmacy.Label_DISTicket)</label>
+                    <div class="ns-hint" id="ticketnumber-hint">
+                        @Html.Raw(StringResource_DISPharmacy.Hint_Optional)
+                    </div>
+                    <input asp-for="DISPharmacy.TicketNumber" class="ns-input fw-20" autocomplete="off" aria-describedby="ticketnumber-hint"/>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="DISPharmacy.VendorTicketNumber" class="nslabel"></label>
+                    <div class="ns-hint" id="vendorticket-hint">
+                        @Html.Raw(StringResource_DISPharmacy.Hint_Optional)
+                    </div>
+                    <input asp-for="DISPharmacy.VendorTicketNumber" class="ns-input fw-20" autocomplete="off" aria-describedby="vendorticket-hint"/>
+                </div>
+
+
+                <hr />
+                <div class="form-group mb-0" id="sppUpload">
+                    <h2>@Html.Raw(StringResource_DISPharmacy.DIS_Upload)</h2>
+                    <div class="row">
+                        <div class="col-xs-10 blockquote-alert " role="alert">
+                            <p><i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                            @Html.Raw(StringResource_DISPharmacy.DIS_UploadNote)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="help-block text-danger ns--message ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    </div>
+                    <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
+                        @StringResource_DISPharmacy.Label_Upload
+                        <input type="file" id="uploadDoc" class="ns-upload-button" asp-for="DISPharmacy.File" accept=".pdf,.jpeg,.jpg" />
+                    </label>
+
+                    <div id="fileDescription" class="nshinttext mt-0">
+                        <p class="mt-0 mb-0">@Html.Raw(StringResource_DISPharmacy.AcceptedUploadType)</p>
+                        <p>@Html.Raw(StringResource_DISPharmacy.MaxFileSize)</p>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        <input type="submit" id="DISSubmit" class="btn-default btn-lg ml-5" value="@StringResource_DISPharmacy.Btn_Submit" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}
