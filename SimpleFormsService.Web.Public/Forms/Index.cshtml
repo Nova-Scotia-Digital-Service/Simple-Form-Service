@@ -1,0 +1,19 @@
+﻿@page
+@model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared;
+@using SimpleFormsService.Web.Public.Forms;
+
+@{
+    ViewData["Title"] = "Introduction";
+}
+
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="spp">
+        <div class="col-xs-12 col-md-9">
+            <h1 class="m-b-md">@SharedResource.App_Title</h1>
+            <p class="m-b-md">Introduction here</p>
+        </div>
+    </section>
+}

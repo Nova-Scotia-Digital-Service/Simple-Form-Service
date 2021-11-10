@@ -1,0 +1,89 @@
+﻿@page
+@model SPPFormModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.SpecialPatientProgram;
+
+@{
+    ViewData["Title"] = StringResource.PageTitle;
+}
+
+@section featured
+{
+<section class="row ns-fieldset stickyFooter" id="spp">
+    <div class="col-xs-12 col-md-9">
+        <h1 class="mb-5">@StringResource.PageTitle</h1>
+        <form method="post" asp-antiforgery="true">
+            <h2 class="m-b-md">@StringResource.SPP_H2</h2>
+            <div class="form-group">
+                <label asp-for="SPPForm.Email" class="nslabel"></label>
+
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="SPPForm.Email"></span>
+                </div>
+                <input type="text" asp-for="SPPForm.Email" data-val="true" value="" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SPPForm.FirstName" class="nslabel"></label>
+
+                <input asp-for="SPPForm.FirstName" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SPPForm.LastName" class="nslabel"></label>
+
+                <input asp-for="SPPForm.LastName" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SPPForm.Phone" class="nslabel"></label>
+
+                <input asp-for="SPPForm.Phone" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <hr />
+            <h2 class="m-b-md">@StringResource.SPP_H2_2</h2>
+            <div class="row form-group">
+                <div class="col-sm-10">
+                    <fieldset>
+                        <legend class="legendQuestion"><label asp-for="SPPForm.SubmissionType" class="nslabel"></label></legend>
+                        @foreach (var item in Model.SubmissionTypes())
+                        {
+                        <div class="govns-radios govns-radios--small">
+                            <div class="govns-radios__item">
+                                <input type="radio" asp-for="SPPForm.SubmissionType" value="@item.Value" class="govns-radios__input" id="@item.Value" />
+
+                                <label class="govns-label govns-radios__label" for="@item.Value"><span class="govns-label-span">@item.Text</span></label>
+                            </div>
+                        </div>
+                        }
+                    </fieldset>
+                </div>
+            </div>
+
+            <div class="form-group mb-0" id="sppUpload">
+                <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
+                <div class="help-block text-danger ns--message ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                </div>
+                <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
+                    @StringResource.Label_Upload
+                    <input type="file" id="uploadDoc" name="files" class="ns-upload-button" asp-for="SPPForm.File" accept=".pdf,.jpeg,.jpg" multiple />
+                </label>
+
+                <div id="fileDescription" class="nshinttext mt-0">
+                    <p class="mt-0 mb-0">@Html.Raw(StringResource.AcceptedUploadType)</p>
+                    <p>@Html.Raw(StringResource.MaxFileSize)</p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-12">
+                    <input type="submit" id="sppSubmit" class="btn-default btn-lg ml-5" value="@StringResource.Btn_Submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+}
