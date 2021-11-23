@@ -16,7 +16,7 @@ namespace SimpleFormsService.API.Model
         /// </summary>
         public List<string> AuthorizedAdminUsers { get; set; }
 
-
+        public List<string> Email { get; set; }
 
             
     }

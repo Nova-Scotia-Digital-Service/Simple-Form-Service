@@ -1,12 +1,19 @@
-var builder = WebApplication.CreateBuilder(args);
+using SimpleFormsService.API.Global;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
+
+// Read environment variables from OpenShift
+OpenshiftConfig openshiftConfig = new(builder.Configuration);
+
+Console.Write("====== INFO: Openshift config is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.GCNotifyTemplateId) + "======");
+
+builder.Services.AddSingleton(openshiftConfig);
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 
 var app = builder.Build();
 
