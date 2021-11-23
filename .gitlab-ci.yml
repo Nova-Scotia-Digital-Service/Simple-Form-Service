@@ -1,0 +1,130 @@
+variables:
+  REGISTRY_HOST: harbor.novascotia.ca
+  OC_NAMESPACE: namespace
+  OC_APPNAME: app
+  IMAGE_NAMESPACE: teamname
+  IMAGE_NAME: appname
+
+stages:
+  - build
+  - test
+  - tagging
+  - deploy  # dummy stage to follow the template guidelines
+  - review
+  - dast
+  - staging
+  - canary
+  - production
+  - incremental rollout 10%
+  - incremental rollout 25%
+  - incremental rollout 50%
+  - incremental rollout 100%
+  - performance
+  - cleanup
+
+include:
+#  - template: Jobs/Build.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Build.gitlab-ci.yml
+#  - template: Jobs/Code-Quality.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Quality.gitlab-ci.yml
+#  - template: Jobs/Code-Intelligence.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Jobs/Code-Intelligence.gitlab-ci.yml
+#  - template: Security/Container-Scanning.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Security/Container-Scanning.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Security/SAST.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml  # https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Security/Secret-Detection.gitlab-ci.yml
+
+Build Docker Image:
+  image: harbor.novascotia.ca/devops/docker-s2i
+  stage: build
+  script:
+   - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
+   - echo "building api"
+   - docker build -t ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} -f SimpleFormsService.API/Dockerfile .
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
+   - echo "building web admin"
+   - docker build -t ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} -f SimpleFormsService.Web.Admin/Dockerfile .
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
+   - echo "building web public"
+   - docker build -t ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} -f SimpleFormsService.Web.Public/Dockerfile .
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
+  tags:
+    - docker
+
+  - project: 'devops/cicdtemplates'
+    ref: main
+    file: 'Sonar-Scanning.gitlab-ci.yml' # Sonar Scanning Template
+
+Tag Docker Dev:
+  image: harbor.novascotia.ca/devops/docker-s2i
+  stage: tagging
+  script:
+   - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:dev 
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:dev 
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:dev 
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:dev
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:dev
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:dev
+  tags:
+    - docker
+  only:
+    refs:
+      - dev
+
+Tag Docker Prod:
+  image: harbor.novascotia.ca/devops/docker-s2i
+  stage: tagging
+  script:
+   - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
+   - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:latest
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:latest
+   - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:latest
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:latest
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:latest
+   - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:latest
+  tags:
+    - docker
+  only:
+    refs:
+      - main
+
+Deploy Image in Dev PaaS:
+  image: harbor.novascotia.ca/openshift4/ose-cli:latest
+  stage: deploy
+  script:
+    - oc login ${OPENSHIFT_DEV_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_DEV_TOKEN}
+    - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/api
+    - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/webadmin
+    - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/webpublic
+  tags:
+    - docker
+  needs: ["Tag Docker Dev"]
+  environment:
+    name: development
+    url: https://app-${OC_NAMESPACE}-dev.apps.ext.novascotia.ca
+  only:
+    refs:
+      - dev
+
+Deploy image in Prod Paas:
+  image: harbor.novascotia.ca/openshift4/ose-cli:latest
+  stage: deploy
+  script:
+    - oc login ${OPENSHIFT_PROD_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_PROD_TOKEN}
+    - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/api
+    - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/webadmin
+    - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/webpublic
+  tags:
+    - docker
+  needs: ["Tag Docker Prod"]
+  environment:
+    name: production
+    url: https://app-${OC_NAMESPACE}-prod.apps.ext.novascotia.ca
+  when: manual
+  only:
+    refs:
+      - main
+
