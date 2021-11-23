@@ -39,8 +39,7 @@ Build Docker Image:
   image: harbor.novascotia.ca/devops/docker-s2i
   stage: build
   script:
-    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin \
-      ${REGISTRY_HOST}
+    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
     - echo "building api"
     - docker build -t \
       ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} \
@@ -65,8 +64,7 @@ Tag Docker Dev:
   image: harbor.novascotia.ca/devops/docker-s2i
   stage: tagging
   script:
-    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin \
-      ${REGISTRY_HOST}
+    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
     - docker pull \
       ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
     - docker pull \
@@ -95,8 +93,7 @@ Tag Docker Prod:
   image: harbor.novascotia.ca/devops/docker-s2i
   stage: tagging
   script:
-    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin \
-      ${REGISTRY_HOST}
+    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
     - docker pull \
       ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
     - docker pull \
