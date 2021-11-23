@@ -39,7 +39,7 @@ Build Docker Image:
   image: harbor.novascotia.ca/devops/docker-s2i
   stage: build
   script:
-    - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
+    - docker login -u robot\$GitLab -p ${REGISTRY_TOKEN} ${REGISTRY_HOST}
     - echo "building api"
     - docker build -t \
       ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} \
