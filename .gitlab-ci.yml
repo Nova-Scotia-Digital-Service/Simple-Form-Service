@@ -57,21 +57,12 @@ Tag Docker Dev:
   stage: tagging
   script:
     - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:dev
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:dev
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:dev
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:dev
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:dev
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:dev
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:dev
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:dev
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:dev
@@ -86,21 +77,12 @@ Tag Docker Prod:
   stage: tagging
   script:
     - echo ${REGISTRY_TOKEN} | docker login -u robot\$GitLab --password-stdin ${REGISTRY_HOST}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
-    - docker pull \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:latest
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:latest
-    - docker tag \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} \
-      ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:latest
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA}
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA}
+    - docker pull ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA}
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:latest
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:latest
+    - docker tag ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:${CI_COMMIT_SHORT_SHA} ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:latest
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/api:latest
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webadmin:latest
     - docker push ${REGISTRY_HOST}/${IMAGE_NAMESPACE}/webpublic:latest
@@ -114,8 +96,7 @@ Deploy Image in Dev PaaS:
   image: harbor.novascotia.ca/openshift4/ose-cli:latest
   stage: deploy
   script:
-    - oc login ${OPENSHIFT_DEV_URL} --insecure-skip-tls-verify \
-      --token=${OPENSHIFT_DEV_TOKEN}
+    - oc login ${OPENSHIFT_DEV_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_DEV_TOKEN}
     - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/api
     - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/webadmin
     - oc -n ${OC_NAMESPACE}-dev rollout restart deployment/webpublic
@@ -133,8 +114,7 @@ Deploy image in Prod Paas:
   image: harbor.novascotia.ca/openshift4/ose-cli:latest
   stage: deploy
   script:
-    - oc login ${OPENSHIFT_PROD_URL} --insecure-skip-tls-verify \
-      --token=${OPENSHIFT_PROD_TOKEN}
+    - oc login ${OPENSHIFT_PROD_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_PROD_TOKEN}
     - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/api
     - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/webadmin
     - oc -n ${OC_NAMESPACE}-prod rollout restart deployment/webpublic
