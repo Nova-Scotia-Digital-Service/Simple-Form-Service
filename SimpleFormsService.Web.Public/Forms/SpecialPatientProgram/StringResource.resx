@@ -126,6 +126,9 @@
   <data name="Label_Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Label_FileName" xml:space="preserve">
+    <value>File name</value>
+  </data>
   <data name="Label_FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
@@ -162,7 +165,13 @@
   <data name="SubmissionType_New" xml:space="preserve">
     <value>New application</value>
   </data>
+  <data name="SubmissionType_RequiredErr" xml:space="preserve">
+    <value>Choose a submission type</value>
+  </data>
   <data name="SubmitterEmail_RequiredErr" xml:space="preserve">
     <value>Enter submitter email</value>
+  </data>
+  <data name="Upload_RequiredErr" xml:space="preserve">
+    <value>Upload your document(s)</value>
   </data>
 </root>

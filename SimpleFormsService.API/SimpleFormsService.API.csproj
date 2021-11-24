@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="GovukNotify" Version="4.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Minio" Version="3.1.13" />
+    <PackageReference Include="Myrmec" Version="1.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

@@ -70,11 +70,47 @@ namespace SimpleFormsService.Web.Public.Forms.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove file.
+        /// </summary>
+        public static string Caption_RemoveFile {
+            get {
+                return ResourceManager.GetString("Caption_RemoveFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploaded file(s).
+        /// </summary>
+        public static string Caption_UploadedFile {
+            get {
+                return ResourceManager.GetString("Caption_UploadedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://beta.novascotia.ca/copyright/.
         /// </summary>
         public static string CrownCopyRight_href {
             get {
                 return ResourceManager.GetString("CrownCopyRight_href", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File name(s):.
+        /// </summary>
+        public static string Label_FileName {
+            get {
+                return ResourceManager.GetString("Label_FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Label_Remove {
+            get {
+                return ResourceManager.GetString("Label_Remove", resourceCulture);
             }
         }
         

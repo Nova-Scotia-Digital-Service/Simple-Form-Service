@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -19,13 +20,18 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            //if (string.IsNullOrWhiteSpace(SPPForm.SubmissionType))
+            //    ModelState.AddModelError("SPPForm.SubmissionType", StringResource.SubmissionType_RequiredErr);
+
+            if (ModelState.IsValid)
             {
+                //TODO
                 return Page();
             }
-
-            return RedirectToPage("./redirectURL");
+            return Page();
+           // return RedirectToPage("./redirectURL");
         }
+
         public List<SelectListItem> SubmissionTypes()
         {
             List<SelectListItem> items = new()

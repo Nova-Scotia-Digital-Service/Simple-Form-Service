@@ -120,8 +120,20 @@
   <data name="App_Title" xml:space="preserve">
     <value>Simple forms service</value>
   </data>
+  <data name="Caption_RemoveFile" xml:space="preserve">
+    <value>Remove file</value>
+  </data>
+  <data name="Caption_UploadedFile" xml:space="preserve">
+    <value>Uploaded file(s)</value>
+  </data>
   <data name="CrownCopyRight_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/copyright/</value>
+  </data>
+  <data name="Label_FileName" xml:space="preserve">
+    <value>File name(s):</value>
+  </data>
+  <data name="Label_Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="Link_CrownCopyRight" xml:space="preserve">
     <value>Crown copyright © Government of Nova Scotia</value>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SimpleFormsService.API.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,6 +9,12 @@ namespace SimpleFormsService.API.Controllers
     [ApiController]
     public class AdminController : ControllerBase
     {
+        private readonly IDocumentService _documentService;
+
+        public AdminController(IDocumentService documentService)
+        {
+            _documentService = documentService;
+        }
 
         [HttpGet ("api/admin/{formId}/{submissionId}")]
         public string ViewForm(string formId, string submissionId)
