@@ -1,10 +1,48 @@
 ﻿@page
 @model IndexModel
+@using SimpleFormsService.Web.Admin.Resources
 @{
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="homePage">
+        <div class="col-xs-12 col-md-9">
+            <form method="post" asp-antiforgery="true">
+                <h2 class="m-b-md">@StringResource.Section_Submission</h2>
+                <div class="row m-t-md">
+                    <div class="col-md-4 form-group">
+                        <label asp-for="FormInfo.FormID" class="nslabel"></label>
+                        F0000123             
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label asp-for="FormInfo.SubmissionID" class="nslabel"></label>
+                        S123456             
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label asp-for="FormInfo.SubmissionDate" class="nslabel"></label>
+                        Jan. 25, 2021             
+                    </div>
+                    
+                </div>
+                <hr />
+                <h2 class="m-b-md">@StringResource.Section_SubmissionDetail</h2>
+                <div class="row m-t-md">
+                    <div class="col-md-4 form-group">
+                        <label class="nslabel">Detail 1</label>
+                        xxxxxxx             
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="nslabel">Detail 2</label>
+                        xxxxxxxx             
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <label class="nslabel">Detail 3</label>
+                        xxxxxxxx            
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+}

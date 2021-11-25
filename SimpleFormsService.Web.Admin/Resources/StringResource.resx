@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="App_Title" xml:space="preserve">
-    <value>Simple forms service admin UI</value>
+    <value>Simple forms service admin &lt;abbr title="User Interface"&gt;UI&lt;/abbr&gt;</value>
   </data>
   <data name="Btn_ClearFilter" xml:space="preserve">
     <value>Clear filter</value>
@@ -141,8 +141,17 @@
   <data name="GNS" xml:space="preserve">
     <value>Government of Nova Scotia</value>
   </data>
+  <data name="Label_FormID" xml:space="preserve">
+    <value>Form ID</value>
+  </data>
   <data name="Label_Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="Label_SubmissionDate" xml:space="preserve">
+    <value>Submission date</value>
+  </data>
+  <data name="Label_SubmissionID" xml:space="preserve">
+    <value>Submission ID</value>
   </data>
   <data name="LastName_RequiredErr" xml:space="preserve">
     <value>Enter last name</value>
@@ -164,6 +173,12 @@
   </data>
   <data name="Privacy_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/privacy/</value>
+  </data>
+  <data name="Section_Submission" xml:space="preserve">
+    <value>About the submission</value>
+  </data>
+  <data name="Section_SubmissionDetail" xml:space="preserve">
+    <value>Submission detail</value>
   </data>
   <data name="Terms_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/terms/</value>

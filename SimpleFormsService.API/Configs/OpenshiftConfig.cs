@@ -20,6 +20,9 @@
             MINIO_EndPoint = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ENDPOINT")) ? _config.GetValue<string>("Minio:Endpoint") : Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
             MINIO_AccessKey = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ACCESSKEY")) ? _config.GetValue<string>("Minio:AccessKey") : Environment.GetEnvironmentVariable("MINIO_ACCESSKEY");
             MINIO_SecretKey = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_SECRETKEY")) ? _config.GetValue<string>("Minio:SecretKey") : Environment.GetEnvironmentVariable("MINIO_SECRETKEY");
+
+            //read postgresql connection string
+            Postgre_ConnectionString = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) ? _config.GetValue<string>("PostgreSQL:ConnectionString") : Environment.GetEnvironmentVariable("connection-string");
         }
 
         public string GCNotify_ApiKey { get; set; }
@@ -28,6 +31,7 @@
         public string MINIO_EndPoint { get; set; }
         public string MINIO_AccessKey { get; set; }
         public string MINIO_SecretKey { get; set; }
+        public string Postgre_ConnectionString { get; set; }
         
     }
 }

@@ -61,7 +61,7 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Simple forms service admin UI.
+        ///   Looks up a localized string similar to Simple forms service admin &lt;abbr title=&quot;User Interface&quot;&gt;UI&lt;/abbr&gt;.
         /// </summary>
         public static string App_Title {
             get {
@@ -133,11 +133,38 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Form ID.
+        /// </summary>
+        public static string Label_FormID {
+            get {
+                return ResourceManager.GetString("Label_FormID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Label_Home {
             get {
                 return ResourceManager.GetString("Label_Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submission date.
+        /// </summary>
+        public static string Label_SubmissionDate {
+            get {
+                return ResourceManager.GetString("Label_SubmissionDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submission ID.
+        /// </summary>
+        public static string Label_SubmissionID {
+            get {
+                return ResourceManager.GetString("Label_SubmissionID", resourceCulture);
             }
         }
         
@@ -201,6 +228,24 @@ namespace SimpleFormsService.Web.Admin.Resources {
         public static string Privacy_href {
             get {
                 return ResourceManager.GetString("Privacy_href", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About the submission.
+        /// </summary>
+        public static string Section_Submission {
+            get {
+                return ResourceManager.GetString("Section_Submission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submission detail.
+        /// </summary>
+        public static string Section_SubmissionDetail {
+            get {
+                return ResourceManager.GetString("Section_SubmissionDetail", resourceCulture);
             }
         }
         
