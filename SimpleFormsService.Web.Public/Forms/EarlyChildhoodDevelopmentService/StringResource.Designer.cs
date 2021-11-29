@@ -71,15 +71,6 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        public static string Btn_Submit {
-            get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Enter centre email.
         /// </summary>
         public static string CentreEmail_RequiredErr {
@@ -139,15 +130,6 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService {
         public static string Label_Consultant {
             get {
                 return ResourceManager.GetString("Label_Consultant", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upload.
-        /// </summary>
-        public static string Label_Upload {
-            get {
-                return ResourceManager.GetString("Label_Upload", resourceCulture);
             }
         }
         

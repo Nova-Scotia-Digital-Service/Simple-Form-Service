@@ -6,7 +6,7 @@ namespace SimpleFormsService.API.Services
     {
         Task<ObjectStat> FindObject(string bucketName, string objectName);
         Task<MemoryStream> GetObject(string bucketName, string objectName);
-        Task<string> UploadFiles(List<IFormFile> files, List<string> objectNames, string bucketName);
-        //Task RemoveObjects(List<IFormFile> files, List<string> objectNames);
+        Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName); //TODO: param not yet decided
+        //Task RemoveObj>ects(List<IFormFile> files, List<string> objectNames);
     }
 }

@@ -120,9 +120,6 @@
   <data name="AcceptedUploadType" xml:space="preserve">
     <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;</value>
   </data>
-  <data name="Btn_Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
   <data name="Contact_RequiredErr" xml:space="preserve">
     <value>Enter contact name</value>
   </data>
@@ -140,6 +137,9 @@
   </data>
   <data name="Hint_Optional" xml:space="preserve">
     <value>This field is optional</value>
+  </data>
+  <data name="Hint_SourceName" xml:space="preserve">
+    <value>Name of the selected source type</value>
   </data>
   <data name="Label_Contact" xml:space="preserve">
     <value>Contact name</value>
@@ -164,9 +164,6 @@
   </data>
   <data name="Label_Subject" xml:space="preserve">
     <value>Subject</value>
-  </data>
-  <data name="Label_Upload" xml:space="preserve">
-    <value>Upload documents</value>
   </data>
   <data name="Label_Vendor" xml:space="preserve">
     <value>Software vendor</value>

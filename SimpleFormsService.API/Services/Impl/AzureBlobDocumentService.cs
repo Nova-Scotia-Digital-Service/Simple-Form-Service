@@ -14,7 +14,7 @@ namespace SimpleFormsService.API.Services.Impl
             throw new NotImplementedException();
         }
 
-        public Task<string> UploadFiles(List<IFormFile> files, List<string> objectNames, string bucketName)
+        public Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName)
         {
             throw new NotImplementedException();
         }

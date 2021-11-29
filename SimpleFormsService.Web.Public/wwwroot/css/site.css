@@ -1196,7 +1196,6 @@ input + .ns-input__suffix {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display: block;
-    margin-bottom: 15px;
 }
 
 .ns-fieldset__legend + .ns-hint, .ns-label-wrapper + .ns-hint {

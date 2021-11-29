@@ -23,6 +23,12 @@
 
             //read postgresql connection string
             Postgre_ConnectionString = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) ? _config.GetValue<string>("PostgreSQL:ConnectionString") : Environment.GetEnvironmentVariable("connection-string");
+        
+            //read env variables for Azure AD
+            AzureAD_ClientId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CLIENT_ID")) ? _config.GetValue<string>("AzureAd:ClientId") : Environment.GetEnvironmentVariable("CLIENT_ID");
+            AzureAD_TenantId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TENANT_ID")) ? _config.GetValue<string>("AzureAd:TenantId") : Environment.GetEnvironmentVariable("TENANT_ID");
+            AzureAD_Instance = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE")) ? _config.GetValue<string>("AzureAd:Instance") : Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE");
+            AzureAD_CallBackPath = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CALL_BACK_PATHd")) ? _config.GetValue<string>("AzureAd:CallbackPath") : Environment.GetEnvironmentVariable("CALL_BACK_PATH");
         }
 
         public string GCNotify_ApiKey { get; set; }
@@ -32,6 +38,10 @@
         public string MINIO_AccessKey { get; set; }
         public string MINIO_SecretKey { get; set; }
         public string Postgre_ConnectionString { get; set; }
+        public string AzureAD_ClientId { get; set; }
+        public string AzureAD_TenantId { get; set; }
+        public string AzureAD_Instance { get; set; }
+        public string AzureAD_CallBackPath { get; set; }
         
     }
 }

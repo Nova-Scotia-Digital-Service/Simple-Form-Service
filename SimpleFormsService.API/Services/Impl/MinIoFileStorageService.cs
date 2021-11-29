@@ -58,11 +58,12 @@ namespace SimpleFormsService.API.Services.Impl
             return responseStream;
         }
 
-        public async Task<string> UploadFiles(List<IFormFile> files, List<string> objectNames, string bucketName)
+        public async Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName)
         {
             long size = 0;
             string fileName = "";
             string objectName = "";
+            List<string> objectNames = new List<string>();
 
             try
             {
@@ -111,6 +112,7 @@ namespace SimpleFormsService.API.Services.Impl
                                 memoryStream.Position = 0;
 
                                 objectName = await Upload(bucketName, memoryStream, fileName, file.ContentType);
+                                objectNames.Add(objectName);
                                 file = null;
                             }
                         }                 
@@ -122,7 +124,7 @@ namespace SimpleFormsService.API.Services.Impl
                 Console.WriteLine("===== ERROR: Unable to upload files =====" + ex.StackTrace);
                 throw;
             }
-            return objectName;
+            return objectNames;
         }
 
         //TODO
@@ -145,7 +147,11 @@ namespace SimpleFormsService.API.Services.Impl
                     new Record("pdf", "25 50 44 46"),
                     new Record("jpg,jpeg", "ff,d8,ff,db"),
                     new Record("jpg,jpeg","FF D8 FF E0 ?? ?? 4A 46 49 46 00 01"),
-                    new Record("jpg,jpeg","FF D8 FF E1 ?? ?? 45 78 69 66 00 00")
+                    new Record("jpg,jpeg","FF D8 FF E1 ?? ?? 45 78 69 66 00 00"),
+                    new Record("zip,odt,docx,xlsx", "50,4b,03,04"),
+                    new Record("zip,odt,docx,xlsx", "50,4b,07,08"),
+                    new Record("zip,odt,docx,xlsx", "50,4b,05,06"),
+                    new Record("doc xls", "D0 CF 11 E0 A1 B1 1A E1"),
                 };
             sniffer.Populate(supportedFiles);
             ///making sure file type matches content type

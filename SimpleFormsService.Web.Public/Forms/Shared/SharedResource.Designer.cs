@@ -70,6 +70,15 @@ namespace SimpleFormsService.Web.Public.Forms.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Btn_Submit {
+            get {
+                return ResourceManager.GetString("Btn_Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove file.
         /// </summary>
         public static string Caption_RemoveFile {
@@ -111,6 +120,15 @@ namespace SimpleFormsService.Web.Public.Forms.Shared {
         public static string Label_Remove {
             get {
                 return ResourceManager.GetString("Label_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload document(s).
+        /// </summary>
+        public static string Label_Upload {
+            get {
+                return ResourceManager.GetString("Label_Upload", resourceCulture);
             }
         }
         

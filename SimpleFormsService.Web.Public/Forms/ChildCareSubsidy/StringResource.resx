@@ -123,9 +123,6 @@
   <data name="ApplicantEmail_RequiredErr" xml:space="preserve">
     <value>Enter applicant email</value>
   </data>
-  <data name="Btn_Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
   <data name="CCSDelivery_Both" xml:space="preserve">
     <value>Paper documents may be delivered in-person or by mail; Digital documents may be uploaded through this form.</value>
   </data>
@@ -159,6 +156,9 @@
   <data name="CCSOffice_Yarmouth" xml:space="preserve">
     <value>Yarmouth</value>
   </data>
+  <data name="CCS_H2" xml:space="preserve">
+    <value>Applicant information</value>
+  </data>
   <data name="CCS_Submission" xml:space="preserve">
     <value>Upload your completed application form and any digital supporting documents</value>
   </data>
@@ -166,19 +166,16 @@
     <value>Select</value>
   </data>
   <data name="Label_ApplicantEmail" xml:space="preserve">
-    <value>Applicant email</value>
+    <value>Email</value>
   </data>
   <data name="Label_ApplicantName" xml:space="preserve">
-    <value>Applicant name</value>
+    <value>Name</value>
   </data>
   <data name="Label_RegionalOffice" xml:space="preserve">
     <value>Choose the closest regional &lt;abbr title="Education &amp; Early Childhood Development"&gt;EECD&lt;/abbr&gt; office</value>
   </data>
   <data name="Label_SupportingDocument" xml:space="preserve">
     <value>What type of supporting documents will you provide?</value>
-  </data>
-  <data name="Label_Upload" xml:space="preserve">
-    <value>Upload</value>
   </data>
   <data name="MaxFileSize" xml:space="preserve">
     <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>

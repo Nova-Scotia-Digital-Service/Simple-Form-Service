@@ -79,15 +79,6 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidyReview {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        public static string Btn_Submit {
-            get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Upload the completed review form and any supporting documents.
         /// </summary>
         public static string CCSR_Submission {

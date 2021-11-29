@@ -120,9 +120,6 @@
   <data name="AcceptedUploadType" xml:space="preserve">
     <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;</value>
   </data>
-  <data name="Btn_Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
   <data name="CentreEmail_RequiredErr" xml:space="preserve">
     <value>Enter centre email</value>
   </data>
@@ -143,9 +140,6 @@
   </data>
   <data name="Label_Consultant" xml:space="preserve">
     <value>&lt;abbr title="Early Childhood Development Services"&gt;ECDS&lt;/abbr&gt; consultant</value>
-  </data>
-  <data name="Label_Upload" xml:space="preserve">
-    <value>Upload</value>
   </data>
   <data name="MaxFileSize" xml:space="preserve">
     <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>

@@ -12,6 +12,7 @@ OpenshiftConfig openshiftConfig = new(builder.Configuration);
 
 Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.GCNotify_TemplateId) + "======");
 Console.Write("====== INFO: Postgresql connection string is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.Postgre_ConnectionString) + "======");
+Console.Write("====== INFO: MINIO endpoint - " + openshiftConfig.MINIO_EndPoint + " ======");
 
 builder.Services.AddSingleton(openshiftConfig);
 builder.Services.AddTransient<IDocumentService, MinIoFileStorageService>();
@@ -22,6 +23,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(openshiftConfig.Postgre_ConnectionString));
 
+
+//TODO: Add azure ad integration
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
