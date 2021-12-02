@@ -1,6 +1,7 @@
 ﻿@page
 @model SPPFormModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared
 @using SimpleFormsService.Web.Public.Forms.SpecialPatientProgram;
 
 @{
@@ -48,6 +49,10 @@
                 <div class="col-sm-10">
                     <fieldset>
                         <legend class="legendQuestion"><label asp-for="SPPForm.SubmissionType" class="nslabel"></label></legend>
+                        @* <div class="help-block text-danger ns--message ns-error-message">
+                            <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                            <span asp-validation-for="SPPForm.SubmissionType"></span>
+                         </div>*@
                         @foreach (var item in Model.SubmissionTypes())
                         {
                         <div class="govns-radios govns-radios--small">
@@ -64,12 +69,47 @@
 
             <div class="form-group mb-0" id="sppUpload">
                 <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
+
+                <!-- List all uploaded files -->
+                <div class="row">
+                  <div class="col-md-10">
+                    <table class="table table-table-borderless mb-0">
+                      <caption class="ns-visually-hidden">@SharedResource.Caption_UploadedFile</caption>
+                      <thead class="uploadTable">
+                        <tr>
+                          <th>@SharedResource.Label_FileName</th>
+                          <th class="text-center"><span class="ns-visually-hidden">@SharedResource.Caption_RemoveFile</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="align-middle">example file 1.jpg</td>
+                          <td class="text-center">
+                            <a role="button" draggable="false" class="btn-lg ns-btn-2nd d-inline-block medfit-btn-inline-icon ns-link-button my-0">
+                              <i class="fa fa-trash" aria-hidden="true"><span class="ns-visually-hidden">@SharedResource.Label_Remove</span></i>
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="align-middle">example file 2.jpg</td>
+                          <td class="text-center">
+                            <a role="button" draggable="false" class="btn-lg ns-btn-2nd d-inline-block medfit-btn-inline-icon ns-link-button my-0">
+                              <i class="fa fa-trash" aria-hidden="true"><span class="ns-visually-hidden">@SharedResource.Label_Remove</span></i>
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
                 <div class="help-block text-danger ns--message ns-error-message">
                     <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="SPPForm.Files"></span>
                 </div>
                 <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
-                    @StringResource.Label_Upload
-                    <input type="file" id="uploadDoc" name="files" class="ns-upload-button" asp-for="SPPForm.File" accept=".pdf,.jpeg,.jpg" multiple />
+                    @SharedResource.Label_Upload
+                    <input type="file" id="uploadDoc" name="files" class="ns-upload-button" asp-for="SPPForm.Files" accept=".pdf,.jpeg,.jpg,.png,.doc,.odt,.docx,.txt,.xlxs,.zip" multiple />
                 </label>
 
                 <div id="fileDescription" class="nshinttext mt-0">
@@ -80,7 +120,7 @@
 
             <div class="row mt-4">
                 <div class="col-sm-12">
-                    <input type="submit" id="sppSubmit" class="btn-default btn-lg ml-5" value="@StringResource.Btn_Submit" />
+                    <input type="submit" id="sppSubmit" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
                 </div>
             </div>
         </form>

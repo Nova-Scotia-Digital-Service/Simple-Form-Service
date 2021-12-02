@@ -1,0 +1,19 @@
+﻿@using SimpleFormsService.Web.Admin.Resources
+
+<nav id="navigation" class="ribbon pb-xl-5 pt-1" role="navigation" aria-label="Main navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <a id="ns-logo" href="https://novascotia.ca/" hreflang="en"><img class="ribbon-img" src="@StringResource.Logo_link" alt="Province of Nova Scotia" /></a>
+                
+                <div class="float-end">    
+                    @*@if (User.Identity.IsAuthenticated)
+                    {
+                        <span class="navbar-text">Hello @User.Claims.First(x => x.Type.Equals("name", StringComparison.InvariantCultureIgnoreCase)).Value!</span>*@
+                        <i class="fa fa-lg fa-user-circle mt-4 ms-lg-5 faColor"></i> <a class="text-white headerTab mb-lg-5" asp-area="MicrosoftIdentity" asp-controller="Account" asp-action="SignOut">@StringResource.Btn_SignOut</a>
+                    @*}*@
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

@@ -123,9 +123,6 @@
   <data name="ApplicantEmail_RequiredErr" xml:space="preserve">
     <value>Enter applicant email</value>
   </data>
-  <data name="Btn_Submit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
   <data name="CCSR_Submission" xml:space="preserve">
     <value>Upload the completed review form and any supporting documents</value>
   </data>

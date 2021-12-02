@@ -21,13 +21,14 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
         [Display(Name = "Label_Phone", ResourceType = typeof(StringResource))]
         public string Phone { get; set; }
 
-        [Display(Name = "Label_SubmissionType", ResourceType = typeof(StringResource))] 
+        [Display(Name = "Label_SubmissionType", ResourceType = typeof(StringResource))]
         public string SubmissionType { get; set; }
 
         public virtual List<SelectListItem> SubmissionTypes { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile File { get; set; }
+        [Required(ErrorMessageResourceName = "Upload_RequiredErr", ErrorMessageResourceType = typeof(StringResource))]
+        public List<IFormFile> Files { get; set; }
 
     }
 }

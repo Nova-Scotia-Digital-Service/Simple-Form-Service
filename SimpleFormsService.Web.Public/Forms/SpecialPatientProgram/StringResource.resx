@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AcceptedUploadType" xml:space="preserve">
-    <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;</value>
-  </data>
-  <data name="Btn_Submit" xml:space="preserve">
-    <value>Submit</value>
+    <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;, &lt;abbr title="Portable Graphics Format"&gt;png&lt;/abbr&gt;, &lt;abbr title="Document/Documentation"&gt;doc&lt;/abbr&gt;, &lt;abbr title="OpenDocument Text Document"&gt;odt&lt;/abbr&gt;</value>
   </data>
   <data name="Label_Email" xml:space="preserve">
     <value>Email</value>
+  </data>
+  <data name="Label_FileName" xml:space="preserve">
+    <value>File name</value>
   </data>
   <data name="Label_FirstName" xml:space="preserve">
     <value>First name</value>
@@ -138,9 +138,6 @@
   <data name="Label_SubmissionType" xml:space="preserve">
     <value>Submission type</value>
   </data>
-  <data name="Label_Upload" xml:space="preserve">
-    <value>Upload documents</value>
-  </data>
   <data name="MaxFileSize" xml:space="preserve">
     <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>
   </data>
@@ -148,7 +145,7 @@
     <value>Special patient program</value>
   </data>
   <data name="SPP_H2" xml:space="preserve">
-    <value>Patient information</value>
+    <value>Submitter information</value>
   </data>
   <data name="SPP_H2_2" xml:space="preserve">
     <value>About the submission</value>
@@ -162,7 +159,13 @@
   <data name="SubmissionType_New" xml:space="preserve">
     <value>New application</value>
   </data>
+  <data name="SubmissionType_RequiredErr" xml:space="preserve">
+    <value>Choose a submission type</value>
+  </data>
   <data name="SubmitterEmail_RequiredErr" xml:space="preserve">
     <value>Enter submitter email</value>
+  </data>
+  <data name="Upload_RequiredErr" xml:space="preserve">
+    <value>Upload your document(s)</value>
   </data>
 </root>

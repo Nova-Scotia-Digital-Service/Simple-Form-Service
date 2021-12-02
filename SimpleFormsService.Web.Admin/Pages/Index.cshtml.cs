@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SimpleFormsService.Web.Admin.Pages
 {
+    [ValidateAntiForgeryToken(Order = 1000)]
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
+        [BindProperty]
+        public FormInfo FormInfo { get; set; }
+        public IndexModel()
         {
-            _logger = logger;
         }
 
         public void OnGet()

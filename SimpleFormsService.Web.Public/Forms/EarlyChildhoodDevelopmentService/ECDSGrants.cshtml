@@ -1,6 +1,7 @@
 ﻿@page
 @model ECDSGrantsModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared
 @using SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService;
 
 @{
@@ -52,7 +53,7 @@
                         <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     </div>
                     <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
-                        @StringResource.Label_Upload
+                        @SharedResource.Label_Upload
                         <input type="file" id="uploadDoc" class="ns-upload-button" asp-for="ECDSGrant.File" accept=".pdf,.jpeg,.jpg" />
                     </label>
 
@@ -64,7 +65,7 @@
 
                 <div class="row mt-4">
                     <div class="col-sm-12">
-                        <input type="submit" id="ecdsSubmit" class="btn-default btn-lg ml-5" value="@StringResource.Btn_Submit" />
+                        <input type="submit" id="ecdsSubmit" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
                     </div>
                 </div>
             </form>

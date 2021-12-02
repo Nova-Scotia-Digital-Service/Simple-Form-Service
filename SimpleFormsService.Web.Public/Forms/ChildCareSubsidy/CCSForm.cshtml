@@ -1,6 +1,7 @@
 ﻿@page
 @model CCSFormModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared
 @using SimpleFormsService.Web.Public.Forms.ChildCareSubsidy;
 
 @{
@@ -12,6 +13,7 @@
         <div class="col-xs-12 col-md-9">
             <h1 class="mb-5">@StringResource.PageTitle</h1>
             <form method="post" asp-antiforgery="true">
+                <h2 class="m-b-md">@StringResource.CCS_H2</h2>
                 <div class="form-group">
                     <label asp-for="CCSForm.ApplicantEmail" class="nslabel"></label>
 
@@ -69,7 +71,7 @@
                         <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     </div>
                     <label for="uploadDoc" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
-                        @StringResource.Label_Upload
+                        @SharedResource.Label_Upload
                         <input type="file" id="uploadDoc" class="ns-upload-button" asp-for="CCSForm.File" multiple accept=".pdf,.jpeg,.jpg" />
                     </label>
 
@@ -81,7 +83,7 @@
 
                 <div class="row mt-4">
                     <div class="col-sm-12">
-                        <input type="submit" id="ccsSubmit" class="btn-default btn-lg ml-5" value="@StringResource.Btn_Submit" />
+                        <input type="submit" id="ccsSubmit" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
                     </div>
                 </div>
             </form>

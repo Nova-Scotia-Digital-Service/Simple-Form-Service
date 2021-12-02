@@ -61,20 +61,11 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jpg&lt;/abbr&gt;.
+        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jpg&lt;/abbr&gt;, &lt;abbr title=&quot;Portable Graphics Format&quot;&gt;png&lt;/abbr&gt;, &lt;abbr title=&quot;Document/Documentation&quot;&gt;doc&lt;/abbr&gt;, &lt;abbr title=&quot;OpenDocument Text Document&quot;&gt;odt&lt;/abbr&gt;.
         /// </summary>
         public static string AcceptedUploadType {
             get {
                 return ResourceManager.GetString("AcceptedUploadType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        public static string Btn_Submit {
-            get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
             }
         }
         
@@ -84,6 +75,15 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         public static string Label_Email {
             get {
                 return ResourceManager.GetString("Label_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File name.
+        /// </summary>
+        public static string Label_FileName {
+            get {
+                return ResourceManager.GetString("Label_FileName", resourceCulture);
             }
         }
         
@@ -124,15 +124,6 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload documents.
-        /// </summary>
-        public static string Label_Upload {
-            get {
-                return ResourceManager.GetString("Label_Upload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Maximum file size per file: 10 &lt;abbr title=&quot;megabyte&quot;&gt;MB&lt;/abbr&gt;.
         /// </summary>
         public static string MaxFileSize {
@@ -151,7 +142,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patient information.
+        ///   Looks up a localized string similar to Submitter information.
         /// </summary>
         public static string SPP_H2 {
             get {
@@ -196,11 +187,29 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose a submission type.
+        /// </summary>
+        public static string SubmissionType_RequiredErr {
+            get {
+                return ResourceManager.GetString("SubmissionType_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter submitter email.
         /// </summary>
         public static string SubmitterEmail_RequiredErr {
             get {
                 return ResourceManager.GetString("SubmitterEmail_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload your document(s).
+        /// </summary>
+        public static string Upload_RequiredErr {
+            get {
+                return ResourceManager.GetString("Upload_RequiredErr", resourceCulture);
             }
         }
     }

@@ -1,4 +1,8 @@
-using SimpleFormsService.API.Global;
+using Microsoft.EntityFrameworkCore;
+using SimpleFormsService.API.Configs;
+using SimpleFormsService.API.Data;
+using SimpleFormsService.API.Services;
+using SimpleFormsService.API.Services.Impl;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
@@ -6,23 +10,30 @@ builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnCh
 // Read environment variables from OpenShift
 OpenshiftConfig openshiftConfig = new(builder.Configuration);
 
-Console.Write("====== INFO: Openshift config is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.GCNotifyTemplateId) + "======");
+Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.GCNotify_TemplateId) + "======");
+Console.Write("====== INFO: Postgresql connection string is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.Postgre_ConnectionString) + "======");
+Console.Write("====== INFO: MINIO endpoint - " + openshiftConfig.MINIO_EndPoint + " ======");
 
 builder.Services.AddSingleton(openshiftConfig);
+builder.Services.AddTransient<IDocumentService, MinIoFileStorageService>();
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(openshiftConfig.Postgre_ConnectionString));
 
+
+//TODO: Add azure ad integration
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// TODO: get it working in DEV. turn it on when go to PROD
+//if (app.Environment.IsDevelopment())
+//{
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 app.UseHttpsRedirection();
 
