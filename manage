@@ -1,0 +1,108 @@
+#!/bin/bash
+export MSYS_NO_PATHCONV=1
+export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host eclipse/che-ip)}
+SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
+set -e
+
+# =================================================================================================================
+# Usage:
+# -----------------------------------------------------------------------------------------------------------------
+usage() {
+  cat <<-EOF
+      Usage: $0 [command] [options]
+      Commands:
+      build - builds the containers
+      start - runs the containers using docker compose
+      stop - stops the containers
+EOF
+  exit 1
+}
+
+toLower() {
+  echo $(echo ${@} | tr '[:upper:]' '[:lower:]')
+}
+# =================================================================================================================
+# Set Environment Variables
+# =================================================================================================================
+function configureEnv () {
+  export PUBLIC_UI_WEB_PORT=4200
+  export ADMIN_UI_WEB_PORT=4201
+  export API_WEB_PORT=4202
+  
+  export POSTGRES_DB_HOST=postgres
+  export POSTGRES_DB_PUBLIC_PORT=4205
+  export POSTGRES_DB_USER=simple-forms
+  export POSTGRES_DB_PASS=postgres_pass
+  export POSTGRES_CONNECT_STRING="Server=${POSTGRES_DB_HOST}:5432;Database=${POSTGRES_DB_USER};User ID=${POSTGRES_DB_USER};Password=${POSTGRES_DB_PASS}"
+
+
+
+  export MINIO_PORT=9000
+  export MINIO_CONSOLE_PORT=9001
+  export MINIO_ROOT_USER=minio_user
+  export MINIO_ROOT_PASSWORD=minio_pass
+  export MINIO_ENDPOINT=minio:${MINIO_PORT}
+
+}
+
+# =================================================================================================================
+# Build Docker Images
+# =================================================================================================================
+function build (){
+  echo -e "\nBuilding sfs-public-ui development image..."
+  docker build \
+    -t 'sfs-public-ui-dev' \
+    -f './SimpleFormsService.Web.Public/Dockerfile' '.'
+
+  echo -e "\nBuilding sfs-admin-ui development image..."
+  docker build \
+    -t 'sfs-admin-ui-dev' \
+    -f './SimpleFormsService.Web.Admin/Dockerfile' '.'
+
+  echo -e "\nBuilding sfs-api development image..."
+  docker build \
+    -t 'sfs-api-dev' \
+    -f './SimpleFormsService.API/Dockerfile.dev' '.'
+
+}
+
+
+function run () {
+  docker-compose up -d
+}
+
+function stop () {
+  docker-compose stop
+}
+
+
+
+# =================================================================================================================
+
+pushd "${SCRIPT_HOME}" >/dev/null
+COMMAND=$(toLower ${1})
+shift || COMMAND=usage
+
+
+case "${COMMAND}" in
+  build)
+    configureEnv
+    build 
+    ;;
+  start|run|up)
+    configureEnv
+    run
+    ;;
+  stop|down|rm)
+    configureEnv
+    stop    
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+popd >/dev/null
+
+
+

@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8443
+ENV ASPNETCORE_URLS=http://*:8080 \
+    TZ=Canada/Atlantic
+
+
+
+WORKDIR /src
+COPY ["SimpleFormsService.API/SimpleFormsService.API.csproj", "SimpleFormsService.API/"]
+RUN dotnet tool install --global dotnet-ef
+RUN dotnet restore "SimpleFormsService.API/SimpleFormsService.API.csproj"
+COPY . .
+WORKDIR "/src/SimpleFormsService.API"
+RUN dotnet build "SimpleFormsService.API.csproj" -c Release -o /app/build
+
+
+RUN dotnet publish "SimpleFormsService.API.csproj" -c Release -o /app/publish
+WORKDIR /app/publish
+
+ENTRYPOINT ["dotnet", "SimpleFormsService.API.dll"]
