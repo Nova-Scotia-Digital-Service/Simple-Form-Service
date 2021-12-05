@@ -1,0 +1,108 @@
+version: "3"
+
+services:
+
+  # .Net Core public ui
+  public-ui-dev:
+    image: sfs-public-ui-dev
+    environment:
+      APP: "dev"
+    ports:
+      - ${PUBLIC_UI_WEB_PORT}:8080
+    networks:
+      - sfs-dev
+    depends_on:
+      - api-dev
+    # entrypoint: /bin/bash 
+    # command: [
+    #   "-c",
+    #   "echo waiting for db ...;
+    #   sleep 15;
+    #   echo \"Running database migrations...\";
+    #   dotnet ef database update;
+    #   echo \"Starting service...\";
+    #   dotnet watch run --urls=http://+:5000"
+    # ]
+
+  admin-ui-dev:
+    image: sfs-admin-ui-dev
+    environment:
+      APP: "dev"
+    ports:
+      - ${ADMIN_UI_WEB_PORT}:8080
+    networks:
+      - sfs-dev
+    depends_on:
+      - api-dev
+    # entrypoint: /bin/bash 
+    # command: [
+    #   "-c",
+    #   "echo waiting for db ...;
+    #   sleep 15;
+    #   echo \"Running database migrations...\";
+    #   dotnet ef database update;
+    #   echo \"Starting service...\";
+    #   dotnet watch run --urls=http://+:5000"
+    # ]
+
+  api-dev:
+    image: sfs-api-dev
+    environment:
+      APP: "dev"
+      connection-string: "${POSTGRES_CONNECT_STRING}"
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - ${API_WEB_PORT}:8080
+    networks:
+      - sfs-dev
+    depends_on:
+       - postgres
+    entrypoint: /bin/bash 
+    command: [
+      "-c",
+      "echo waiting for db ...;
+      sleep 5;
+      echo \"Running database migrations...\";
+      cd /src;
+      /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.API/SimpleFormsService.API.csproj;
+      echo \"Starting service...\";
+      cd /app/publish;
+      dotnet SimpleFormsService.API.dll"
+    ]    
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
+    ports:
+     - ${POSTGRES_DB_PUBLIC_PORT}:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data     
+    networks:
+     - sfs-dev
+      
+  minio:
+    image: "minio/minio"
+    command: minio server --console-address ":9001" /data
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - ${MINIO_PORT}:9000
+      - ${MINIO_CONSOLE_PORT}:9001
+    volumes:
+      - "minio-data:/data"
+    networks:
+      - sfs-dev     
+      
+networks:
+  sfs-dev:
+
+volumes:
+  postgres-data:
+  minio-data:
