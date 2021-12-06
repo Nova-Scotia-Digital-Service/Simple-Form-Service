@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Publ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Admin", "SimpleFormsService.Web.Admin\SimpleFormsService.Web.Admin.csproj", "{9D5569CB-7682-439D-BF9A-9F7389C68222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFormService.Test", "SimpleFormService.Test\SimpleFormService.Test.csproj", "{ECA7A846-6916-4FEC-90A3-4144FC31875E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormService.Test", "SimpleFormService.Test\SimpleFormService.Test.csproj", "{ECA7A846-6916-4FEC-90A3-4144FC31875E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

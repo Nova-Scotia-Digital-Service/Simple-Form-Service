@@ -26,7 +26,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
             if (ModelState.IsValid)
             {
                 //TODO
-                return Page();
+                return RedirectToPage("./Submission/Confirmation");
             }
             return Page();
            // return RedirectToPage("./redirectURL");

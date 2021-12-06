@@ -124,7 +124,7 @@
     <value>Enter centre email</value>
   </data>
   <data name="Dropdown_Default" xml:space="preserve">
-    <value>Select consultant</value>
+    <value>Select recipient</value>
   </data>
   <data name="ECDS_Submission" xml:space="preserve">
     <value>Upload your &lt;abbr title="Early Childhood Development Services"&gt;ECDS&lt;/abbr&gt; submission</value>
@@ -139,12 +139,15 @@
     <value>Centre name</value>
   </data>
   <data name="Label_Consultant" xml:space="preserve">
-    <value>&lt;abbr title="Early Childhood Development Services"&gt;ECDS&lt;/abbr&gt; consultant</value>
+    <value>Recipients</value>
   </data>
   <data name="MaxFileSize" xml:space="preserve">
     <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
     <value>Early childhood development services grants</value>
+  </data>
+  <data name="Recipients_RequiredErr" xml:space="preserve">
+    <value>Select a recipient</value>
   </data>
 </root>

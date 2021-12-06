@@ -117,73 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AcceptedUploadType" xml:space="preserve">
-    <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;</value>
+  <data name="BackToStart" xml:space="preserve">
+    <value>All finished, back to start</value>
   </data>
-  <data name="ApplicantEmail_RequiredErr" xml:space="preserve">
-    <value>Enter applicant email</value>
+  <data name="Btn_Print" xml:space="preserve">
+    <value>Print a copy</value>
   </data>
-  <data name="CCSDelivery_Both" xml:space="preserve">
-    <value>Paper documents may be delivered in-person or by mail; Digital documents may be uploaded through this form.</value>
-  </data>
-  <data name="CCSDelivery_Digital" xml:space="preserve">
-    <value>Digital documents may be uploaded through this form.</value>
-  </data>
-  <data name="CCSDelivery_Paper" xml:space="preserve">
-    <value>Paper documents may be dropped off or mailed to the regional &lt;abbr title="Education &amp; Early Childhood Development"&gt;EECD&lt;/abbr&gt; office.</value>
-  </data>
-  <data name="CCSFormat_Both" xml:space="preserve">
-    <value>Both paper and digital documents</value>
-  </data>
-  <data name="CCSFormat_Digital" xml:space="preserve">
-    <value>Digital documents</value>
-  </data>
-  <data name="CCSFormat_Paper" xml:space="preserve">
-    <value>Paper documents</value>
-  </data>
-  <data name="CCSOffice_Halifax" xml:space="preserve">
-    <value>Halifax</value>
-  </data>
-  <data name="CCSOffice_Kentville" xml:space="preserve">
-    <value>Kentville</value>
-  </data>
-  <data name="CCSOffice_Sydney" xml:space="preserve">
-    <value>Sydney</value>
-  </data>
-  <data name="CCSOffice_Truro" xml:space="preserve">
-    <value>Truro</value>
-  </data>
-  <data name="CCSOffice_Yarmouth" xml:space="preserve">
-    <value>Yarmouth</value>
-  </data>
-  <data name="CCS_H2" xml:space="preserve">
-    <value>Applicant information</value>
-  </data>
-  <data name="CCS_Other_H2" xml:space="preserve">
-    <value>Other information</value>
-  </data>
-  <data name="CCS_Submission" xml:space="preserve">
-    <value>Upload your completed application form and any digital supporting documents</value>
-  </data>
-  <data name="Dropdown_Default" xml:space="preserve">
-    <value>Select</value>
-  </data>
-  <data name="Label_ApplicantEmail" xml:space="preserve">
-    <value>Email</value>
-  </data>
-  <data name="Label_ApplicantName" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Label_RegionalOffice" xml:space="preserve">
-    <value>Choose the closest regional &lt;abbr title="Education &amp; Early Childhood Development"&gt;EECD&lt;/abbr&gt; office</value>
-  </data>
-  <data name="Label_SupportingDocument" xml:space="preserve">
-    <value>What type of supporting documents will you provide?</value>
-  </data>
-  <data name="MaxFileSize" xml:space="preserve">
-    <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>
+  <data name="Btn_Save" xml:space="preserve">
+    <value>Save a copy</value>
   </data>
   <data name="PageTitle" xml:space="preserve">
-    <value>Child care subsidy form</value>
+    <value>Submission successful</value>
+  </data>
+  <data name="Save_Print" xml:space="preserve">
+    <value>You may also wish to print or save a copy of this page for your files.</value>
+  </data>
+  <data name="SubmissionID" xml:space="preserve">
+    <value>Your submission ID is: &lt;strong&gt;{0}&lt;/strong&gt;.</value>
   </data>
 </root>

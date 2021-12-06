@@ -80,7 +80,7 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select consultant.
+        ///   Looks up a localized string similar to Select recipient.
         /// </summary>
         public static string Dropdown_Default {
             get {
@@ -125,7 +125,7 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;abbr title=&quot;Early Childhood Development Services&quot;&gt;ECDS&lt;/abbr&gt; consultant.
+        ///   Looks up a localized string similar to Recipients.
         /// </summary>
         public static string Label_Consultant {
             get {
@@ -148,6 +148,15 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService {
         public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a recipient.
+        /// </summary>
+        public static string Recipients_RequiredErr {
+            get {
+                return ResourceManager.GetString("Recipients_RequiredErr", resourceCulture);
             }
         }
     }

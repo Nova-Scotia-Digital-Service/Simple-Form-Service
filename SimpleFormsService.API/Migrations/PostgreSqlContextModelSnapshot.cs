@@ -42,7 +42,7 @@ namespace SimpleFormsService.API.Migrations
 
                     b.HasIndex("Form_TemplateTemplate_Id");
 
-                    b.ToTable("Form_Submissions");
+                    b.ToTable("Form_Submissions", (string)null);
                 });
 
             modelBuilder.Entity("SimpleFormsService.API.Entities.Form_Template", b =>
@@ -57,7 +57,7 @@ namespace SimpleFormsService.API.Migrations
 
                     b.HasKey("Template_Id");
 
-                    b.ToTable("Form_Templates");
+                    b.ToTable("Form_Templates", (string)null);
                 });
 
             modelBuilder.Entity("SimpleFormsService.API.Entities.Form_Submission", b =>

@@ -17,13 +17,13 @@ namespace SimpleFormsService.API.Controllers
         }
 
         [HttpGet ("api/admin/{templateId}/{submissionId}")]
-        public string ViewForm(string formId, string submissionId)
+        public string ViewForm(string templateId, string submissionId)
         {
             return "Form Data";
         }
 
         [HttpGet("api/admin/{templateId}/{submissionId}/view-document/{documentId}")]
-        public string ViewForm(string formId, string submissionId, string documentId)
+        public string ViewForm(string templateId, string submissionId, string documentId)
         {
             return "Document Data";
         }

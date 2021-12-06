@@ -1494,3 +1494,7 @@ table tbody tr td {
     border-color: #dee2e6;
     padding: 0px !important;
 }
+
+.faCheckColor {
+    color: #408334;
+}

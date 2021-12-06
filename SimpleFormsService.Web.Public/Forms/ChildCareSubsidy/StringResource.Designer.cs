@@ -88,6 +88,15 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidy {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Other information.
+        /// </summary>
+        public static string CCS_Other_H2 {
+            get {
+                return ResourceManager.GetString("CCS_Other_H2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload your completed application form and any digital supporting documents.
         /// </summary>
         public static string CCS_Submission {

@@ -196,7 +196,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter submitter email.
+        ///   Looks up a localized string similar to Enter email.
         /// </summary>
         public static string SubmitterEmail_RequiredErr {
             get {

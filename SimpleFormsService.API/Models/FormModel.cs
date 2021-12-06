@@ -3,14 +3,14 @@
     using System.Text.Json.Serialization;
     public class FormModel
     {
-        public FormModel(string formId, string submissionId)
+        public FormModel(string templateId, string submissionId)
         {
-            FormId = formId;
+            TempateId = templateId;
             SubmissionId = submissionId;
         }
 
-        [JsonPropertyName("formId")]
-        public string FormId { get; set; }
+        [JsonPropertyName("Template_Id")]
+        public string TempateId { get; set; }
 
         [JsonPropertyName("submissionId")]
         public string SubmissionId { get; set; }

@@ -10,8 +10,6 @@ namespace SimpleFormsService.API.Entities
         public Guid Template_Id { get; set; }
 
         [Column(TypeName = "jsonb")]
-        public string Json_Data { get; set; }
-
-        public Form_Template Form_Template { get; set; }
+        public string Form_Data { get; set; } 
     }
 }

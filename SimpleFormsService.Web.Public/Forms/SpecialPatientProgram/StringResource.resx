@@ -163,7 +163,7 @@
     <value>Choose a submission type</value>
   </data>
   <data name="SubmitterEmail_RequiredErr" xml:space="preserve">
-    <value>Enter submitter email</value>
+    <value>Enter email</value>
   </data>
   <data name="Upload_RequiredErr" xml:space="preserve">
     <value>Upload your document(s)</value>

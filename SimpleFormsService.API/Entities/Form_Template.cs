@@ -10,7 +10,5 @@ namespace SimpleFormsService.API.Entities
 
         [Column(TypeName = "jsonb")]
         public string Json_Config { get; set; }
-
-        public List<Form_Submission> Submissions { get; set; }
     }
 }

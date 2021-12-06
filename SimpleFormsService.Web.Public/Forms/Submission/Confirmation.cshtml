@@ -1,0 +1,41 @@
+﻿@page
+@model ConfirmationModel
+@using SimpleFormsService.Web.Public.Forms.Submission
+@{
+	ViewData["Title"] = StringResource.PageTitle;
+}
+
+@section featured
+{
+	<section class="row ns-fieldset stickyFooter" id="confirmation">
+		<div class="col-md-12 ns-panel mt-4" id="printArea">
+			<div class="ns-panel__heading__container ns-heading__icon">
+				<i class="fa fa-check-circle fa-3x ns-heading__icon-left faCheckColor" aria-hidden="true"></i>
+				<h1 class="my-0 ns-panel__heading has-success">@Html.Raw(StringResource.PageTitle)</h1>
+			</div>
+			<div class="ns-panel__content">
+				<h2 class="ns-panel__content__heading">@Html.Raw(string.Format(StringResource.SubmissionID, @Model.SubmissionID))</h2>
+				<form>
+					<fieldset class="ns-fieldset">
+					<legend class="ns-fieldset__legend noBorder">
+					</legend>
+					<div id="confirm-hint" class="ns-hint">
+						@Html.Raw(StringResource.Save_Print)
+					</div>
+					<section class="row align-items-center" id="printSaveArea">
+						<div class="col-auto">
+							<button aria-describedby="confirm-hint" class="btn-lg btn-default ns-btn__icon" id="printCopy" type="button"><i class="fa fa-print ns-btn__icon-left" aria-hidden="true"></i>@Html.Raw(StringResource.Btn_Print)</button>
+						</div>
+						<div class="col-auto">
+							<button aria-describedby="confirm-hint" class="btn-lg btn-default ns-btn__icon" id="saveCopy" type="button"><i class="fa fa-save ns-btn__icon-left" aria-hidden="true"></i>@Html.Raw(StringResource.Btn_Save)</button>
+						</div>
+					</section>
+					</fieldset>
+				</form>
+				<div class="ns-fieldset">
+					<a href="#" class="ns-back-link pr-2" id="backToStart">@Html.Raw(StringResource.BackToStart)</a>
+				</div>
+			</div>
+		</div>
+	</section>
+}

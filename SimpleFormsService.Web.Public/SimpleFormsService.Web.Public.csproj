@@ -51,6 +51,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StringResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Forms\Submission\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +82,10 @@
     <EmbeddedResource Update="Forms\SpecialPatientProgram\StringResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\Submission\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 

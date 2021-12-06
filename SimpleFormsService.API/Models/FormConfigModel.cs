@@ -6,8 +6,8 @@ namespace SimpleFormsService.API.Model
     public class FormConfigModel
     {
 
-        [JsonPropertyName("formId")]
-        public string FormId { get; set; }
+        [JsonPropertyName("templateId")]
+        public string TemplateId { get; set; }
 
 
         /// <summary>
