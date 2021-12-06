@@ -28,7 +28,7 @@
             AzureAD_ClientId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CLIENT_ID")) ? _config.GetValue<string>("AzureAd:ClientId") : Environment.GetEnvironmentVariable("CLIENT_ID");
             AzureAD_TenantId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TENANT_ID")) ? _config.GetValue<string>("AzureAd:TenantId") : Environment.GetEnvironmentVariable("TENANT_ID");
             AzureAD_Instance = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE")) ? _config.GetValue<string>("AzureAd:Instance") : Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE");
-            AzureAD_CallBackPath = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CALL_BACK_PATHd")) ? _config.GetValue<string>("AzureAd:CallbackPath") : Environment.GetEnvironmentVariable("CALL_BACK_PATH");
+            AzureAD_CallBackPath = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CALL_BACK_PATH")) ? _config.GetValue<string>("AzureAd:CallbackPath") : Environment.GetEnvironmentVariable("CALL_BACK_PATH");
         }
 
         public string GCNotify_ApiKey { get; set; }
