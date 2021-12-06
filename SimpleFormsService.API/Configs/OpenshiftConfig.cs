@@ -20,10 +20,13 @@
             MINIO_EndPoint = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ENDPOINT")) ? _config.GetValue<string>("Minio:Endpoint") : Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
             MINIO_AccessKey = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ACCESSKEY")) ? _config.GetValue<string>("Minio:AccessKey") : Environment.GetEnvironmentVariable("MINIO_ACCESSKEY");
             MINIO_SecretKey = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_SECRETKEY")) ? _config.GetValue<string>("Minio:SecretKey") : Environment.GetEnvironmentVariable("MINIO_SECRETKEY");
+           
+            //read postgresql connection string.. hack to workaround default connection-string environment variable created by OpenShift. 
+            Postgre_ConnectionString = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) ? Environment.GetEnvironmentVariable("POSTGRES_CONNECT_STRING") : Environment.GetEnvironmentVariable("connection-string");
+            Postgre_ConnectionString = string.IsNullOrWhiteSpace(Postgre_ConnectionString) ? _config.GetValue<string>("PostgreSQL:ConnectionString") : Postgre_ConnectionString;
 
-            //read postgresql connection string
-            Postgre_ConnectionString = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) ? _config.GetValue<string>("PostgreSQL:ConnectionString") : Environment.GetEnvironmentVariable("connection-string");
-        
+
+
             //read env variables for Azure AD
             AzureAD_ClientId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CLIENT_ID")) ? _config.GetValue<string>("AzureAd:ClientId") : Environment.GetEnvironmentVariable("CLIENT_ID");
             AzureAD_TenantId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TENANT_ID")) ? _config.GetValue<string>("AzureAd:TenantId") : Environment.GetEnvironmentVariable("TENANT_ID");
