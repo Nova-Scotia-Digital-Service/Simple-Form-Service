@@ -141,9 +141,6 @@
   <data name="GNS" xml:space="preserve">
     <value>Government of Nova Scotia</value>
   </data>
-  <data name="Label_FormID" xml:space="preserve">
-    <value>Form ID</value>
-  </data>
   <data name="Label_Home" xml:space="preserve">
     <value>Home</value>
   </data>
@@ -152,6 +149,9 @@
   </data>
   <data name="Label_SubmissionID" xml:space="preserve">
     <value>Submission ID</value>
+  </data>
+  <data name="Label_TemplateID" xml:space="preserve">
+    <value>Template ID</value>
   </data>
   <data name="LastName_RequiredErr" xml:space="preserve">
     <value>Enter last name</value>
@@ -179,6 +179,9 @@
   </data>
   <data name="Section_SubmissionDetail" xml:space="preserve">
     <value>Submission detail</value>
+  </data>
+  <data name="Section_Upload" xml:space="preserve">
+    <value>Uploaded document(s)</value>
   </data>
   <data name="Terms_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/terms/</value>

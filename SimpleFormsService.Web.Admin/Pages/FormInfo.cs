@@ -8,8 +8,8 @@ namespace SimpleFormsService.Web.Admin.Pages
         [Display(Name = "Label_SubmissionID", ResourceType = typeof(StringResource))]
         public string SubmissionID { get; set; }
 
-        [Display(Name = "Label_FormID", ResourceType = typeof(StringResource))]
-        public string FormID { get; set; }
+        [Display(Name = "Label_TemplateID", ResourceType = typeof(StringResource))]
+        public string TemplateID { get; set; }
 
         [Display(Name = "Label_SubmissionDate", ResourceType = typeof(StringResource))]
         public DateTime SubmissionDate { get; set; }

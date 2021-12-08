@@ -133,15 +133,6 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Form ID.
-        /// </summary>
-        public static string Label_FormID {
-            get {
-                return ResourceManager.GetString("Label_FormID", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Home.
         /// </summary>
         public static string Label_Home {
@@ -165,6 +156,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         public static string Label_SubmissionID {
             get {
                 return ResourceManager.GetString("Label_SubmissionID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Template ID.
+        /// </summary>
+        public static string Label_TemplateID {
+            get {
+                return ResourceManager.GetString("Label_TemplateID", resourceCulture);
             }
         }
         
@@ -246,6 +246,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         public static string Section_SubmissionDetail {
             get {
                 return ResourceManager.GetString("Section_SubmissionDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uploaded document(s).
+        /// </summary>
+        public static string Section_Upload {
+            get {
+                return ResourceManager.GetString("Section_Upload", resourceCulture);
             }
         }
         
