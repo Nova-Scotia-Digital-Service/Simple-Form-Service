@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimpleFormsService.API.Entities
 {
+    [NotMapped]
     public class Form_Template
     {
         [Key]
