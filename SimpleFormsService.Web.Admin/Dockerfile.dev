@@ -1,0 +1,26 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8443
+ENV ASPNETCORE_URLS=http://*:8080 \
+    TZ=Canada/Atlantic
+
+
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+WORKDIR /src
+COPY ["SimpleFormsService.Web.Admin/SimpleFormsService.Web.Admin.csproj", "SimpleFormsService.Web.Admin/"]
+
+RUN dotnet restore "SimpleFormsService.Web.Admin/SimpleFormsService.Web.Admin.csproj"
+COPY . .
+WORKDIR "/src/SimpleFormsService.Web.Admin"
+RUN dotnet build "SimpleFormsService.Web.Admin.csproj" -c Release -o /app/build
+
+
+RUN dotnet publish "SimpleFormsService.Web.Admin.csproj" -c Release -o /app/publish
+WORKDIR /app/publish
+
+
+
+ENTRYPOINT ["dotnet", "SimpleFormsService.Web.Admin.dll"]

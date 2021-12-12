@@ -7,13 +7,14 @@ set -e
 # =================================================================================================================
 # Usage:
 # -----------------------------------------------------------------------------------------------------------------
-usage() {
+function usage() {
   cat <<-EOF
       Usage: $0 [command] [options]
       Commands:
       build - builds the containers
-      start - runs the containers using docker compose
-      stop - stops the containers
+      start | run | up  - Runs the previously built containers using docker compose
+      stop | down - stops the containers without removing them
+      rm - stops and removes the containers and associated volumes and networks
 EOF
   exit 1
 }
@@ -35,7 +36,16 @@ function configureEnv () {
   export POSTGRES_DB_PASS=postgres_pass
   export POSTGRES_CONNECT_STRING="Server=${POSTGRES_DB_HOST}:5432;Database=${POSTGRES_DB_USER};User ID=${POSTGRES_DB_USER};Password=${POSTGRES_DB_PASS}"
 
+# Azure AD config - replace with proper values
+  export AZURE_AD_CLIENT_ID=xxCHANGEMExx
+  export AZURE_AD_TENANT_ID=xxCHANGEMExx
+  export AZURE_AD_INSTANCE=xxCHANGEMExx
+  export AZURE_AD_CALL_BACK_PATH=xxCHANGEMExx
 
+# GCNotify config - replace with proper values  
+  export GCNOTIFY_BASE_URL=xxCHANGEMExx
+  export GCNOTIFY_TEMPLATE_ID=xxCHANGEMExx
+  export GCNOTIFY_API_KEY=xxCHANGEMExx
 
   export MINIO_PORT=9000
   export MINIO_CONSOLE_PORT=9001
@@ -57,12 +67,12 @@ function build (){
   echo -e "\nBuilding sfs-admin-ui development image..."
   docker build \
     -t 'sfs-admin-ui-dev' \
-    -f './SimpleFormsService.Web.Admin/Dockerfile' '.'
+    -f './SimpleFormsService.Web.Admin/Dockerfile.dev' '.'
 
-  echo -e "\nBuilding sfs-api development image..."
-  docker build \
-    -t 'sfs-api-dev' \
-    -f './SimpleFormsService.API/Dockerfile.dev' '.'
+  # echo -e "\nBuilding sfs-api development image..."
+  # docker build \
+  #   -t 'sfs-api-dev' \
+  #   -f './SimpleFormsService.API/Dockerfile' '.'
 
 }
 
@@ -75,7 +85,45 @@ function stop () {
   docker-compose stop
 }
 
+function deleteVolumes() {
+  _projectName=${COMPOSE_PROJECT_NAME:-docker}
 
+  echo "Stopping and removing any running containers ..."
+  docker-compose down -v
+
+  _pattern="^${_projectName}_\|^docker_"
+  _volumes=$(docker volume ls -q | grep ${_pattern})
+
+  echo "================./============================="
+  echo "\nPattern: ${_pattern}"
+  echo "\nVolumns: ${_volumes}"
+  echo "============================================="
+
+}
+function getStartupParams() {
+  CONTAINERS=""
+  ARGS=""
+
+  for arg in $@; do
+    case "$arg" in
+    *=*)
+      # Skip it
+      ;;
+    -*)
+      ARGS+=" $arg"
+      ;;
+    *)
+      CONTAINERS+=" $arg"
+      ;;
+    esac
+  done
+
+  if [ -z "$CONTAINERS" ]; then
+    CONTAINERS="$DEFAULT_CONTAINERS"
+  fi
+
+  echo ${ARGS} ${CONTAINERS}
+}
 
 # =================================================================================================================
 
@@ -83,6 +131,7 @@ pushd "${SCRIPT_HOME}" >/dev/null
 COMMAND=$(toLower ${1})
 shift || COMMAND=usage
 
+_startupParams=$(getStartupParams --force-recreate $@)
 
 case "${COMMAND}" in
   build)
@@ -93,10 +142,14 @@ case "${COMMAND}" in
     configureEnv
     run
     ;;
-  stop|down|rm)
+  stop|down)
     configureEnv
     stop    
     ;;
+  rm)
+    configureEnv
+    deleteVolumes    
+    ;;    
   *)
     usage
     ;;
