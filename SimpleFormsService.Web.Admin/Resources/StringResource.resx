@@ -126,6 +126,9 @@
   <data name="Btn_CloseApp" xml:space="preserve">
     <value>Close application</value>
   </data>
+  <data name="Btn_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
   <data name="Btn_SignOut" xml:space="preserve">
     <value>Sign out</value>
   </data>
@@ -138,11 +141,17 @@
   <data name="CrownCopyRight_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/copyright/</value>
   </data>
+  <data name="Dropdown_Default" xml:space="preserve">
+    <value>Select</value>
+  </data>
   <data name="GNS" xml:space="preserve">
     <value>Government of Nova Scotia</value>
   </data>
   <data name="Label_Home" xml:space="preserve">
     <value>Home</value>
+  </data>
+  <data name="Label_Status" xml:space="preserve">
+    <value>Status</value>
   </data>
   <data name="Label_SubmissionDate" xml:space="preserve">
     <value>Submission date</value>
@@ -171,8 +180,20 @@
   <data name="Logo_link" xml:space="preserve">
     <value>https://novascotia.ca/clf/ignition/img/nsvip-en-white-flag.svg</value>
   </data>
+  <data name="PageTitle_SearchSubmission" xml:space="preserve">
+    <value>Search submissions</value>
+  </data>
   <data name="Privacy_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/privacy/</value>
+  </data>
+  <data name="SearchSubmission_Keywords" xml:space="preserve">
+    <value>Keywords (Template &lt;abbr title="Identifier"&gt;ID&lt;/abbr&gt;, Submission &lt;abbr title="Identifier"&gt;ID&lt;/abbr&gt;, or Submission Date)</value>
+  </data>
+  <data name="SearchSubmission_Received" xml:space="preserve">
+    <value>Submssion(s) received</value>
+  </data>
+  <data name="SearchSubmission_Search" xml:space="preserve">
+    <value>Search submission(s)</value>
   </data>
   <data name="Section_Submission" xml:space="preserve">
     <value>About the submission</value>

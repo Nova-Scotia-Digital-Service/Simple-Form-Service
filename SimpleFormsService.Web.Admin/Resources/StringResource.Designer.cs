@@ -88,6 +88,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string Btn_Search {
+            get {
+                return ResourceManager.GetString("Btn_Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sign out.
         /// </summary>
         public static string Btn_SignOut {
@@ -124,6 +133,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string Dropdown_Default {
+            get {
+                return ResourceManager.GetString("Dropdown_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Government of Nova Scotia.
         /// </summary>
         public static string GNS {
@@ -138,6 +156,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         public static string Label_Home {
             get {
                 return ResourceManager.GetString("Label_Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        public static string Label_Status {
+            get {
+                return ResourceManager.GetString("Label_Status", resourceCulture);
             }
         }
         
@@ -223,11 +250,47 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search submissions.
+        /// </summary>
+        public static string PageTitle_SearchSubmission {
+            get {
+                return ResourceManager.GetString("PageTitle_SearchSubmission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://beta.novascotia.ca/privacy/.
         /// </summary>
         public static string Privacy_href {
             get {
                 return ResourceManager.GetString("Privacy_href", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keywords (Template &lt;abbr title=&quot;Identifier&quot;&gt;ID&lt;/abbr&gt;, Submission &lt;abbr title=&quot;Identifier&quot;&gt;ID&lt;/abbr&gt;, or Submission Date).
+        /// </summary>
+        public static string SearchSubmission_Keywords {
+            get {
+                return ResourceManager.GetString("SearchSubmission_Keywords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submssion(s) received.
+        /// </summary>
+        public static string SearchSubmission_Received {
+            get {
+                return ResourceManager.GetString("SearchSubmission_Received", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search submission(s).
+        /// </summary>
+        public static string SearchSubmission_Search {
+            get {
+                return ResourceManager.GetString("SearchSubmission_Search", resourceCulture);
             }
         }
         

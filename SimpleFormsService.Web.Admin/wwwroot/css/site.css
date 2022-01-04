@@ -122,7 +122,8 @@ body {
     z-index: 1;
 }
 
-.nslabel {
+label {
+    font-family: "open_sansbold",Helvetica,Arial,Tahoma,sans-serif;
     color: #444 !important;
 }
 
@@ -166,13 +167,6 @@ body {
     color: #a94442;
 }
 
-.unorderedList li {
-    list-style-type: disc;
-}
-
-.unorderedSubList li {
-    list-style-type: circle;
-}
 
 .faIconColor {
     color: #008599;
@@ -182,19 +176,7 @@ body {
     color: #198754;
 }
 
-.faWarningColor {
-    color: #a94442;
-}
-
-.faPendingColor {
-    color: rgb(248, 212, 76);
-}
-
 th {
-    white-space: nowrap;
-}
-
-.tableCell {
     white-space: nowrap;
 }
 
@@ -1134,3 +1116,4 @@ a.dis {
 .faColor {
     color: white;
 }
+

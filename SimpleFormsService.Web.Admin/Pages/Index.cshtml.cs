@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SimpleFormsService.Web.Admin.Models;
 
 namespace SimpleFormsService.Web.Admin.Pages
 {
@@ -7,14 +8,15 @@ namespace SimpleFormsService.Web.Admin.Pages
     public class IndexModel : PageModel
     {
         [BindProperty]
-        public FormInfo FormInfo { get; set; }
+        public SearchSubmission SearchSubmission { get; set; }
         public IndexModel()
         {
+
         }
 
         public void OnGet()
         {
-
+            var test = User.Identity;
         }
     }
 }

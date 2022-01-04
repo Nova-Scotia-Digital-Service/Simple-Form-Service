@@ -1,0 +1,30 @@
+﻿.fontColor {
+    color: #444;
+}
+
+.searchPanel {
+    background-color: #eee;
+    width: 100%;
+    padding: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.searchBtn {
+    margin: 20px auto !important;
+}
+
+
+.buttons {
+    width: auto;
+}
+
+.btn-inline {
+    width: auto;
+    display: inline-block;
+}
+
+td {
+    white-space: nowrap;
+}

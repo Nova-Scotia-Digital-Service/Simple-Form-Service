@@ -1,7 +1,7 @@
 ﻿using SimpleFormsService.Web.Admin.Resources;
 using System.ComponentModel.DataAnnotations;
 
-namespace SimpleFormsService.Web.Admin.Pages
+namespace SimpleFormsService.Web.Admin.Models
 {
     public class FormInfo
     {

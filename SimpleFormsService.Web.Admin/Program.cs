@@ -16,6 +16,8 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             options.TenantId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TENANT_ID")) ? builder.Configuration["AzureAd:TenantId"] : Environment.GetEnvironmentVariable("TENANT_ID");
             options.Instance = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE")) ? builder.Configuration["AzureAd:Instance"] : Environment.GetEnvironmentVariable("AZURE_AD_INSTANCE");
             options.CallbackPath = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CALL_BACK_PATHd")) ? builder.Configuration["AzureAd:CallbackPath"] : Environment.GetEnvironmentVariable("CALL_BACK_PATH");
+            //for roles
+            options.TokenValidationParameters.RoleClaimType = "groups";
         },
         cookieOptions =>
         {
@@ -23,14 +25,34 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             cookieOptions.SlidingExpiration = true;
         });
 
+builder.Services.AddCookiePolicy(options =>
+{
+    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+    options.CheckConsentNeeded = context => true;
+    options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+//TODO: authorization
+builder.Services.AddAuthorization(policies =>
+{
+    policies.AddPolicy("GroupAdmin", p =>
+    {
+        p.RequireClaim("groups", "SFS-Admin");
+    });
+    //policies.AddPolicy("UserPolicy", p =>
+    //{ 
+    //    p.RequireClaim("roles", "SFS-User"); 
+    //});
+});
+
 // Add services to the container.
-builder.Services.AddRazorPages().AddMvcOptions(options =>
+builder.Services.AddRazorPages(o => { o.Conventions.AuthorizePage("/SubmissionDetail", "GroupAdmin"); }).AddMvcOptions(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
     options.Filters.Add(new AuthorizeFilter(policy));
-}).AddMicrosoftIdentityUI(); 
+}).AddMicrosoftIdentityUI();
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
@@ -40,9 +62,18 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
+builder.Services.AddControllers(options =>
+{
+    var policy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+    options.Filters.Add(new AuthorizeFilter(policy));
+});
+
 var app = builder.Build();
 
 app.UseForwardedHeaders();
+app.UseCookiePolicy();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

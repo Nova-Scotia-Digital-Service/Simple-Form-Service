@@ -47,36 +47,36 @@ services:
     ]       
 
   # api-dev:
-  #   image: sfs-api-dev
-  #   environment:
-  #     APP: "dev"
-  #     connection-string: "${POSTGRES_CONNECT_STRING}"
-  #     MINIO_ENDPOINT: ${MINIO_ENDPOINT}
-  #     MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
-  #     MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
-  #     CLIENT_ID: ${AZURE_AD_CLIENT_ID}
-  #     TENANT_ID: ${AZURE_AD_TENANT_ID}
-  #     AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
-  #     CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
-  #     BASE_URL: ${GCNOTIFY_BASE_URL}
-  #   ports:
-  #     - ${API_WEB_PORT}:8080
-  #   networks:
-  #     - sfs-dev
-  #   depends_on:
-  #      - postgres
-  #   entrypoint: /bin/bash 
-  #   command: [
-  #     "-c",
-  #     "echo waiting for db ...;
-  #     sleep 5;
-  #     echo \"Running database migrations...\";
-  #     cd /src;
-  #     /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.API/SimpleFormsService.API.csproj;
-  #     echo \"Starting service...\";
-  #     cd /app/publish;
-  #     dotnet SimpleFormsService.API.dll"
-  #   ]    
+    # image: sfs-api-dev
+    # environment:
+      # APP: "dev"
+      # connection-string: "${POSTGRES_CONNECT_STRING}"
+      # MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      # MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      # MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+      # CLIENT_ID: ${AZURE_AD_CLIENT_ID}
+      # TENANT_ID: ${AZURE_AD_TENANT_ID}
+      # AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
+      # CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
+      # BASE_URL: ${GCNOTIFY_BASE_URL}
+    # ports:
+      # - ${API_WEB_PORT}:8080
+    # networks:
+      # - sfs-dev
+    # depends_on:
+       # - postgres
+    # entrypoint: /bin/bash 
+    # command: [
+      # "-c",
+      # "echo waiting for db ...;
+      # sleep 5;
+      # echo \"Running database migrations...\";
+      # cd /src;
+      # /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.API/SimpleFormsService.API.csproj;
+      # echo \"Starting service...\";
+      # cd /app/publish;
+      # dotnet SimpleFormsService.API.dll"
+    # ]    
 
   postgres:
     image: postgres:14-alpine
