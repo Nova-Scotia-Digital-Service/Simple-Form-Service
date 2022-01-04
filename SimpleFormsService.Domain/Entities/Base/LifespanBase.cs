@@ -1,4 +1,6 @@
-﻿namespace SimpleFormsService.Domain.Entities.Base
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SimpleFormsService.Domain.Entities.Base
 {
     public interface ILifespanBase
     {
@@ -17,8 +19,8 @@
 
         #region Properties
 
-        public DateTime? EffectiveDate { get; set; }
-        public DateTime? ExpiryDate { get; set; }
+        [NotMapped] public DateTime? EffectiveDate { get; set; } = DateTime.Now;
+        [NotMapped] public DateTime? ExpiryDate { get; set; }
 
         #endregion
     }

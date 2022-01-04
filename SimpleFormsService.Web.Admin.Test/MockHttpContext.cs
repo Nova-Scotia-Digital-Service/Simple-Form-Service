@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Authentication;
 using Microsoft.AspNetCore.Http.Features;
 
-namespace SimpleFormsService.Web.Admin.Test;
+namespace SimpleFormsService.Test;
 
 public class MockHttpContext : HttpContext
 {
     public MockHttpContext()
     {
-        User = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity("MockHttpContextUser"), Array.Empty<string>()));
+        User = new ClaimsPrincipal(new GenericPrincipal(new GenericIdentity(Constants.MockHttpContextUserName), Array.Empty<string>()));
     }
     public override void Abort()
     {

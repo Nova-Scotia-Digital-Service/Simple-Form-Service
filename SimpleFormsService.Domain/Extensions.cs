@@ -5,9 +5,9 @@ namespace SimpleFormsService.Domain;
 
 public static class Extensions
 {
-    #region IEntityBase Extensions
+    #region IJsonEntityBase Extensions
 
-    public static Dictionary<string, System.Collections.IEnumerable> GetEnumerableChildren(this IEntityBase input)
+    public static Dictionary<string, System.Collections.IEnumerable> GetEnumerableChildren(this IJsonEntityBase input)
     {
         var response = new Dictionary<string, System.Collections.IEnumerable>();
 
@@ -19,39 +19,17 @@ public static class Extensions
         return response;
     }
 
-    public static Dictionary<string, IEntityBase> GetChildren(this IEntityBase input)
+    public static Dictionary<string, IJsonEntityBase> GetChildren(this IJsonEntityBase input)
     {
-        var response = new Dictionary<string, IEntityBase>();
+        var response = new Dictionary<string, IJsonEntityBase>();
 
         foreach (var property in input.GetType().GetProperties())
-            if (property.PropertyType.GetInterfaces().Contains(typeof(IEntityBase)))
-                response.Add(property.Name, property.GetValue(input, null) as IEntityBase);
+            if (property.PropertyType.GetInterfaces().Contains(typeof(IJsonEntityBase)))
+                response.Add(property.Name, property.GetValue(input, null) as IJsonEntityBase);
 
         return response;
     }
-
-    public static void NullifyIds(this IEntityBase input)
-    {
-        foreach (var property in input.GetType().GetProperties())
-        {
-            if (property.Name == nameof(IEntityBase.Id))
-                property.SetValue(input, default(uint));
-
-            if (property.Name == nameof(IEntityBase.Id))
-                property.SetValue(input, Guid.NewGuid());
-
-            if (property.PropertyType.GetInterfaces().Contains(typeof(IEntityBase))) // child objects 
-                if (property.GetValue(input, null) != null)
-                    ((IEntityBase)property.GetValue(input, null)).NullifyIds();
-
-            if (property.PropertyType.GetInterfaces().Contains(typeof(System.Collections.IEnumerable)) &&
-                property.PropertyType.GetGenericArguments().Any()) // child collections
-                if (property.GetValue(input, null) is System.Collections.IEnumerable enumerable)
-                    foreach (var item in enumerable)
-                        ((IEntityBase)item).NullifyIds();
-        }
-    }
-
+    
     #endregion
 
     #region Enum Extensions

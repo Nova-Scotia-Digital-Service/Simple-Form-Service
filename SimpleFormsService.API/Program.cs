@@ -1,34 +1,45 @@
 using Microsoft.EntityFrameworkCore;
-using SimpleFormsService.API.Configs;
-using SimpleFormsService.API.Data;
-using SimpleFormsService.API.Services;
-using SimpleFormsService.API.Services.Impl;
+using Minio.AspNetCore;
+using SimpleFormsService.API.Middleware;
+using SimpleFormsService.Configuration;
+using SimpleFormsService.Domain.Repositories;
+using SimpleFormsService.Persistence;
+using SimpleFormsService.Persistence.Repositories;
+using SimpleFormsService.Services;
+using SimpleFormsService.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
 
-// Read environment variables from OpenShift
-OpenshiftConfig openshiftConfig = new(builder.Configuration);
+Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + "======");
+Console.Write("====== INFO: Postgresql connection string is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.Postgres_ConnectionString + "======"));
+Console.Write("====== INFO: MINIO endpoint - " + OpenshiftConfig.MINIO_EndPoint + " ======");
 
-Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.GCNotify_TemplateId) + "======");
-Console.Write("====== INFO: Postgresql connection string is NULL?? " + string.IsNullOrWhiteSpace(openshiftConfig.Postgre_ConnectionString) + "======");
-Console.Write("====== INFO: MINIO endpoint - " + openshiftConfig.MINIO_EndPoint + " ======");
+builder.Services.AddControllers()
+    .AddApplicationPart(typeof(SimpleFormsService.Presentation.AssemblyReference).Assembly); // add controllers from the SimpleFormsService.Presentation assembly to the container
 
-builder.Services.AddSingleton(openshiftConfig);
-builder.Services.AddTransient<IDocumentService, MinIoFileStorageService>();
-// Add services to the container.
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDbContext<PostgreSqlContext>(options => options.UseNpgsql(openshiftConfig.Postgre_ConnectionString));
+builder.Services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
+builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddMinio(options =>
+{
+    options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+    options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+    options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+});
+
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 //TODO: Add azure ad integration
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 // TODO: get it working in DEV. turn it on when go to PROD
 //if (app.Environment.IsDevelopment())
 //{
@@ -36,7 +47,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
-app.UseHttpsRedirection();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

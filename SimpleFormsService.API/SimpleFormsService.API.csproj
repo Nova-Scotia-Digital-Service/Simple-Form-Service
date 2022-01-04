@@ -27,4 +27,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleFormsService.Configuration\SimpleFormsService.Configuration.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Presentation\SimpleFormsService.Presentation.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Services\SimpleFormsService.Services.csproj" />
+  </ItemGroup>
+
 </Project>

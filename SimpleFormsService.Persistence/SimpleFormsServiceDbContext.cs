@@ -2,10 +2,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Entities.Base;
-using SimpleFormsService.Domain.Entities.FormSubmission;
-using SimpleFormsService.Domain.Entities.FormTemplate;
 
 namespace SimpleFormsService.Persistence;
 
@@ -19,7 +17,7 @@ public class SimpleFormsServiceDbContext : DbContext
 
     public SimpleFormsServiceDbContext(DbContextOptions<SimpleFormsServiceDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
     {
-        _currentUser = getCurrentUserForJournaling(httpContextAccessor);
+        _currentUser = getCurrentUserName(httpContextAccessor);
     }
 
     #endregion
@@ -39,25 +37,27 @@ public class SimpleFormsServiceDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
         applyIndividualEntityTypeConfigurations(builder);
-        configureLifespanEntityBaseDefaults(builder);
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        setCreateOrUpdateUser();
+        setJournallingFieldsWithinJsonData();
+        
         return await base.SaveChangesAsync(true, cancellationToken);
     }
 
     public override int SaveChanges()
     {
-        setCreateOrUpdateUser();
+        setJournallingFieldsWithinJsonData();
+        
         return base.SaveChanges();
     }
 
     #region Private Helpers
     
-    private string getCurrentUserForJournaling(IHttpContextAccessor httpContextAccessor)
+    private string getCurrentUserName(IHttpContextAccessor httpContextAccessor)
     {
         var nameIdentifierClaim = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier);
         
@@ -70,47 +70,76 @@ public class SimpleFormsServiceDbContext : DbContext
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
-    private static void configureLifespanEntityBaseDefaults(ModelBuilder builder)
+    
+    private void setJournallingFieldsWithinJsonData() // create and update user, create and update date
     {
-        foreach (var entityType in builder.Model.GetEntityTypes())
-        {
-            foreach (var property in entityType.GetProperties())
-            {
-                if (property.Name is nameof(ILifespanBase.EffectiveDate) or nameof(IEntityBase.CreateDate))
-                {
-                    property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-                }
+        #region example code
 
-                if (property.Name is nameof(IEntityBase.UpdateDate))
-                {
-                    property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-                }
-            }
-        }
-    }
-
-    public void setCreateOrUpdateUser()
-    {
         foreach (var changedEntity in ChangeTracker.Entries())
         {
-            if (changedEntity.Entity is IEntityBase entity)
-            {
-                switch (changedEntity.State)
-                {
-                    case EntityState.Added:
-                        entity.CreateUser = _currentUser;
-                        entity.UpdateUser = _currentUser;
-                        break;
-                    case EntityState.Modified:
-                        Entry(entity).Reference(x => x.CreateUser).IsModified = false;
-                        entity.UpdateUser = _currentUser;
-                        break;
-                }
-            }
+            // // the following garbage code handle direct descendents of changedEntity ---------------------------------
+            //
+            // // this is only here to provide an example and needs to be significantly refactored
+            //
+            // var jsonEntityBaseObjectDictionary = new Dictionary<string, IJsonEntityBase>();
+            //
+            // // get json entity base children
+            // foreach (var property in changedEntity.Entity.GetType().GetProperties())
+            //     if (property.PropertyType.GetInterfaces().Contains(typeof(IJsonEntityBase)))
+            //         jsonEntityBaseObjectDictionary.Add(property.Name, property.GetValue(changedEntity.Entity, null) as IJsonEntityBase);
+            //
+            // // for each json entity base child
+            // foreach (var jsonEntityBaseEntry in jsonEntityBaseObjectDictionary)
+            // {
+            //     if (jsonEntityBaseEntry.Value != null)
+            //     {
+            //         switch (changedEntity.State)
+            //         {
+            //             case EntityState.Added:
+            //                 jsonEntityBaseEntry.Value.CreateUser = _currentUser;
+            //                 jsonEntityBaseEntry.Value.UpdateUser = _currentUser;
+            //                 break;
+            //             case EntityState.Modified:
+            //                 jsonEntityBaseEntry.Value.UpdateUser = _currentUser;
+            //                 break;
+            //         }
+            //     }
+            // }
+            //
+            // // end handle direct descendents of changed entity ------------------------------------------------------
+
+            // the following code below provides further insight into what could be done
+            //
+            // public static void NullifyIds(this IEntityBase input)
+            // {
+            //     foreach (var property in input.GetType().GetProperties())
+            //     {
+            //         if (property.Name == nameof(IEntityBase.Id))
+            //             property.SetValue(input, default(uint));
+            //
+            //         if (property.Name == nameof(IEntityBase.Id))
+            //             property.SetValue(input, Guid.NewGuid());
+            //
+            //         if (property.PropertyType.GetInterfaces().Contains(typeof(IEntityBase))) // child objects 
+            //             if (property.GetValue(input, null) != null)
+            //                 ((IEntityBase)property.GetValue(input, null)).NullifyIds();
+            //
+            //         if (property.PropertyType.GetInterfaces().Contains(typeof(System.Collections.IEnumerable)) &&
+            //             property.PropertyType.GetGenericArguments().Any()) // child collections
+            //             if (property.GetValue(input, null) is System.Collections.IEnumerable enumerable)
+            //                 foreach (var item in enumerable)
+            //                     ((IEntityBase)item).NullifyIds();
+            //     }
+            // }
         }
+
+        #endregion
     }
 
+    
+
+
     #endregion
+
 }
 

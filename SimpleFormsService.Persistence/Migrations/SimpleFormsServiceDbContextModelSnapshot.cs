@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using SimpleFormsService.Domain.Entities.FormSubmission.Supporting.JSON;
+using SimpleFormsService.Domain.Entities.Supporting.JSON;
 using SimpleFormsService.Persistence;
 
 #nullable disable
@@ -23,86 +23,47 @@ namespace SimpleFormsService.Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("SimpleFormsService.Domain.Entities.FormSubmission.FormSubmission", b =>
+            modelBuilder.Entity("SimpleFormsService.Domain.Entities.FormSubmission", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("Create_Date")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("CreateUser")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Create_User");
-
-                    b.Property<FormSubmissionData>("SubmissionData")
+                    b.Property<FormSubmissionData>("Data")
                         .HasColumnType("jsonb")
-                        .HasColumnName("Submission_Data");
+                        .HasColumnName("Data");
 
                     b.Property<Guid>("TemplateId")
                         .HasColumnType("uuid")
                         .HasColumnName("Template_Id");
 
-                    b.Property<DateTime?>("UpdateDate")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("Update_Date")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("UpdateUser")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Update_User");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("TemplateId");
 
                     b.ToTable("Form_Submission", (string)null);
                 });
 
-            modelBuilder.Entity("SimpleFormsService.Domain.Entities.FormTemplate.FormTemplate", b =>
+            modelBuilder.Entity("SimpleFormsService.Domain.Entities.FormTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("Create_Date")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("CreateUser")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Create_User");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("Update_Date")
-                        .HasDefaultValueSql("now()");
-
-                    b.Property<string>("UpdateUser")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("Update_User");
-
                     b.HasKey("Id");
 
                     b.ToTable("Form_Template", (string)null);
+                });
+
+            modelBuilder.Entity("SimpleFormsService.Domain.Entities.FormSubmission", b =>
+                {
+                    b.HasOne("SimpleFormsService.Domain.Entities.FormTemplate", "Template")
+                        .WithMany()
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Template");
                 });
 #pragma warning restore 612, 618
         }

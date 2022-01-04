@@ -5,5 +5,5 @@
     /// Scrutor adds Microsoft.Extensions.DependencyInjection.IServiceCollection extensions that enable assembly scanning
     /// </summary>
     public interface IServiceBase
-    { }
+    {}
 }

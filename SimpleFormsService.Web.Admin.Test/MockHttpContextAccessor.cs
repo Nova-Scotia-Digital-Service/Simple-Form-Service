@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace SimpleFormsService.Web.Admin.Test;
+namespace SimpleFormsService.Test;
 
 public class MockHttpContextAccessor : IHttpContextAccessor
 {

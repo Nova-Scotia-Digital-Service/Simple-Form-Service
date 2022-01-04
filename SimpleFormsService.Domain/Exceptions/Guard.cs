@@ -13,6 +13,16 @@ namespace SimpleFormsService.Domain.Exceptions
             }
         }
 
+        public static void AgainstInvalidGuidFormat(string argumentValue, string argumentName)
+        {
+            var tryParse = Guid.TryParse(argumentValue, out _);
+
+            if (!tryParse)
+            {
+                throw new InvalidFormatException(argumentName);
+            }
+        }
+
         public static void AgainstObjectNotFound(object instance, string objectName, string argumentValue, string argumentName)
         {
             if (instance is null)
@@ -26,14 +36,6 @@ namespace SimpleFormsService.Domain.Exceptions
             if (instance != null && instance.Count == 0)
             {
                 throw new EmptyListException(objectName, argumentValue, argumentName);
-            }
-        }
-
-        public static void AgainstMaxStringLength(string code, string codeName, int maxLength)
-        {
-            if (code.Length > maxLength)
-            {
-                throw new StringLengthExcededException(codeName, maxLength);
             }
         }
     }

@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Publ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Admin", "SimpleFormsService.Web.Admin\SimpleFormsService.Web.Admin.csproj", "{9D5569CB-7682-439D-BF9A-9F7389C68222}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormService.Test", "SimpleFormService.Test\SimpleFormService.Test.csproj", "{ECA7A846-6916-4FEC-90A3-4144FC31875E}"
-<<<<<<< HEAD
-=======
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{F309DB8F-35D2-4E8B-BD80-A48CDD8A04D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7EE84A84-947A-405B-A961-DAC66902C3A0}"
@@ -25,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Domain", "SimpleFormsService.Domain\SimpleFormsService.Domain.csproj", "{071C7977-749E-4E1D-9579-2D856CDD5517}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Contract", "SimpleFormsService.Contract\SimpleFormsService.Contract.csproj", "{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Services", "SimpleFormsService.Services\SimpleFormsService.Services.csproj", "{15668116-CE76-478B-8EA5-E697D4D48009}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Services.Abstractions", "SimpleFormsService.Services.Abstractions\SimpleFormsService.Services.Abstractions.csproj", "{F12C2B74-D493-47F5-B598-ABCF4EE751D0}"
@@ -35,14 +29,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Persiste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Presentation", "SimpleFormsService.Presentation\SimpleFormsService.Presentation.csproj", "{D5E98B77-4B6F-4965-A2AA-B6B6E23962F3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Prototype", "Prototype", "{36882C7D-BCF7-49A5-A643-650AB510DCB1}"
->>>>>>> 455613e (putting some plumbing in place. the test projects still need to be wired up. ioc container still needs wiring with new dependencies. exception handling middle ware needs to be added.)
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Test", "SimpleFormsService.Web.Admin.Test\SimpleFormsService.Test.csproj", "{E193F4A4-2D87-4054-BC63-A4D3A427FEED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Admin.Test", "SimpleFormsService.Web.Admin.Test\SimpleFormsService.Web.Admin.Test.csproj", "{E193F4A4-2D87-4054-BC63-A4D3A427FEED}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Web.Public.Test", "SimpleFormsService.Web.Public.Test\SimpleFormsService.Web.Public.Test.csproj", "{B130D5AD-772C-4259-8D64-CADEFB534BB2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleFormsService.Configuration", "SimpleFormsService.Configuration\SimpleFormsService.Configuration.csproj", "{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleFormsService.Configuration", "SimpleFormsService.Configuration\SimpleFormsService.Configuration.csproj", "{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,18 +51,10 @@ Global
 		{9D5569CB-7682-439D-BF9A-9F7389C68222}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D5569CB-7682-439D-BF9A-9F7389C68222}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D5569CB-7682-439D-BF9A-9F7389C68222}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECA7A846-6916-4FEC-90A3-4144FC31875E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECA7A846-6916-4FEC-90A3-4144FC31875E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECA7A846-6916-4FEC-90A3-4144FC31875E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECA7A846-6916-4FEC-90A3-4144FC31875E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{071C7977-749E-4E1D-9579-2D856CDD5517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{071C7977-749E-4E1D-9579-2D856CDD5517}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{071C7977-749E-4E1D-9579-2D856CDD5517}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{071C7977-749E-4E1D-9579-2D856CDD5517}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15668116-CE76-478B-8EA5-E697D4D48009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15668116-CE76-478B-8EA5-E697D4D48009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15668116-CE76-478B-8EA5-E697D4D48009}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -94,10 +75,6 @@ Global
 		{E193F4A4-2D87-4054-BC63-A4D3A427FEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E193F4A4-2D87-4054-BC63-A4D3A427FEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E193F4A4-2D87-4054-BC63-A4D3A427FEED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B130D5AD-772C-4259-8D64-CADEFB534BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B130D5AD-772C-4259-8D64-CADEFB534BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B130D5AD-772C-4259-8D64-CADEFB534BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B130D5AD-772C-4259-8D64-CADEFB534BB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -110,19 +87,15 @@ Global
 		{E33319FD-C420-41E9-A565-CBB13C1BBDB8} = {40FF285B-E32A-4842-917C-1E0D04054ECC}
 		{6D900F2C-2055-4684-84FC-885EB01100D6} = {40FF285B-E32A-4842-917C-1E0D04054ECC}
 		{9D5569CB-7682-439D-BF9A-9F7389C68222} = {40FF285B-E32A-4842-917C-1E0D04054ECC}
-		{ECA7A846-6916-4FEC-90A3-4144FC31875E} = {36882C7D-BCF7-49A5-A643-650AB510DCB1}
 		{40FF285B-E32A-4842-917C-1E0D04054ECC} = {F309DB8F-35D2-4E8B-BD80-A48CDD8A04D3}
 		{5B957C62-BF9D-4E2A-BF08-45E4A30CA8AF} = {F309DB8F-35D2-4E8B-BD80-A48CDD8A04D3}
 		{9EFDA098-D6DB-4732-9950-6C82933833C1} = {F309DB8F-35D2-4E8B-BD80-A48CDD8A04D3}
 		{071C7977-749E-4E1D-9579-2D856CDD5517} = {5B957C62-BF9D-4E2A-BF08-45E4A30CA8AF}
-		{C16FA0AE-5FD8-4D9B-A33A-2AE34C23DB1D} = {5B957C62-BF9D-4E2A-BF08-45E4A30CA8AF}
 		{15668116-CE76-478B-8EA5-E697D4D48009} = {5B957C62-BF9D-4E2A-BF08-45E4A30CA8AF}
 		{F12C2B74-D493-47F5-B598-ABCF4EE751D0} = {5B957C62-BF9D-4E2A-BF08-45E4A30CA8AF}
 		{3714166B-D97A-4405-BDFF-7E6C15D0E468} = {9EFDA098-D6DB-4732-9950-6C82933833C1}
 		{D5E98B77-4B6F-4965-A2AA-B6B6E23962F3} = {9EFDA098-D6DB-4732-9950-6C82933833C1}
-		{36882C7D-BCF7-49A5-A643-650AB510DCB1} = {7EE84A84-947A-405B-A961-DAC66902C3A0}
 		{E193F4A4-2D87-4054-BC63-A4D3A427FEED} = {7EE84A84-947A-405B-A961-DAC66902C3A0}
-		{B130D5AD-772C-4259-8D64-CADEFB534BB2} = {7EE84A84-947A-405B-A961-DAC66902C3A0}
 		{67C2DF5B-B22B-4EAC-879A-2947A0FFE51A} = {9EFDA098-D6DB-4732-9950-6C82933833C1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

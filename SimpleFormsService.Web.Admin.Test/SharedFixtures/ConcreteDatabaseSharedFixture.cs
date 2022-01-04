@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Minio.AspNetCore;
 using SimpleFormsService.Configuration;
-using SimpleFormsService.Domain.Entities.FormSubmission;
-using SimpleFormsService.Domain.Entities.FormTemplate;
+using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Repositories;
 using SimpleFormsService.Persistence;
 using SimpleFormsService.Persistence.Repositories;
@@ -12,7 +12,7 @@ using SimpleFormsService.Services;
 using SimpleFormsService.Services.Abstractions;
 using Xunit;
 
-namespace SimpleFormsService.Web.Admin.Test.SharedFixtures
+namespace SimpleFormsService.Test.SharedFixtures
 {
     [CollectionDefinition(Constants.ConcreteDatabaseTestCollectionName)]
     public class ConcreteDatabaseSharedFixture<TContext> : ISharedFixture where TContext : DbContext
@@ -30,28 +30,25 @@ namespace SimpleFormsService.Web.Admin.Test.SharedFixtures
 
         public IServiceProvider Container { get; set; }
 
-        public Guid CreateFormTemplate()
+        public FormTemplate CreateFormTemplate()
         {
-            var formTemplateId = Guid.NewGuid();
-            var formTemplate = new FormTemplate(formTemplateId);
+            var formTemplate = new FormTemplate(Guid.NewGuid());
 
             _repositoryManager.FormTemplateRepository.Create(formTemplate);
             _ = _repositoryManager.UnitOfWork.SaveChangesAsync().Result;
 
-            return formTemplateId;
+            return formTemplate;
         }
 
-        public Guid CreateFormSubmission()
+        public FormSubmission CreateFormSubmission(FormTemplate formTemplate)
         {
-            var formTemplateId = CreateFormTemplate();
             var formSubmissionId = Guid.NewGuid();
-            var formSubmission = new FormSubmission(formSubmissionId, formTemplateId, Constants.GetFormSubmissionData());
+            var formSubmission = new FormSubmission(formSubmissionId, formTemplate.Id, Constants.GetFormSubmissionData(formSubmissionId, formTemplate.Id));
 
             _repositoryManager.FormSubmissionRepository.Create(formSubmission);
-            var saveChangesAsync = _repositoryManager.UnitOfWork.SaveChangesAsync();
-            _ = saveChangesAsync.Result;
+            _ = _repositoryManager.UnitOfWork.SaveChangesAsync().Result;
 
-            return formSubmissionId;
+            return formSubmission;
         }
 
         #region Private Helpers
@@ -60,12 +57,20 @@ namespace SimpleFormsService.Web.Admin.Test.SharedFixtures
         {
             var services = new ServiceCollection();
 
-            services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(AppConfig.GetConnectionString(),
+            services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(AppConfig.Postgres_ConnectionString,
                 sqlOptions =>
                 {
                     sqlOptions.MaxBatchSize(1);
                     sqlOptions.EnableRetryOnFailure(1);
-                }));
+                })
+                .EnableDetailedErrors());
+
+            services.AddMinio(options =>
+            {
+                options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+                options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+                options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+            });
 
             services.Scan(scan => scan.FromAssembliesOf(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
                 .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)).Where(type => !type.IsGenericType), false)
@@ -84,7 +89,7 @@ namespace SimpleFormsService.Web.Admin.Test.SharedFixtures
 
             return services.BuildServiceProvider();
         }
-        
+
         #endregion
     }
 }

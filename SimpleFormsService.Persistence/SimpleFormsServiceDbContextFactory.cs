@@ -10,7 +10,7 @@ public class SimpleFormsServiceDbContextFactory : IDesignTimeDbContextFactory<Si
     private readonly DbContextOptions<SimpleFormsServiceDbContext> _options;
 
     public SimpleFormsServiceDbContextFactory() : this(new DbContextOptionsBuilder<SimpleFormsServiceDbContext>()
-        .UseNpgsql(AppConfig.GetConnectionString()).Options)
+        .UseNpgsql(AppConfig.Postgres_ConnectionString).Options)
     {}
 
     public SimpleFormsServiceDbContextFactory(DbContextOptions<SimpleFormsServiceDbContext> options)

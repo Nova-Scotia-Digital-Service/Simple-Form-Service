@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SimpleFormsService.Domain.Entities.FormTemplate;
+using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Repositories;
 
 namespace SimpleFormsService.Persistence.Repositories

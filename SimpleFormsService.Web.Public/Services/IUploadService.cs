@@ -1,5 +1,5 @@
 ﻿
-namespace SecureFormsPublicUI.Services
+namespace SimpleFormsService.Web.Public.Services
 {
     public interface IUploadService
     {

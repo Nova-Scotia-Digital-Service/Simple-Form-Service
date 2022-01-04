@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Http;
 using Minio;
 using Minio.DataModel;
-using SimpleFormsService.API.Services;
+using SimpleFormsService.Services.Abstractions.Application;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleFormService.Test.Document
@@ -23,7 +24,7 @@ namespace SimpleFormService.Test.Document
             client = new MinioClient("100.64.95.168:9000", "minioadmin", "minioadmin");
         }
 
-        public async Task<ObjectStat> FindObject(string bucketName, string objectName)
+        public async Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
             bucketName = bucketName;
             objectName = objectName;
@@ -32,7 +33,7 @@ namespace SimpleFormService.Test.Document
             return objectStat;
         }
 
-        public async Task<MemoryStream> GetObject(string bucketName, string objectName)
+        public async Task<MemoryStream> GetObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
             bucketName = bucketName;
             objectName = objectName;
@@ -46,7 +47,7 @@ namespace SimpleFormService.Test.Document
             return responseStream;
         }
 
-        public async Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName)
+        public async Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

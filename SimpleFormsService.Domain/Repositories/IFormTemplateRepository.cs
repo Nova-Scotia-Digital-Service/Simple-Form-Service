@@ -1,4 +1,4 @@
-﻿using SimpleFormsService.Domain.Entities.FormTemplate;
+﻿using SimpleFormsService.Domain.Entities;
 
 namespace SimpleFormsService.Domain.Repositories
 {

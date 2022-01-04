@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SimpleFormsService.Web.Admin.Test.SharedFixtures
+namespace SimpleFormsService.Test.SharedFixtures
 {
     public interface ISharedFixture
     {

@@ -1,17 +1,22 @@
-﻿using System.Text.Json;
-using SimpleFormsService.Domain.Entities.FormSubmission.Supporting.JSON;
+﻿using System;
+using System.Text.Json;
+using SimpleFormsService.Domain.Entities.Supporting.JSON;
 
-namespace SimpleFormsService.Web.Admin.Test;
+namespace SimpleFormsService.Test;
 
 public static class Constants
 {
     public const string ConcreteDatabaseTestCollectionName = "Concrete Database xUnit Test Collection";
+    public const string MockHttpContextUserName = "MockHttpContextUser";
+    public const string MinioBucketName = "form-service";
 
-    public static FormSubmissionData? GetFormSubmissionData()
+    public static FormSubmissionData? GetFormSubmissionData(Guid submissionId, Guid templateId)
     {
         var jsonString =
             "{ " +
-            "\"DateSubmitted\": \"2021-12-09 17:07:25\"," +
+            "\"SubmissionId\": \" " + submissionId + "\"," +
+            "\"TemplateId\": \"" + templateId + "\"," +
+            "\"DateSubmitted\": \"" + DateTime.Now + "\"," +
             "\"SubmissionStatus\": \"INITIALIZED\"," +
             "\"NotifyEmailAddresses\": [ " +
             "{ \"EmailAddress\": \"sclaus@northpole.com\" }," +
@@ -26,7 +31,11 @@ public static class Constants
             "\"DocumentReferences\": [" +
             "{ \"URI\": \"/pathtodocumentminusthehost/1\" }," +
             "{ \"URI\": \"/pathtodocumentminusthehost/2\" }" +
-            "]" +
+            "]," +
+            "\"CreateUser\": \"" + MockHttpContextUserName + "\"," +
+            "\"CreateDate\": \"" + DateTime.Now + "\"," +
+            "\"UpdateUser\": \"" + MockHttpContextUserName + "\"," +
+            "\"UpdateDate\": \"" + DateTime.Now + "\"" +
             "}";
 
         var formSubmissionData = JsonSerializer.Deserialize<FormSubmissionData>(jsonString);
