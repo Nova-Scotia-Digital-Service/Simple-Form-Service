@@ -32,8 +32,11 @@ namespace SimpleFormsService.Services.Domain
             Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
             Guard.AgainstNullEmptyOrWhiteSpace(submissionId, nameof(submissionId));
             Guard.AgainstInvalidGuidFormat(submissionId, nameof(submissionId));
-            
+
             // todo add user create/update and date create/update validation if it is not going to be programatically set
+            
+            // todo ensure this fixes kevin's problem while consuming this service directly from the public app until this is called through a deployed api
+            _repositoryManager.FormSubmissionRepository.ClearTrackedEntities();
 
             var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId))
                 .FirstOrDefault();

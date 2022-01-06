@@ -14,7 +14,8 @@ namespace SimpleFormsService.Persistence.Migrations
                 name: "Form_Template",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Data = table.Column<FormTemplateData>(type: "jsonb", nullable: true)
                 },
                 constraints: table =>
                 {

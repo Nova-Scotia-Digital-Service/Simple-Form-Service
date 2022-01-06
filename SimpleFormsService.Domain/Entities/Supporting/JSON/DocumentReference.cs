@@ -5,10 +5,12 @@ namespace SimpleFormsService.Domain.Entities.Supporting.JSON;
 [NotMapped]
 public class DocumentReference
 {
-    public DocumentReference(string uri)
+    public DocumentReference(string templateId, string documentId)
     {
-        URI = uri;
+        TemplateId = templateId;
+        DocumentId = documentId;
     }
 
-    public string URI { get; set; }
+    public string TemplateId { get; set; } // minio bucket name
+    public string DocumentId { get; set; } // minio object name
 }

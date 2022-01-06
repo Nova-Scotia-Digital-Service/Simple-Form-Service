@@ -39,5 +39,10 @@ namespace SimpleFormsService.Persistence.Repositories
         {
             _dbContext.Set<T>().Remove(entity);
         }
+
+        public void ClearTrackedEntities()
+        {
+            _dbContext.ChangeTracker.Clear();
+        }
     }
 }

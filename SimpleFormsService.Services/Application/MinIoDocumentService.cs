@@ -58,17 +58,12 @@ namespace SimpleFormsService.Services.Application
             return responseStream;
         }
 
-        public async Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, string submissionId, CancellationToken cancellationToken = default)
+        public async Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, CancellationToken cancellationToken = default)
         {
-            // todo guard against null or empty files parameter
-            
+            Guard.AgainstNullOrEmptyList(files, nameof(files));
             Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
             Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
-            Guard.AgainstNullEmptyOrWhiteSpace(submissionId, nameof(submissionId));
-            Guard.AgainstInvalidGuidFormat(submissionId, nameof(submissionId));
            
-            // todo ensure template id is valid for submission id 
-            
             var objectNames = new List<string>();
 
             try
@@ -107,7 +102,7 @@ namespace SimpleFormsService.Services.Application
 
                             if (results.Count > 0)
                             {
-                                var objectName = await UploadFile(file, bucketName: submissionId, cancellationToken);
+                                var objectName = await UploadFile(file, bucketName: templateId, cancellationToken);
                                 objectNames.Add(objectName);
                             }
                         }
@@ -123,7 +118,8 @@ namespace SimpleFormsService.Services.Application
             return objectNames;
         }
 
-       private List<string> MatchFileWithContent(IFormFile file)
+        #region private helpers
+        private List<string> MatchFileWithContent(IFormFile file)
         {
             var sniffer = new Sniffer();
 
@@ -185,5 +181,7 @@ namespace SimpleFormsService.Services.Application
 
             return objectName;
         }
+
+        #endregion
     }
 }

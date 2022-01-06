@@ -50,6 +50,10 @@ namespace SimpleFormsService.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<FormTemplateData>("Data")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("Data");
+
                     b.HasKey("Id");
 
                     b.ToTable("Form_Template", (string)null);

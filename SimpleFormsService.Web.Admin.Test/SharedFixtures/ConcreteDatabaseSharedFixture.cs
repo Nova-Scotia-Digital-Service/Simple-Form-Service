@@ -32,7 +32,7 @@ namespace SimpleFormsService.Test.SharedFixtures
 
         public FormTemplate CreateFormTemplate()
         {
-            var formTemplate = new FormTemplate(Guid.NewGuid());
+            var formTemplate = new FormTemplate(Guid.NewGuid(), Constants.GetFormTemplateData());
 
             _repositoryManager.FormTemplateRepository.Create(formTemplate);
             _ = _repositoryManager.UnitOfWork.SaveChangesAsync().Result;

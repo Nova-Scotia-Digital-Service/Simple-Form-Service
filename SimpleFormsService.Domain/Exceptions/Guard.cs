@@ -38,5 +38,14 @@ namespace SimpleFormsService.Domain.Exceptions
                 throw new EmptyListException(objectName, argumentValue, argumentName);
             }
         }
+
+        public static void AgainstNullOrEmptyList<T>(List<T> argumentValue, string argumentName)
+        {
+            if (argumentValue == null ||  argumentValue.FirstOrDefault() == null)
+            {
+                throw new NullOrEmptyListException(argumentName);
+            }
+        }
+
     }
 }

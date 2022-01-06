@@ -10,6 +10,7 @@ using SimpleFormsService.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
 
 Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + "======");
@@ -43,8 +44,8 @@ var app = builder.Build();
 // TODO: get it working in DEV. turn it on when go to PROD
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
@@ -55,29 +56,11 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
 //app.MapGet("/api/admin/{templateId}/{submissionId}/view-form",
 //(string formId, string submissionId, SimpleFormsServiceImpl secureFormService) => secureFormService.ViewForm(formId, submissionId));
 
 //app.MapGet("/api/admin/{templateId}/{submissionId}/view-form", 
 //(string formId, string submissionId) => $"The user id is {form-id} and book id is {submission - id}");
 
-
-/*
-
-//API methods to support the public interface
-app.MapPost("/api/public/{templateId}/{submission-id}/upload-file") 
-app.MapPost("/api/public/{templateId}/{submission-id}/submit-form") 
-
-//API methods to support the admin interface
-app.MapGet("/api/admin/{templateId}/{submission-id}/view-form")
-app.MapGet("/api/admin/{templateId}/{submission-id}/view-file/{file-id}")
-
-//API methods to support form configuration, not required for MVP as we can hard code
-app.MapPost("/api/config/{templateId}) //create a new form configuration
-app.MapGet("/api/config/{templateId}) // get the config for the specified form
-app.MapPatch("/api/config/{templateId}) //update the current form's configuration.  Ensure not to change the id (obviously)
- 
-*/
 app.Run();
 

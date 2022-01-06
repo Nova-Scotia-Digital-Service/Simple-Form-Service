@@ -13,7 +13,7 @@ using SimpleFormsService.Persistence;
 namespace SimpleFormsService.Persistence.Migrations
 {
     [DbContext(typeof(SimpleFormsServiceDbContext))]
-    [Migration("20211215150021_InitialCreate")]
+    [Migration("20220105192842_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,10 @@ namespace SimpleFormsService.Persistence.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<FormTemplateData>("Data")
+                        .HasColumnType("jsonb")
+                        .HasColumnName("Data");
 
                     b.HasKey("Id");
 

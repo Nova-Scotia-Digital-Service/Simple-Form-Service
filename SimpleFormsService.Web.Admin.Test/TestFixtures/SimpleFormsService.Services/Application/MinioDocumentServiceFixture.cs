@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.DependencyInjection;
-using Minio;
-using Minio.Exceptions;
-using RestSharp.Serialization;
+using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Persistence;
 using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Test.SharedFixtures;
@@ -21,20 +19,39 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
     {
         private readonly ConcreteDatabaseSharedFixture<SimpleFormsServiceDbContext> _sharedFixture;
         private readonly IServiceManager _serviceManager;
-        private readonly MinioClient _client;
 
         public MinioDocumentServiceFixture(ConcreteDatabaseSharedFixture<SimpleFormsServiceDbContext> sharedFixture)
         {
             _sharedFixture = sharedFixture;
             _serviceManager = sharedFixture.Container.GetService<IServiceManager>()!;
-            _client = sharedFixture.Container.GetService<MinioClient>()!;
         }
 
         [Fact]
-        public async void UploadFiled_WhenCalled_GoodStuffHappens()
+        public async void UploadFiles_WhenCalledWithAnEmptyFileList_ANullOrEmptyListExceptionShouldBeThrown()
         {
             var formTemplate = _sharedFixture.CreateFormTemplate();
-            var formSubmission = _sharedFixture.CreateFormSubmission(formTemplate);
+
+            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile> { null }, formTemplate.Id.ToString()));
+            var exception = await Record.ExceptionAsync(action);
+
+            Assert.IsType<NullOrEmptyListException>(exception);
+        }
+
+        [Fact]
+        public async void UploadFiles_WhenCalledWithANullFileList_ANullOrEmptyListExceptionShouldBeThrown()
+        {
+            var formTemplate = _sharedFixture.CreateFormTemplate();
+
+            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(null, formTemplate.Id.ToString()));
+            var exception = await Record.ExceptionAsync(action);
+
+            Assert.IsType<NullOrEmptyListException>(exception);
+        }
+
+        [Fact]
+        public async void UploadFiles_WhenCalledWithValidParameters_ADocumentIdShouldBeReturned()
+        {
+            var formTemplate = _sharedFixture.CreateFormTemplate();
 
             const string filePath = "C:\\Users\\Craig\\Downloads\\seuss.pdf";
             var fileName = filePath.Split(@"\").Last();
@@ -47,9 +64,9 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
                 ContentType = "application/pdf"
             };
 
-            var objectNames = await _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile>{ formFile }, formTemplate.Id.ToString(), formSubmission.Id.ToString());
+            var documentIds = await _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile> { formFile }, formTemplate.Id.ToString());
 
-            Assert.True(objectNames.Count == 1);
+            Assert.True(documentIds.Count == 1);
         }
     }
 }
