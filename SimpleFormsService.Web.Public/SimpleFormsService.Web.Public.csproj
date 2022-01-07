@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SimpleFormsService.Configuration\SimpleFormsService.Configuration.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Persistence\SimpleFormsService.Persistence.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Services\SimpleFormsService.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Forms\Shared\SharedResource.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

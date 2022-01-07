@@ -70,7 +70,79 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to The confirmation email does not match.
+        /// </summary>
+        public static string ConfirmEmail_CompareErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_CompareErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The confirmation email is invalid.
+        /// </summary>
+        public static string ConfirmEmail_FormatErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation email must be 150 characters or less.
+        /// </summary>
+        public static string ConfirmEmail_LengthErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter confirmation email.
+        /// </summary>
+        public static string ConfirmEmail_RequiredErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The submitter email is invalid.
+        /// </summary>
+        public static string Email_FormatErr {
+            get {
+                return ResourceManager.GetString("Email_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email must be 150 characters or less.
+        /// </summary>
+        public static string Email_LengthErr {
+            get {
+                return ResourceManager.GetString("Email_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter email.
+        /// </summary>
+        public static string Email_RequiredErr {
+            get {
+                return ResourceManager.GetString("Email_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Submitter Email Address.
+        /// </summary>
+        public static string Label_ConfirmEmail {
+            get {
+                return ResourceManager.GetString("Label_ConfirmEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitter Email Address.
         /// </summary>
         public static string Label_Email {
             get {
@@ -88,25 +160,16 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First name.
+        ///   Looks up a localized string similar to Submitter Name.
         /// </summary>
-        public static string Label_FirstName {
+        public static string Label_Name {
             get {
-                return ResourceManager.GetString("Label_FirstName", resourceCulture);
+                return ResourceManager.GetString("Label_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last name.
-        /// </summary>
-        public static string Label_LastName {
-            get {
-                return ResourceManager.GetString("Label_LastName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Phone.
+        ///   Looks up a localized string similar to Submitter Telephone Number.
         /// </summary>
         public static string Label_Phone {
             get {
@@ -133,11 +196,38 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name must be between 5 and 150 characters.
+        /// </summary>
+        public static string Name_LengthErr {
+            get {
+                return ResourceManager.GetString("Name_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Special patient program.
         /// </summary>
         public static string PageTitle {
             get {
                 return ResourceManager.GetString("PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number is invalid.
+        /// </summary>
+        public static string Phone_FormatErr {
+            get {
+                return ResourceManager.GetString("Phone_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number must be 14 characters or less.
+        /// </summary>
+        public static string Phone_LengthErr {
+            get {
+                return ResourceManager.GetString("Phone_LengthErr", resourceCulture);
             }
         }
         
@@ -192,15 +282,6 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         public static string SubmissionType_RequiredErr {
             get {
                 return ResourceManager.GetString("SubmissionType_RequiredErr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter email.
-        /// </summary>
-        public static string SubmitterEmail_RequiredErr {
-            get {
-                return ResourceManager.GetString("SubmitterEmail_RequiredErr", resourceCulture);
             }
         }
         

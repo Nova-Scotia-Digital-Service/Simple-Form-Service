@@ -120,20 +120,41 @@
   <data name="AcceptedUploadType" xml:space="preserve">
     <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;, &lt;abbr title="Portable Graphics Format"&gt;png&lt;/abbr&gt;, &lt;abbr title="Document/Documentation"&gt;doc&lt;/abbr&gt;, &lt;abbr title="OpenDocument Text Document"&gt;odt&lt;/abbr&gt;</value>
   </data>
+  <data name="ConfirmEmail_CompareErr" xml:space="preserve">
+    <value>The confirmation email does not match</value>
+  </data>
+  <data name="ConfirmEmail_FormatErr" xml:space="preserve">
+    <value>The confirmation email is invalid</value>
+  </data>
+  <data name="ConfirmEmail_LengthErr" xml:space="preserve">
+    <value>Confirmation email must be 150 characters or less</value>
+  </data>
+  <data name="ConfirmEmail_RequiredErr" xml:space="preserve">
+    <value>Enter confirmation email</value>
+  </data>
+  <data name="Email_FormatErr" xml:space="preserve">
+    <value>The submitter email is invalid</value>
+  </data>
+  <data name="Email_LengthErr" xml:space="preserve">
+    <value>Email must be 150 characters or less</value>
+  </data>
+  <data name="Email_RequiredErr" xml:space="preserve">
+    <value>Enter email</value>
+  </data>
+  <data name="Label_ConfirmEmail" xml:space="preserve">
+    <value>Confirm Submitter Email Address</value>
+  </data>
   <data name="Label_Email" xml:space="preserve">
-    <value>Email</value>
+    <value>Submitter Email Address</value>
   </data>
   <data name="Label_FileName" xml:space="preserve">
     <value>File name</value>
   </data>
-  <data name="Label_FirstName" xml:space="preserve">
-    <value>First name</value>
-  </data>
-  <data name="Label_LastName" xml:space="preserve">
-    <value>Last name</value>
+  <data name="Label_Name" xml:space="preserve">
+    <value>Submitter Name</value>
   </data>
   <data name="Label_Phone" xml:space="preserve">
-    <value>Phone</value>
+    <value>Submitter Telephone Number</value>
   </data>
   <data name="Label_SubmissionType" xml:space="preserve">
     <value>Submission type</value>
@@ -141,8 +162,17 @@
   <data name="MaxFileSize" xml:space="preserve">
     <value>Maximum file size per file: 10 &lt;abbr title="megabyte"&gt;MB&lt;/abbr&gt;</value>
   </data>
+  <data name="Name_LengthErr" xml:space="preserve">
+    <value>Name must be between 5 and 150 characters</value>
+  </data>
   <data name="PageTitle" xml:space="preserve">
     <value>Special patient program</value>
+  </data>
+  <data name="Phone_FormatErr" xml:space="preserve">
+    <value>Phone number is invalid</value>
+  </data>
+  <data name="Phone_LengthErr" xml:space="preserve">
+    <value>Phone number must be 14 characters or less</value>
   </data>
   <data name="SPP_H2" xml:space="preserve">
     <value>Submitter information</value>
@@ -161,9 +191,6 @@
   </data>
   <data name="SubmissionType_RequiredErr" xml:space="preserve">
     <value>Choose a submission type</value>
-  </data>
-  <data name="SubmitterEmail_RequiredErr" xml:space="preserve">
-    <value>Enter email</value>
   </data>
   <data name="Upload_RequiredErr" xml:space="preserve">
     <value>Upload your document(s)</value>

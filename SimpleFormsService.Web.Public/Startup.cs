@@ -9,6 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SimpleFormsService.Services;
+using SimpleFormsService.Services.Abstractions;
+using SimpleFormsService.Persistence.Repositories;
+using SimpleFormsService.Domain.Repositories;
+using SimpleFormsService.Persistence;
+using Microsoft.EntityFrameworkCore;
+using SimpleFormsService.Configuration;
+using Minio.AspNetCore;
 
 namespace SimpleFormsService.Web.Public
 {
@@ -24,6 +32,18 @@ namespace SimpleFormsService.Web.Public
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
+
+            services.AddMinio(options =>
+            {
+                options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+                options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+                options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+            });
+
+            services.AddScoped<IServiceManager, ServiceManager>();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+
             services.AddRazorPages()
                 .AddRazorPagesOptions(options => {
                     options.RootDirectory = "/Forms";
