@@ -18,6 +18,8 @@ namespace SimpleFormsService.Presentation.Controllers
             return Ok(formTemplateDto);
         }
 
+        // todo add get file implementation
+
         /*
         [HttpGet("api/admin/{templateId}/{submissionId}")]
         public string ViewForm(string templateId, string submissionId)
@@ -30,8 +32,6 @@ namespace SimpleFormsService.Presentation.Controllers
         {
             return "Document Data";
         }
-
-        // todo get file 
 
         //app.MapPost("/api/config/{template-id}) //create a new form configuration
         //app.MapGet("/api/config/{template-id}) // get the config for the specified form

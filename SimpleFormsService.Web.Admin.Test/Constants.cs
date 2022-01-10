@@ -29,8 +29,8 @@ public static class Constants
                 " { \"Name\": \"Submission Type\", \"Value\": \"New Application\" }" +
                 "]," +
                 "\"DocumentReferences\": [" +
-                "{ \"TemplateId\": \"" + templateId + "\", \"DocumentId\": \"documentId1\" }," +
-                "{ \"TemplateId\": \"" + templateId + "\", \"DocumentId\": \"documentId2\" }" +
+                "{ \"TemplateId\": \"" + templateId + "\", \"DocumentId\": \"documentId1\", \"Filename\": \"bioterrain.jpg\" }," +
+                "{ \"TemplateId\": \"" + templateId + "\", \"DocumentId\": \"documentId2\", \"Filename\": \"holygrail.doc\" }" +
                 "]," +
                 "\"CreateUser\": \"" + MockHttpContextUserName + "\"," +
                 "\"CreateDate\": \"" + DateTime.Now + "\"," +
@@ -48,6 +48,10 @@ public static class Constants
         const string jsonString = 
             "{ " +
               "\"Name\": \"Template Name\"," +
+              "\"NotifyEmailAddresses\": [ " +
+              "{ \"EmailAddress\": \"sclaus@northpole.com\" }," +
+              "{ \"EmailAddress\": \"ebunny@rabbithole.com\" }" +
+              "]," +
               "\"AuthorizedUsers\": [" +
               "{ \"EmailAddress\": \"authorizeduser1@email.com\" }," +
               "{ \"EmailAddress\": \"authorizeduser2@email.com\" }" +

@@ -63,7 +63,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
                 var docRefs = new DocumentReference[] { };
                 if (SPPForm.UploadedFiles != null)
                 {
-                    docRefs = SPPForm.UploadedFiles.Select(x => new DocumentReference(_templateId, x.Key)).ToArray();
+                    docRefs = SPPForm.UploadedFiles.Select(x => new DocumentReference(_templateId, x.Key, "hardcoded-filename.jpg")).ToArray();
                 }
 
                 if (!string.IsNullOrEmpty(SPPForm.SubmissionId))

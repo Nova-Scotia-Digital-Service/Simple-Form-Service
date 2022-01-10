@@ -10,7 +10,6 @@ using SimpleFormsService.Services.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
 
 Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + "======");
@@ -24,7 +23,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddMinio(options =>
 {
@@ -33,6 +31,7 @@ builder.Services.AddMinio(options =>
     options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
 });
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
@@ -41,26 +40,14 @@ builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 var app = builder.Build();
 
-// TODO: get it working in DEV. turn it on when go to PROD
-//if (app.Environment.IsDevelopment())
-//{
-app.UseSwagger();
-app.UseSwaggerUI();
-//}
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
-
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
-//app.MapGet("/api/admin/{templateId}/{submissionId}/view-form",
-//(string formId, string submissionId, SimpleFormsServiceImpl secureFormService) => secureFormService.ViewForm(formId, submissionId));
-
-//app.MapGet("/api/admin/{templateId}/{submissionId}/view-form", 
-//(string formId, string submissionId) => $"The user id is {form-id} and book id is {submission - id}");
-
 app.Run();
-

@@ -36,23 +36,5 @@ namespace SimpleFormsService.Presentation.Controllers
 
             return Ok(formSubmission);
         }
-
-        #region Used For Testing - Can Be Removed
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetFormSubmissionById(string id, CancellationToken cancellationToken)
-        {
-            var formSubmission = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdAsync(id, cancellationToken);
-            return Ok(formSubmission);
-        }
-
-        [HttpGet("{templateId}")]
-        public async Task<IActionResult> GetFormSubmissionsByTemplateId(string templateId, CancellationToken cancellationToken)
-        {
-            var testSummary = await _serviceManager.FormSubmissionService.GetFormSubmissionsByTemplateIdAsync(templateId, cancellationToken);
-            return Ok(testSummary);
-        }
-
-        #endregion
     }
 }

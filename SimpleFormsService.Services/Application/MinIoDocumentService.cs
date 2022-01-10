@@ -130,9 +130,9 @@ namespace SimpleFormsService.Services.Application
                 new Record("jpg,jpeg", "ff,d8,ff,db"),
                 new Record("jpg,jpeg","FF D8 FF E0 ?? ?? 4A 46 49 46 00 01"),
                 new Record("jpg,jpeg","FF D8 FF E1 ?? ?? 45 78 69 66 00 00"),
-                new Record("zip,odt,docx,xlsx", "50,4b,03,04"),
-                new Record("zip,odt,docx,xlsx", "50,4b,07,08"),
-                new Record("zip,odt,docx,xlsx", "50,4b,05,06"),
+                new Record("odt,docx,xlsx", "50,4b,03,04"),
+                new Record("odt,docx,xlsx", "50,4b,07,08"),
+                new Record("odt,docx,xlsx", "50,4b,05,06"),
                 new Record("doc xls", "D0 CF 11 E0 A1 B1 1A E1"),
             };
 

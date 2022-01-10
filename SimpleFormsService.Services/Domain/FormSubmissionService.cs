@@ -33,17 +33,14 @@ namespace SimpleFormsService.Services.Domain
             Guard.AgainstNullEmptyOrWhiteSpace(submissionId, nameof(submissionId));
             Guard.AgainstInvalidGuidFormat(submissionId, nameof(submissionId));
 
-            // todo add user create/update and date create/update validation if it is not going to be programatically set
+            // todo add additional validation as required (create/update user and dates, etc.)
             
-            // todo ensure this fixes kevin's problem while consuming this service directly from the public app until this is called through a deployed api
-            _repositoryManager.FormSubmissionRepository.ClearTrackedEntities();
+            _repositoryManager.FormSubmissionRepository.ClearTrackedEntities(); // todo required if this service is consumed directly (if Init is called before SubmitForm the formSubmission retrieved below will pre-exist within ef core's entity change tracker) this issue will go away when this service is consumed through the api application
 
             var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId))
                 .FirstOrDefault();
 
             Guard.AgainstObjectNotFound(formSubmission, "form submission", submissionId, nameof(submissionId));
-
-            // todo programatically set user create/update and date create/update fields if not passed from ui or implemented within simpleformsservicedbcontext  
 
             formSubmission.Data = data;
 
