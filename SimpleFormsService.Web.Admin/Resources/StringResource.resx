@@ -183,6 +183,9 @@
   <data name="PageTitle_SearchSubmission" xml:space="preserve">
     <value>Search submissions</value>
   </data>
+  <data name="PageTitle_ViewDocument" xml:space="preserve">
+    <value>View document</value>
+  </data>
   <data name="Privacy_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/privacy/</value>
   </data>

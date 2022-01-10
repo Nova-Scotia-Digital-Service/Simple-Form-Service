@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{templateId}/{submissionId}"
 @model SubmissionDetailModel
 @using SimpleFormsService.Web.Admin.Resources
 @{
@@ -14,47 +14,44 @@
                 <div class="row m-t-md">
                     <div class="col-lg-4 form-group">
                         <label asp-for="FormInfo.TemplateID"></label>
-                        f79a9e02-a87a-4add-b885-9ea6bd13b715             
+                        @Model.FormInfo.SubmissionData.TemplateId          
                     </div>
                     <div class="col-lg-4 form-group">
                         <label asp-for="FormInfo.SubmissionID"></label>
-                        49eb6cb3-0a13-4ea2-843a-511cab69216d             
+                        @Model.FormInfo.SubmissionData.SubmissionId             
                     </div>
                     <div class="col-lg-4 form-group">
                         <label asp-for="FormInfo.SubmissionDate"></label>
-                        Jan. 25, 2021             
+                        @Model.FormInfo.SubmissionData.DateSubmitted             
                     </div>
                     
                 </div>
                 <hr />
                 <h2 class="m-b-md">@StringResource.Section_SubmissionDetail</h2>
                 <div class="row m-t-md">
-                    <div class="col-lg-4 form-group">
-                        <label>Email</label>
-                        joh.doe@gmail.com             
-                    </div>
-                    <div class="col-lg-4 form-group">
-                        <label>Name</label>
-                        Jon Doe             
-                    </div>
-                    <div class="col-lg-4 form-group">
-                        <label>Phone</label>
-                        902-000-0000            
-                    </div>
-                </div>
-                <div class="row m-t-md">
-                    <div class="col-lg-4 form-group">
-                        <label>Submission type</label>
-                        New application             
-                    </div>                             
-                </div>
+                @if (Model.FormInfo.SubmissionData.FormItems != null)
+                {
+                    @foreach (var item in Model.FormInfo.SubmissionData.FormItems)
+                    {   
+                        <div class="col-lg-4 form-group mt-3">
+                            <label>@item.Name</label>
+                            @item.Value             
+                        </div>            
+                    }
+                }
+                </div>              
                 <hr />
                 <h2 class="m-b-md">@StringResource.Section_Upload</h2>
                 <div class="row m-t-md">
                     <div class="col-lg-4 form-group">
                         <table class="table table-responsive-sm table-borderless">
-                            <tr><td><a href="https://webAPI/api/admin/f79a9e02-a87a-4add-b885-9ea6bd13b715/S123456/view-document/1b65ce31-1273-41b7-9751-2c6b7b87f5f5">Upload_document1.png</a></td></tr>
-                            <tr><td><a href="https://webAPI/api/admin/g79a9e02-a87a-4add-b885-9ea6bd13b715/S123456/view-document/1b65ce31-1273-41b7-9751-2c6b7b87f5f6">Upload_document2.jpeg</a></td></tr>
+                            @if (Model.FormInfo.SubmissionData.DocumentReferences != null)
+                            {
+                                @foreach(var doc in Model.FormInfo.SubmissionData.DocumentReferences)
+                                {
+                                    <tr><td><a href="/ViewDocument/@doc.TemplateId/@doc.DocumentId" target="_blank">@doc.DocumentId</a></td></tr>
+                                }
+                            }
                         </table>
                     </div>
                 </div>

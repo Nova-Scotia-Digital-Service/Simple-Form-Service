@@ -259,6 +259,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View document.
+        /// </summary>
+        public static string PageTitle_ViewDocument {
+            get {
+                return ResourceManager.GetString("PageTitle_ViewDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://beta.novascotia.ca/privacy/.
         /// </summary>
         public static string Privacy_href {

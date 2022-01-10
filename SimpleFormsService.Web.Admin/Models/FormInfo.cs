@@ -1,4 +1,5 @@
-﻿using SimpleFormsService.Web.Admin.Resources;
+﻿using SimpleFormsService.Domain.Entities.Supporting.JSON;
+using SimpleFormsService.Web.Admin.Resources;
 using System.ComponentModel.DataAnnotations;
 
 namespace SimpleFormsService.Web.Admin.Models
@@ -13,5 +14,9 @@ namespace SimpleFormsService.Web.Admin.Models
 
         [Display(Name = "Label_SubmissionDate", ResourceType = typeof(StringResource))]
         public DateTime SubmissionDate { get; set; }
+
+        public FormSubmissionData SubmissionData { get; set; }
+        public FormItem[] FormItems { get; set; }
+        public DocumentReference[] Documents { get; set; }
     }
 }

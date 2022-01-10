@@ -2,8 +2,18 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Minio.AspNetCore;
+using SimpleFormsService.Configuration;
+using SimpleFormsService.Domain.Repositories;
+using SimpleFormsService.Persistence;
+using SimpleFormsService.Persistence.Repositories;
+using SimpleFormsService.Services;
+using SimpleFormsService.Services.Abstractions;
+using SimpleFormsService.Services.Abstractions.Application;
+using SimpleFormsService.Services.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
@@ -23,6 +33,20 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             cookieOptions.SlidingExpiration = true;
         });
 
+builder.Services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddMinio(options =>
+{
+    options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+    options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+    options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+});
+
+//DI
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
+builder.Services.AddScoped<IDocumentService, MinIoDocumentService>();
+
 builder.Services.AddCookiePolicy(options =>
 {
     // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -35,18 +59,19 @@ builder.Services.AddAuthorization(policies =>
 {
     policies.AddPolicy("GroupAdmin", p =>
     {
-        p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
+    p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
     });
 });
 
 // Add services to the container.
-builder.Services.AddRazorPages(o => { o.Conventions.AuthorizePage("/SubmissionDetail", "GroupAdmin"); }).AddMvcOptions(options =>
+builder.Services.AddRazorPages().AddMvcOptions(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
     options.Filters.Add(new AuthorizeFilter(policy));
 }).AddMicrosoftIdentityUI();
+
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
