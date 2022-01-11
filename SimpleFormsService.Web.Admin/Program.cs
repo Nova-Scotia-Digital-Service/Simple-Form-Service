@@ -45,7 +45,7 @@ builder.Services.AddMinio(options =>
 //DI
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
-builder.Services.AddScoped<IDocumentService, MinIoDocumentService>();
+builder.Services.AddScoped<IDocumentService, MinioDocumentService>();
 
 builder.Services.AddCookiePolicy(options =>
 {

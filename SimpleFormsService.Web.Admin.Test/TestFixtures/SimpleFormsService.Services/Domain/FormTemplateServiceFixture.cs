@@ -29,7 +29,7 @@ public class FormTemplateServiceFixture : IClassFixture<ConcreteDatabaseSharedFi
         Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateService.HasAccess(null, email).Result);
         var exception = await Record.ExceptionAsync(action);
 
-        Assert.IsType<NullEmptyOrWhitespaceException>(exception);
+        Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class FormTemplateServiceFixture : IClassFixture<ConcreteDatabaseSharedFi
         Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateService.HasAccess(templateId, email).Result);
         var exception = await Record.ExceptionAsync(action);
 
-        Assert.IsType<InvalidFormatException>(exception);
+        Assert.IsType<InvalidFormatException>(exception.InnerException);
     }
 
     [Fact]
@@ -53,15 +53,15 @@ public class FormTemplateServiceFixture : IClassFixture<ConcreteDatabaseSharedFi
         Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateService.HasAccess(templateId, null).Result);
         var exception = await Record.ExceptionAsync(action);
 
-        Assert.IsType<NullEmptyOrWhitespaceException>(exception);
+        Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
     }
     
     [Fact]
-    public void HasAccess_WhenCalledWithANonExistentEmail_FalseShouldBeReturned()
+    public void HasAccess_WhenCalledWithAnUnauthorizedEmail_FalseShouldBeReturned()
     {
         var formTemplate = _sharedFixture.CreateFormTemplate();
         var templateId = formTemplate.Id.ToString();
-        var email = "nonexistent@email.com";
+        var email = "unauthorized@email.com";
 
         var hasAccess = _serviceManager.FormTemplateService.HasAccess(templateId, email).Result;
 
@@ -69,7 +69,7 @@ public class FormTemplateServiceFixture : IClassFixture<ConcreteDatabaseSharedFi
     }
 
     [Fact]
-    public void HasAccess_WhenCalledWithAnExistentEmail_TrueShouldBeReturned()
+    public void HasAccess_WhenCalledWithAnAuthorizedEmail_TrueShouldBeReturned()
     {
         var formTemplate = _sharedFixture.CreateFormTemplate();
         var templateId = formTemplate.Id.ToString();

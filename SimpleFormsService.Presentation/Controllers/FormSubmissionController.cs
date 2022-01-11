@@ -24,9 +24,9 @@ namespace SimpleFormsService.Presentation.Controllers
         [HttpPost("{templateId}/{submissionId}/upload-file")]
         public async Task<IActionResult> UploadFile(string templateId, string submissionId, IFormFile file, CancellationToken cancellationToken)
         {
-            var documentIds = await _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile>{ file }, templateId, cancellationToken);
+            var formSubmission = await _serviceManager.FormSubmissionService.UploadFile(templateId, submissionId, file, cancellationToken);
 
-            return Ok(documentIds);
+            return Ok(formSubmission);
         }
 
         [HttpPost("{templateId}/{submissionId}/submit-form")]

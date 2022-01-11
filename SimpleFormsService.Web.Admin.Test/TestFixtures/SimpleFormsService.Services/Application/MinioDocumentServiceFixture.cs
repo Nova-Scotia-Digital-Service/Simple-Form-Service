@@ -34,7 +34,7 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
             Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile> { null }, formTemplate.Id.ToString()));
             var exception = await Record.ExceptionAsync(action);
 
-            Assert.IsType<NullOrEmptyListException>(exception);
+            Assert.IsType<NullOrEmptyException>(exception);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
             Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(null, formTemplate.Id.ToString()));
             var exception = await Record.ExceptionAsync(action);
 
-            Assert.IsType<NullOrEmptyListException>(exception);
+            Assert.IsType<NullOrEmptyException>(exception);
         }
 
         [Fact]
@@ -55,9 +55,9 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
 
             const string filePath = "C:\\Users\\Craig\\Downloads\\seuss.pdf";
             var fileName = filePath.Split(@"\").Last();
-
+            
             await using var stream = new MemoryStream((await File.ReadAllBytesAsync(filePath)).ToArray());
-
+            
             var formFile = new FormFile(stream, 0, stream.Length, "streamFile", fileName)
             {
                 Headers = new HeaderDictionary(),

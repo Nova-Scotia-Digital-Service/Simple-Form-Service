@@ -8,11 +8,11 @@ using SimpleFormsService.Services.Abstractions.Application;
 
 namespace SimpleFormsService.Services.Application
 {
-    public class MinIoDocumentService : ServiceBase, IDocumentService
+    public class MinioDocumentService : ServiceBase, IDocumentService
     {
         public MinioClient _client;
 
-        public MinIoDocumentService(MinioClient client)
+        public MinioDocumentService(MinioClient client)
         {
             _client = client;
         }
@@ -60,10 +60,10 @@ namespace SimpleFormsService.Services.Application
 
         public async Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, CancellationToken cancellationToken = default)
         {
-            Guard.AgainstNullOrEmptyList(files, nameof(files));
             Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
             Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
-           
+            Guard.AgainstNullOrEmptyList(files, nameof(files));
+
             var objectNames = new List<string>();
 
             try
@@ -119,6 +119,7 @@ namespace SimpleFormsService.Services.Application
         }
 
         #region private helpers
+
         private List<string> MatchFileWithContent(IFormFile file)
         {
             var sniffer = new Sniffer();

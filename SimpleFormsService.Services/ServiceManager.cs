@@ -16,9 +16,9 @@ namespace SimpleFormsService.Services
 
         public ServiceManager(IRepositoryManager repositoryManager, MinioClient client)
         {
-            _lazyFormSubmissionService = new Lazy<IFormSubmissionService>(() => new FormSubmissionService(repositoryManager));
+            _lazyFormSubmissionService = new Lazy<IFormSubmissionService>(() => new FormSubmissionService(repositoryManager, new MinioDocumentService(client)));
             _lazyFormTemplateService = new Lazy<IFormTemplateService>(() => new FormTemplateService(repositoryManager));
-            _lazyMinIoDocumentService = new Lazy<IDocumentService>(() => new MinIoDocumentService(client)); 
+            _lazyMinIoDocumentService = new Lazy<IDocumentService>(() => new MinioDocumentService(client)); 
         }
 
         public IFormSubmissionService FormSubmissionService => _lazyFormSubmissionService.Value;

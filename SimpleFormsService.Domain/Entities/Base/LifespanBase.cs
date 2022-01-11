@@ -19,7 +19,7 @@ namespace SimpleFormsService.Domain.Entities.Base
 
         #region Properties
 
-        [NotMapped] public DateTime? EffectiveDate { get; set; } = DateTime.Now;
+        [NotMapped] public DateTime? EffectiveDate { get; set; } = SystemTime.Now();
         [NotMapped] public DateTime? ExpiryDate { get; set; }
 
         #endregion
