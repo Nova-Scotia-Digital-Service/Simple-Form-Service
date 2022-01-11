@@ -49,7 +49,7 @@
                             {
                                 @foreach(var doc in Model.FormInfo.SubmissionData.DocumentReferences)
                                 {
-                                    <tr><td><a href="/ViewDocument/@doc.TemplateId/@doc.DocumentId" target="_blank">@doc.DocumentId</a></td></tr>
+                                    <tr><td><a href="/ViewDocument/@doc.TemplateId/@doc.DocumentId" target="_blank">@doc.Filename</a></td></tr>
                                 }
                             }
                         </table>
