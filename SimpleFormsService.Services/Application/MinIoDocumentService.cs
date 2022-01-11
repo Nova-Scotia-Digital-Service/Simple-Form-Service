@@ -58,10 +58,17 @@ namespace SimpleFormsService.Services.Application
             return responseStream;
         }
 
-        public async Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, CancellationToken cancellationToken = default)
+        /// <summary>
+        /// This method add a list of files to a minio bucket.
+        /// </summary>
+        /// <param name="bucketName"></param>
+        /// <param name="files"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<List<string>> UploadFiles(string bucketName, List<IFormFile> files, CancellationToken cancellationToken = default)
         {
-            Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
-            Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
+            Guard.AgainstNullEmptyOrWhiteSpace(bucketName, nameof(bucketName));
+            Guard.AgainstInvalidGuidFormat(bucketName, nameof(bucketName));
             Guard.AgainstNullOrEmptyList(files, nameof(files));
 
             var objectNames = new List<string>();
@@ -102,7 +109,7 @@ namespace SimpleFormsService.Services.Application
 
                             if (results.Count > 0)
                             {
-                                var objectName = await UploadFile(file, bucketName: templateId, cancellationToken);
+                                var objectName = await UploadFile(file, bucketName: bucketName, cancellationToken);
                                 objectNames.Add(objectName);
                             }
                         }
@@ -122,23 +129,23 @@ namespace SimpleFormsService.Services.Application
         /// <summary>
         /// This method removes an object from minio bucket.
         /// </summary>
-        /// <param name="templateId"></param>
+        /// <param name="bucketName"></param>
         /// <param name="objectName"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default)
+        public async Task<bool> RemoveFile(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
-            //TODO: change return type as needed
-            Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
-            Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
+            Guard.AgainstNullEmptyOrWhiteSpace(bucketName, nameof(bucketName));
+            Guard.AgainstInvalidGuidFormat(bucketName, nameof(bucketName));
             Guard.AgainstNullEmptyOrWhiteSpace(objectName, nameof(objectName));
             Guard.AgainstInvalidGuidFormat(objectName, nameof(objectName));
-            bool status = false;
+            
+            var status = false;
             try
             {
-                await _client.RemoveObjectAsync(templateId, objectName);
+                await _client.RemoveObjectAsync(bucketName, objectName, cancellationToken);
                 status = true;
-                Console.WriteLine($"Removed object {objectName} from bucket {templateId} successfully");
+                Console.WriteLine($"Removed object {objectName} from bucket {bucketName} successfully");
             }
             catch (Exception e)
             {

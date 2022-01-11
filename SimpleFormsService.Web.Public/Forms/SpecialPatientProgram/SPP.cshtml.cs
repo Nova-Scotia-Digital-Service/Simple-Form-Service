@@ -44,7 +44,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
             
             if(SPPForm.Files != null)
             {
-                var uploadedFiles = await _serviceManager.MinIoDocumentService.UploadFiles(SPPForm.Files, _templateId);
+                var uploadedFiles = await _serviceManager.MinIoDocumentService.UploadFiles(_templateId, SPPForm.Files);
 
                 if (SPPForm.UploadedFiles == null) SPPForm.UploadedFiles = new Dictionary<string, string>();
 

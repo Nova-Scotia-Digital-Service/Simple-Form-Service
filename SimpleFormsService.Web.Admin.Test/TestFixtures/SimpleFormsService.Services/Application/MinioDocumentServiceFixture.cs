@@ -31,7 +31,7 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
         {
             var formTemplate = _sharedFixture.CreateFormTemplate();
 
-            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile> { null }, formTemplate.Id.ToString()));
+            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(formTemplate.Id.ToString(), new List<IFormFile> { null }));
             var exception = await Record.ExceptionAsync(action);
 
             Assert.IsType<NullOrEmptyException>(exception);
@@ -42,7 +42,7 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
         {
             var formTemplate = _sharedFixture.CreateFormTemplate();
 
-            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(null, formTemplate.Id.ToString()));
+            Func<Task> action = () => Task.Run(() => _serviceManager.MinIoDocumentService.UploadFiles(formTemplate.Id.ToString(), null));
             var exception = await Record.ExceptionAsync(action);
 
             Assert.IsType<NullOrEmptyException>(exception);
@@ -64,7 +64,7 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
                 ContentType = "application/pdf"
             };
 
-            var documentIds = await _serviceManager.MinIoDocumentService.UploadFiles(new List<IFormFile> { formFile }, formTemplate.Id.ToString());
+            var documentIds = await _serviceManager.MinIoDocumentService.UploadFiles(formTemplate.Id.ToString(), new List<IFormFile> { formFile });
 
             Assert.True(documentIds.Count == 1);
         }

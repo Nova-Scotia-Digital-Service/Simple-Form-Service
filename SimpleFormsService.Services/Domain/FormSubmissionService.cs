@@ -43,19 +43,41 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstInvalidGuidFormat(submissionId, nameof(submissionId));
         Guard.AgainstNullOrEmptyObject(file, nameof(file));
 
-        _repositoryManager.FormSubmissionRepository.ClearTrackedEntities();
+        _repositoryManager.FormSubmissionRepository.ClearTrackedEntities(); // todo remove after moving from service implementation to api implementation post mvp
 
         var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId)).FirstOrDefault();
 
         Guard.AgainstObjectNotFound(formSubmission, "form submission", submissionId, nameof(submissionId));
 
-        var documentIds = await _minioDocumentService.UploadFiles(new List<IFormFile>{file}, templateId, cancellationToken);
+        var documentIds = await _minioDocumentService.UploadFiles(templateId, new List<IFormFile>{file}, cancellationToken);
 
-        await UpdateFormSubmissionDocumentReferenceData(templateId, file, cancellationToken, documentIds, formSubmission);
+        await UpdateFormSubmissionDocumentReferenceDataOnUpload(templateId, file, cancellationToken, documentIds, formSubmission);
 
         return formSubmission;
     }
-        
+
+    public async Task<FormSubmission> DeleteFile(string templateId, string submissionId, string documentId, CancellationToken cancellationToken = default)
+    {
+        Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
+        Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
+        Guard.AgainstNullEmptyOrWhiteSpace(submissionId, nameof(submissionId));
+        Guard.AgainstInvalidGuidFormat(submissionId, nameof(submissionId));
+        Guard.AgainstNullEmptyOrWhiteSpace(documentId, nameof(documentId));
+        Guard.AgainstInvalidGuidFormat(documentId, nameof(documentId));
+
+        _repositoryManager.FormSubmissionRepository.ClearTrackedEntities();  // todo remove after moving from service implementation to api implementation post mvp 
+
+        var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId)).FirstOrDefault();
+
+        Guard.AgainstObjectNotFound(formSubmission, "form submission", submissionId, nameof(submissionId));
+
+        var success = await _minioDocumentService.RemoveFile(templateId, documentId, cancellationToken);
+
+        await UpdateFormSubmissionDocumentReferenceDataOnDelete(documentId, cancellationToken, success, formSubmission);
+
+        return formSubmission;
+    }
+    
     public async Task<FormSubmission> SubmitForm(string templateId, string submissionId, FormSubmissionData data, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
@@ -65,7 +87,7 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstNullOrEmptyObject(data, nameof(data));
         Guard.AgainstNullOrEmptyObject(data.FormItems, nameof(data.FormItems));
             
-        _repositoryManager.FormSubmissionRepository.ClearTrackedEntities(); 
+        _repositoryManager.FormSubmissionRepository.ClearTrackedEntities(); // todo remove after moving from service implementation to api implementation post mvp
 
         var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId)).FirstOrDefault();
 
@@ -130,7 +152,7 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         return formSubmission;
     }
 
-    private async Task UpdateFormSubmissionDocumentReferenceData(string templateId, IFormFile file, CancellationToken cancellationToken, List<string> uploadedDocumentIds, FormSubmission formSubmission)
+    private async Task UpdateFormSubmissionDocumentReferenceDataOnUpload(string templateId, IFormFile file, CancellationToken cancellationToken, List<string> uploadedDocumentIds, FormSubmission formSubmission)
     {
         if (uploadedDocumentIds.Count == 1)
         {
@@ -142,6 +164,26 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
 
             _repositoryManager.FormSubmissionRepository.Update(formSubmission);
             await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+        }
+    }
+
+    private async Task UpdateFormSubmissionDocumentReferenceDataOnDelete(string documentId, CancellationToken cancellationToken, bool success, FormSubmission formSubmission)
+    {
+        if (success)
+        {
+            var documentReferences = formSubmission.Data?.DocumentReferences.ToList() ?? new List<DocumentReference>();
+
+            if (documentReferences.Count > 0)
+            {
+                var documentReferenceToRemove = documentReferences.FirstOrDefault(x => x.DocumentId == documentId);
+                documentReferences.Remove(documentReferenceToRemove);
+
+                if (formSubmission.Data != null)
+                    formSubmission.Data.DocumentReferences = documentReferences.ToArray();
+
+                _repositoryManager.FormSubmissionRepository.Update(formSubmission);
+                await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 

@@ -16,7 +16,12 @@ namespace SimpleFormsService.Services.Application
             throw new NotImplementedException();
         }
 
-        public Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default)
+        public Task<List<string>> UploadFiles(string bucketName, List<IFormFile> files, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> RemoveFile(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

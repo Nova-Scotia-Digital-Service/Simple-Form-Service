@@ -93,6 +93,38 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Domai
 
         #endregion
 
+        #region DeleteFile
+
+        [Fact]
+        public void DeleteFile_WhenCalledWithValidParameters_AFileShouldBeUploadedAndAFormSubmissionWithADocumentReferenceShouldBeReturned()
+        {
+            var formTemplate = _sharedFixture.CreateFormTemplate();
+            var templateId = formTemplate.Id.ToString();
+            var formSubmission = _sharedFixture.CreateFormSubmission(formTemplate);
+            var submissionId = formSubmission.Id.ToString();
+
+            const string filePath = "C:\\Users\\Craig\\Downloads\\seuss.pdf";
+            var fileName = filePath.Split(@"\").Last();
+
+            using var stream = new MemoryStream((File.ReadAllBytes(filePath)).ToArray());
+
+            var formFile = new FormFile(stream, 0, stream.Length, "streamFile", fileName)
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "application/pdf"
+            };
+
+            formSubmission = _serviceManager.FormSubmissionService.UploadFile(templateId, submissionId, formFile).Result;
+
+            var documentId = formSubmission.Data.DocumentReferences[2].DocumentId;
+            formSubmission = _serviceManager.FormSubmissionService.DeleteFile(templateId, submissionId, documentId).Result;
+
+            var firstOrDefault = formSubmission.Data.DocumentReferences.FirstOrDefault(x => x.DocumentId == documentId);
+            Assert.Null(firstOrDefault);
+        }
+
+        #endregion
+
         #region SubmitForm
 
         [Fact]
