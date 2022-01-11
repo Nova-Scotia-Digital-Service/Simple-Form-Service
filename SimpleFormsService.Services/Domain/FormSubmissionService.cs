@@ -26,11 +26,10 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
         Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
 
-        var submissionId = Guid.NewGuid();
-        var data = new FormSubmissionData(submissionId.ToString(), templateId, null,FormSubmissionStatus.Initialized.GetEnumMemberAttributeValueFromEnumValue(),SystemTime.NowString, Constants.DefaultUser, null, null, null, null, null);
-        var formSubmission = new FormSubmission(submissionId, Guid.Parse(templateId), data);
+        var formSubmission = InitializeFormSubmission(templateId);
 
         _repositoryManager.FormSubmissionRepository.Create(formSubmission);
+
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return formSubmission;
@@ -45,18 +44,19 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstNullOrEmptyObject(file, nameof(file));
 
         _repositoryManager.FormSubmissionRepository.ClearTrackedEntities();
+
         var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId)).FirstOrDefault();
 
         Guard.AgainstObjectNotFound(formSubmission, "form submission", submissionId, nameof(submissionId));
 
         var documentIds = await _minioDocumentService.UploadFiles(new List<IFormFile>{file}, templateId, cancellationToken);
 
-        await updateFormSubmissionDocumentReferenceData(templateId, file, cancellationToken, documentIds, formSubmission);
+        await UpdateFormSubmissionDocumentReferenceData(templateId, file, cancellationToken, documentIds, formSubmission);
 
         return formSubmission;
     }
         
-    public async Task<FormSubmission> SubmitForm(string templateId, string submissionId, FormSubmissionData data /* TODO perhaps accept FormItem[] rather than FormSubmissionData? */, CancellationToken cancellationToken = default)
+    public async Task<FormSubmission> SubmitForm(string templateId, string submissionId, FormSubmissionData data, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
         Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
@@ -66,29 +66,20 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstNullOrEmptyObject(data.FormItems, nameof(data.FormItems));
             
         _repositoryManager.FormSubmissionRepository.ClearTrackedEntities(); 
+
         var formSubmission = _repositoryManager.FormSubmissionRepository.FindByCondition(x => x.Id == Guid.Parse(submissionId) && x.TemplateId == Guid.Parse(templateId)).FirstOrDefault();
 
         Guard.AgainstObjectNotFound(formSubmission, "form submission", submissionId, nameof(submissionId));
 
-        if (formSubmission.Data != null)
-        {
-            data.CreateUser = formSubmission.Data.CreateUser;
-            data.CreateDate = formSubmission.Data.CreateDate;
-            data.DateSubmitted = SystemTime.NowString;
-            data.SubmissionId = formSubmission.Data.SubmissionId;
-            data.TemplateId = formSubmission.Data.TemplateId;
-            data.UpdateUser = Constants.DefaultUser; // todo read user principal and make a proper determination as to who the user is?
-            data.UpdateDate = SystemTime.NowString;
-            data.SubmissionStatus = FormSubmissionStatus.Submitted.GetEnumMemberAttributeValueFromEnumValue();
-        }
-        formSubmission.Data = data;
+        UpdateFormSubmissionData(data, formSubmission);
 
         _repositoryManager.FormSubmissionRepository.Update(formSubmission);
+
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return formSubmission;
     }
-
+    
     public async Task<FormSubmission> GetFormSubmissionByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNullEmptyOrWhiteSpace(id, nameof(id));
@@ -113,7 +104,33 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
 
     #region Private Helpers
 
-    private async Task updateFormSubmissionDocumentReferenceData(string templateId, IFormFile file, CancellationToken cancellationToken, List<string> uploadedDocumentIds, FormSubmission formSubmission)
+    private static FormSubmission InitializeFormSubmission(string templateId)
+    {
+        var submissionId = Guid.NewGuid();
+
+        var friendlyName = submissionId.ToString().Substring(0, submissionId.ToString().IndexOf("-", StringComparison.Ordinal));
+
+        var identifier = new Identifier(submissionId.ToString(), friendlyName);
+
+        var data = new FormSubmissionData(
+            identifier,
+            templateId,
+            null,
+            FormSubmissionStatus.Initialized.GetEnumMemberAttributeValueFromEnumValue(),
+            SystemTime.NowString,
+            Constants.DefaultUser,
+            null,
+            null,
+            null,
+            null,
+            null);
+
+        var formSubmission = new FormSubmission(submissionId, Guid.Parse(templateId), data);
+
+        return formSubmission;
+    }
+
+    private async Task UpdateFormSubmissionDocumentReferenceData(string templateId, IFormFile file, CancellationToken cancellationToken, List<string> uploadedDocumentIds, FormSubmission formSubmission)
     {
         if (uploadedDocumentIds.Count == 1)
         {
@@ -126,6 +143,23 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
             _repositoryManager.FormSubmissionRepository.Update(formSubmission);
             await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
         }
+    }
+
+    private static void UpdateFormSubmissionData(FormSubmissionData data, FormSubmission formSubmission)
+    {
+        if (formSubmission.Data != null)
+        {
+            data.Identifier = formSubmission.Data.Identifier;
+            data.TemplateId = formSubmission.Data.TemplateId;
+            data.DateSubmitted = SystemTime.NowString;
+            data.SubmissionStatus = FormSubmissionStatus.Submitted.GetEnumMemberAttributeValueFromEnumValue();
+            data.CreateUser = formSubmission.Data.CreateUser;
+            data.CreateDate = formSubmission.Data.CreateDate;
+            data.UpdateUser = Constants.DefaultUser; // todo read user principal and make a proper determination as to who the user is?
+            data.UpdateDate = SystemTime.NowString;
+        }
+
+        formSubmission.Data = data;
     }
 
     #endregion

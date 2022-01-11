@@ -8,7 +8,7 @@ namespace SimpleFormsService.Domain.Entities.Supporting.JSON;
 public class FormSubmissionData : JsonEntityBase
 {
     public FormSubmissionData(
-        string submissionId,
+        Identifier identifier,
         string templateId,
         string dateSubmitted,
         string submissionStatus,
@@ -20,7 +20,7 @@ public class FormSubmissionData : JsonEntityBase
         FormItem[] formItems,
         DocumentReference[] documentReferences) : base(createDate, createUser, updateDate, updateUser)
     {
-        SubmissionId = submissionId;
+        Identifier = identifier;
         TemplateId = templateId;
         DateSubmitted = dateSubmitted;
         SubmissionStatus = submissionStatus;
@@ -30,7 +30,7 @@ public class FormSubmissionData : JsonEntityBase
     }
 
     [JsonPropertyOrder(1)]
-    public string SubmissionId { get; set; }
+    public Identifier Identifier { get; set; }
     [JsonPropertyOrder(2)]
     public string TemplateId { get; set; }
     [JsonPropertyOrder(3)]

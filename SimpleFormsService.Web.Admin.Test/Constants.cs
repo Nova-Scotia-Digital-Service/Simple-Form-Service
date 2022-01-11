@@ -20,7 +20,8 @@ public static class Constants
     {
         var jsonString =
             "{ " +
-                "\"SubmissionId\": \" " + submissionId + "\"," +
+                "\"Identifier\": " +
+                "{ \"GUID\": \"" + Guid.NewGuid() + "\", \"FriendlyName\": \"Friendly Name\" }," +
                 "\"TemplateId\": \"" + templateId + "\"," +
                 "\"DateSubmitted\": \"" + SystemTime.Now() + "\"," +
                 "\"SubmissionStatus\": \"INITIALIZED\"," +
@@ -51,9 +52,10 @@ public static class Constants
 
     public static FormTemplateData? GetFormTemplateData()
     {
-        const string jsonString = 
+        var jsonString = 
             "{ " +
-              "\"Name\": \"Template Name\"," +
+              "\"Identifier\": " +
+              "{ \"GUID\": \"" + Guid.NewGuid() + "\", \"FriendlyName\": \"Friendly Name\" }," +
               "\"NotifyEmailAddresses\": [ " +
               "{ \"EmailAddress\": \"sclaus@northpole.com\" }," +
               "{ \"EmailAddress\": \"ebunny@rabbithole.com\" }" +

@@ -72,7 +72,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
                         _templateId,
                         SPPForm.SubmissionId,
                         new FormSubmissionData(
-                            SPPForm.SubmissionId,
+                            new Identifier(SPPForm.SubmissionId, SPPForm.SubmissionId.Substring(0, SPPForm.SubmissionId.IndexOf("-", StringComparison.Ordinal))),
                             _templateId,
                             DateTime.Now.ToString(),
                             FormSubmissionStatus.Submitted.ToString(),
