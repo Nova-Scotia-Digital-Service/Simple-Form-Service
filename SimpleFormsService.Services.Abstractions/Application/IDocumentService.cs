@@ -8,5 +8,6 @@ namespace SimpleFormsService.Services.Abstractions.Application
         Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken = default);
         Task<MemoryStream> GetObject(string bucketName, string objectName, CancellationToken cancellationToken = default);
         Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, CancellationToken cancellationToken = default);
+        Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default);
     }
 }

@@ -47,6 +47,24 @@ namespace SimpleFormsService.Test.TestFixtures.Document
             return responseStream;
         }
 
+        public async Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default)
+        {
+            bucketName = templateId;
+            this.objectName = objectName;
+            bool status = false;
+            try
+            {
+                await client.RemoveObjectAsync(bucketName, objectName);
+                status = true;
+                Console.WriteLine($"Removed object {objectName} from bucket {templateId} successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: [Bucket-Object] Exception: {e}");
+            }
+            return status;
+        }
+
         public Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, string submissionId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();

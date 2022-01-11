@@ -118,6 +118,35 @@ namespace SimpleFormsService.Services.Application
             return objectNames;
         }
 
+        
+        /// <summary>
+        /// This method removes an object from minio bucket.
+        /// </summary>
+        /// <param name="templateId"></param>
+        /// <param name="objectName"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default)
+        {
+            //TODO: change return type as needed
+            Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
+            Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
+            Guard.AgainstNullEmptyOrWhiteSpace(objectName, nameof(objectName));
+            Guard.AgainstInvalidGuidFormat(objectName, nameof(objectName));
+            bool status = false;
+            try
+            {
+                await _client.RemoveObjectAsync(templateId, objectName);
+                status = true;
+                Console.WriteLine($"Removed object {objectName} from bucket {templateId} successfully");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"ERROR: [Bucket-Object] Exception: {e}");
+            }
+            return status;
+        }
+
         #region private helpers
 
         private List<string> MatchFileWithContent(IFormFile file)

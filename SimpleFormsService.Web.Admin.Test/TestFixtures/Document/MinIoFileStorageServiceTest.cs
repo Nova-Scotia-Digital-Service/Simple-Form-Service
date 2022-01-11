@@ -27,5 +27,12 @@ namespace SimpleFormsService.Test.TestFixtures.Document
             ObjectStat objStat = await _mockFactory.FindObject(_mockFactory.bucketName, _mockFactory.objectName);
             Assert.NotNull(objStat);
         }
+
+        [Fact]
+        public async Task RemoveFileReturnTrueAsync()
+        {
+            bool status = await _mockFactory.RemoveFile(_mockFactory.bucketName, _mockFactory.objectName);
+            Assert.True(status == true);
+        }
     }
 }

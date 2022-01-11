@@ -16,6 +16,11 @@ namespace SimpleFormsService.Services.Application
             throw new NotImplementedException();
         }
 
+        public Task<bool> RemoveFile(string templateId, string objectName, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<string>> UploadFiles(List<IFormFile> files, string templateId, string submissionId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
@@ -24,8 +29,6 @@ namespace SimpleFormsService.Services.Application
         public Task<List<string>> UploadFiles(List<IFormFile> files, string bucketName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-        }
-
-       
+        }      
     }
 }
