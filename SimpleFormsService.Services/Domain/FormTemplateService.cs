@@ -22,21 +22,5 @@ namespace SimpleFormsService.Services.Domain
 
             return formTemplate;
         }
-
-        public async Task<bool> HasAccess(string templateId, string email, CancellationToken cancellationToken = default)
-        {
-            Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
-            Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
-            Guard.AgainstNullEmptyOrWhiteSpace(email, nameof(email));
-
-            var formTemplate = await _repositoryManager.FormTemplateRepository.FindByCondition(x => x.Id == Guid.Parse(templateId))
-                .FirstOrDefaultAsync(cancellationToken);
-
-            Guard.AgainstObjectNotFound(formTemplate, "form template", templateId, nameof(formTemplate));
-
-            var authorizedUsers = formTemplate.Data.AuthorizedUsers;
-
-            return authorizedUsers.Any(authorizedUser => email.Equals(authorizedUser.EmailAddress));
-        }
     }
 }

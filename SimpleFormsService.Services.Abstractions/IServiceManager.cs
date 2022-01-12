@@ -5,8 +5,9 @@ namespace SimpleFormsService.Services.Abstractions
 {
     public interface IServiceManager
     {
-        IFormTemplateService FormTemplateService { get; }
         IFormSubmissionService FormSubmissionService { get; }
+        IFormTemplateService FormTemplateService { get; }
         IDocumentService MinIoDocumentService { get; }
+        IFormTemplateSecurityService FormTemplateSecurityService { get; }
     }
 }
