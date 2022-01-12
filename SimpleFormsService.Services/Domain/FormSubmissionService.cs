@@ -156,7 +156,7 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
     {
         if (uploadedDocumentIds.Count == 1)
         {
-            var documentReferences = formSubmission.Data?.DocumentReferences.ToList() ?? new List<DocumentReference>();
+            var documentReferences = formSubmission.Data?.DocumentReferences?.ToList() ?? new List<DocumentReference>();
             documentReferences.Add(new DocumentReference(templateId, uploadedDocumentIds[0], file.FileName));
 
             if (formSubmission.Data != null)
