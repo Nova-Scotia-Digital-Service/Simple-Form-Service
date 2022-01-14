@@ -105,6 +105,7 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
     public async Task<FormSubmission> GetFormSubmissionByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNullEmptyOrWhiteSpace(id, nameof(id));
+        Guard.AgainstInvalidGuidFormat(id, nameof(id));
 
         var formSubmission = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionByIdAsync(id, cancellationToken);
 
@@ -113,9 +114,25 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         return formSubmission;
     }
 
+    public async Task<FormSubmission> GetFormSubmissionByIdTemplateIdAsync(string id, string templateId, CancellationToken cancellationToken = default)
+    {
+        Guard.AgainstNullEmptyOrWhiteSpace(id, nameof(id));
+        Guard.AgainstInvalidGuidFormat(id, nameof(id));
+        Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
+        Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
+        
+        var formSubmission = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionByIdTemplateIdAsync(id, templateId, cancellationToken);
+
+        Guard.AgainstObjectNotFound(formSubmission, "form submission", id, nameof(id));
+
+        return formSubmission;
+    }
+
+
     public async Task<List<FormSubmission>> GetFormSubmissionsByTemplateIdAsync(string templateId, CancellationToken cancellationToken = default)
     {
         Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
+        Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
 
         var formSubmissions = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionsByTemplateIdAsync(templateId, cancellationToken);
 

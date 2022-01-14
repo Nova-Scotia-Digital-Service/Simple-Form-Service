@@ -19,6 +19,16 @@ namespace SimpleFormsService.Persistence.Repositories
             return formSubmission;
         }
 
+        public async Task<FormSubmission> GetFormSubmissionByIdTemplateIdAsync(string id, string templateId, CancellationToken cancellationToken = default)
+        {
+            var formSubmission = await _dbContext.FormSubmissions
+                .Where(x => x.Id.ToString() == id)
+                .Where(x => x.TemplateId.ToString() == templateId)
+                .SingleOrDefaultAsync(cancellationToken: cancellationToken);
+
+            return formSubmission;
+        }
+
         public async Task<List<FormSubmission>> GetFormSubmissionsByTemplateIdAsync(string templateId, CancellationToken cancellationToken = default)
         {
             var formSubmissions = await _dbContext.FormSubmissions
