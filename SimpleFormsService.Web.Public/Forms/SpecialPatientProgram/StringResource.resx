@@ -192,6 +192,12 @@
   <data name="SubmissionType_RequiredErr" xml:space="preserve">
     <value>Choose a submission type</value>
   </data>
+  <data name="Upload_DuplicateErr" xml:space="preserve">
+    <value>Cannot upload duplicate files</value>
+  </data>
+  <data name="Upload_FileSizeErr" xml:space="preserve">
+    <value>File must be less than 10 MB</value>
+  </data>
   <data name="Upload_RequiredErr" xml:space="preserve">
     <value>Upload your document(s)</value>
   </data>

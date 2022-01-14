@@ -15,7 +15,9 @@
         <h1 class="mb-5">@StringResource.PageTitle</h1>
         <form method="post" asp-antiforgery="true" enctype="multipart/form-data">
 
-               <input type="hidden" asp-for="SPPForm.SubmissionId" value="@Model.SPPForm?.SubmissionId" />           
+            <input type="hidden" asp-for="SPPForm.TemplateId" value="@Model.SPPForm?.TemplateId" />
+            <input type="hidden" asp-for="SPPForm.SubmissionId" value="@Model.SPPForm?.SubmissionId" />      
+            <input type="text" asp-for="SPPForm.FileIdToDelete" value="@Model.SPPForm?.FileIdToDelete" />      
 
             <h2 class="m-b-md">@StringResource.SPP_H2</h2>
             <div class="form-group">
@@ -24,20 +26,12 @@
                     <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     <span asp-validation-for="SPPForm.Email"></span>
                 </div>
-                <input asp-for="SPPForm.Email" class="ns-input fw-15" autocomplete="off" />
-            </div>
-
-             <div class="form-group">
-                <label asp-for="SPPForm.ConfirmEmail" class="nslabel"></label>
-                <div class="help-block text-danger ns-error-message">
-                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
-                    <span asp-validation-for="SPPForm.ConfirmEmail"></span>
-                </div>
-                <input asp-for="SPPForm.ConfirmEmail" class="ns-input fw-15" autocomplete="off" />
+                <input type="text" asp-for="SPPForm.Email" class="ns-input fw-15" autocomplete="off" />
             </div>
 
             <div class="form-group">
                 <label asp-for="SPPForm.Name" class="nslabel"></label>
+                <div class="ns-hint">@SharedResource.Hint_OptionalField</div>
                 <div class="help-block text-danger ns-error-message">
                     <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     <span asp-validation-for="SPPForm.Name"></span>
@@ -47,6 +41,7 @@
                         
             <div class="form-group">
                 <label asp-for="SPPForm.Phone" class="nslabel"></label>
+                <div class="ns-hint">@SharedResource.Hint_OptionalField</div>
                 <div class="help-block text-danger ns-error-message">
                     <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     <span asp-validation-for="SPPForm.Phone"></span>
@@ -81,11 +76,17 @@
                 </fieldset>              
             </div>
 
-            <div class="form-group mb-0" id="sppUpload">
+            <div class="form-group">
                 <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
 
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="SPPForm.NumberOfUploadedFiles"></span>
+                    <input type="hidden" asp-for="SPPForm.NumberOfUploadedFiles"/>
+                </div>
+
                 <!-- List all uploaded files -->
-                @if(Model.SPPForm?.UploadedFiles != null) {
+                @if(Model.SPPForm?.UploadedFiles != null && Model.SPPForm.UploadedFiles.Count > 0) {
                 <div class="row">
                   <div class="col-md-10">
                     <table class="table table-table-borderless mb-0">
@@ -97,54 +98,47 @@
                         </tr>
                       </thead>
                       <tbody>
-                          @foreach(var file in Model.SPPForm.UploadedFiles) {
+
+                      @foreach(var file in Model.SPPForm.UploadedFiles) 
+                      {
                         <tr>
                           <td class="align-middle">
                               @file.Value
-                                <input type="hidden" asp-for="@Model.SPPForm.UploadedFiles[file.Key]" value="@file.Value">    
+                                <input type="hidden" asp-for="@Model.SPPForm.UploadedFiles[file.Key]" value="@file.Value">
                           </td>
                           <td class="text-center">
                               
-                            <a id="remove1" role="button" draggable="false" class="btn-lg ns-btn-2nd d-inline-block medfit-btn-inline-icon ns-link-button my-0">
+                            <a data-docid="@file.Key" role="button" draggable="false" class="deletefile btn-lg ns-btn-2nd d-inline-block medfit-btn-inline-icon ns-link-button my-0">
                               <i class="fa fa-trash" aria-hidden="true"><span class="ns-visually-hidden">@SharedResource.Label_Remove</span></i>
                             </a>
                             
                           </td>
                         </tr>
                         }
-                        
-                        
+
                       </tbody>
                     </table>
                   </div>
                 </div>
-                    
-                    
+
                 }
                
             </div>
       
-             <div class="help-block text-danger ns--message ns-error-message">
-                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
-                    <span asp-validation-for="SPPForm.UploadedFiles"></span>
-                </div>
                 <label asp-for="SPPForm.Files" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
                     @SharedResource.Label_Upload
-                   <input type="file"  class="ns-upload-button" asp-for="SPPForm.Files" accept=".pdf,.jpeg,.jpg,.png,.doc,.odt,.docx,.txt,.xlxs,.zip" />                   
+                   <input type="file" class="ns-upload-button" asp-for="SPPForm.Files" accept=".pdf,.jpeg,.jpg,.png,.doc,.odt,.docx,.txt,.xlxs,.zip" />                   
                 </label>
 
                 <div id="fileDescription" class="nshinttext mt-0">
                     <p class="mt-0 mb-0">@Html.Raw(StringResource.AcceptedUploadType)</p>
                     <p>@Html.Raw(StringResource.MaxFileSize)</p>
                 </div>
-
-                
-
                 
 
             <div class="row mt-4">
                 <div class="col-sm-12">
-                    <input type="submit" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
+                    <input type="submit" formaction="?handler=SubmitForm" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
                 </div>
             </div>
 
@@ -159,8 +153,15 @@
     <script type="text/javascript">
         
         $(document).ready(function () {
-            
-            $(".ns-upload-button").on('change', function () {
+          
+            $("#SPPForm_Files").on('change', function () {
+                document.forms[0].action = "?handler=UploadFile"
+                document.forms[0].submit();
+            });
+
+            $(".deletefile").on('click', function () {
+                $("#SPPForm_FileIdToDelete").val($(this).data("docid"));
+                document.forms[0].action = "?handler=RemoveFile"
                 document.forms[0].submit();
             });
 

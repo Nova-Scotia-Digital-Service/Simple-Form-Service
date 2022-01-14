@@ -41,6 +41,7 @@ namespace SimpleFormsService.Web.Public
                 options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
             });
 
+            services.AddHttpContextAccessor();
             services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 

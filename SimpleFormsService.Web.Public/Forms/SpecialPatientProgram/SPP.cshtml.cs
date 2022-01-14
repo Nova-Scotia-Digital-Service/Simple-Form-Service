@@ -19,7 +19,6 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
         
         //KDA - these are configurable values that should eventually come from the Form Template
         private const string _templateId = "a7b65d0f-5b87-4050-a5ef-ef79ef0ec753";
-        private NotifyEmailAddress[] _notifyEmailAddresses = {  };
 
         public SPPFormModel(IServiceManager serviceManager)
         {
@@ -30,66 +29,86 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
         public SPPForm SPPForm { get; set; }
         
         public IActionResult OnGet()
-        {            
-;            return Page();
-        }
-                
-        public async Task<IActionResult> OnPostAsync()
         {
-            if(string.IsNullOrEmpty(SPPForm.SubmissionId))
+            SPPForm = new SPPForm { TemplateId = _templateId };
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostUploadFileAsync()
+        {
+            //INIT: if SbbmissionId is empty
+            if (String.IsNullOrEmpty(SPPForm.SubmissionId))
             {
-                var formSubmission = await _serviceManager.FormSubmissionService.Init(_templateId);
-                if (formSubmission != null) SPPForm.SubmissionId = formSubmission.Id.ToString();
+                var formSub = await _serviceManager.FormSubmissionService.Init(SPPForm.TemplateId);
+                SPPForm.SubmissionId = formSub.Id.ToString();
             }
-            
-            if(SPPForm.Files != null)
+
+            //UPLOAD FILE: if Files is not null (ignore form fields)
+            if (SPPForm.Files != null && SPPForm.Files.Count == 1)
             {
-                var uploadedFiles = await _serviceManager.MinIoDocumentService.UploadFiles(_templateId, SPPForm.Files);
-
-                if (SPPForm.UploadedFiles == null) SPPForm.UploadedFiles = new Dictionary<string, string>();
-
-                for (int i = 0; i < uploadedFiles.Count; i++)
+                ModelState.ClearValidationState("SPPForm.NumberOfUploadedFiles");
+                if (SPPForm.Files[0].Length > 10485760)
                 {
-                    SPPForm.UploadedFiles.Add(uploadedFiles[i],SPPForm.Files[i].FileName);
+                    ModelState.AddModelError("SPPForm.NumberOfUploadedFiles", StringResource.Upload_FileSizeErr);
                 }
-
-                if (SPPForm.UploadedFiles.Count > 0) ModelState.ClearValidationState("SPPForm.UploadedFiles");
-
-                return Page();
+                else if (SPPForm.UploadedFiles != null && SPPForm.UploadedFiles.Any(x => x.Value == SPPForm.Files[0].FileName))
+                {
+                    ModelState.AddModelError("SPPForm.NumberOfUploadedFiles", StringResource.Upload_DuplicateErr);
+                }
+                else
+                {
+                    var formSub = await _serviceManager.FormSubmissionService.UploadFile(SPPForm.TemplateId, SPPForm.SubmissionId, SPPForm.Files[0]);
+                    SPPForm.SetFormFiles(formSub.Data.DocumentReferences);
+                }                
             }
 
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostRemoveFileAsync()
+        {            
+            var formSub = await _serviceManager.FormSubmissionService.DeleteFile(SPPForm.TemplateId, SPPForm.SubmissionId, SPPForm.FileIdToDelete);
+            SPPForm.SetFormFiles(formSub.Data.DocumentReferences);
+            SPPForm.FileIdToDelete = null;
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostSubmitFormAsync()
+        {
+            //INIT: if SbbmissionId is empty
+            if (String.IsNullOrEmpty(SPPForm.SubmissionId))
+            {
+                var formSub = await _serviceManager.FormSubmissionService.Init(SPPForm.TemplateId);
+                SPPForm.SubmissionId = formSub.Id.ToString();
+            }
+
+            //UPLOAD FILE: if Files is not null (ignore form fields)
+            //if (SPPForm.Files != null && SPPForm.Files.Count == 1)
+            //{
+            //    var formSub = await _serviceManager.FormSubmissionService.UploadFile(SPPForm.TemplateId, SPPForm.SubmissionId, SPPForm.Files[0]);
+            //    SPPForm.SetFormFiles(formSub.Data.DocumentReferences);
+
+            //    if (SPPForm.UploadedFiles.Count > 0) ModelState.ClearValidationState("SPPForm.UploadedFiles");
+
+            //    return Page();
+            //}
+
+            
+
+            //SUBMIT FORM: If ModelState IsValid, Data.FormItems can be saved
             if (ModelState.IsValid)
             {
-                var docRefs = new DocumentReference[] { };
-                if (SPPForm.UploadedFiles != null)
-                {
-                    docRefs = SPPForm.UploadedFiles.Select(x => new DocumentReference(_templateId, x.Key, "hardcoded-filename.jpg")).ToArray();
-                }
+                var formSub = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdAsync(SPPForm.SubmissionId);
+                var formData = formSub.Data;
+                formData.FormItems = SPPForm.GetFormItems();
 
-                if (!string.IsNullOrEmpty(SPPForm.SubmissionId))
-                {
-                    var formSubmission = _serviceManager.FormSubmissionService.SubmitForm(
-                        _templateId,
-                        SPPForm.SubmissionId,
-                        new FormSubmissionData(
-                            new Identifier(SPPForm.SubmissionId, SPPForm.SubmissionId.Substring(0, SPPForm.SubmissionId.IndexOf("-", StringComparison.Ordinal))),
-                            _templateId,
-                            DateTime.Now.ToString(),
-                            FormSubmissionStatus.Submitted.ToString(),
-                            DateTime.Now.ToString(),
-                            User.Identity.Name,
-                            DateTime.Now.ToString(),
-                            User.Identity.Name,
-                            _notifyEmailAddresses,
-                            SPPForm.GetFormItems(),
-                            docRefs
-                            )
-                        ); 
-                    
-                    if(formSubmission != null) return RedirectToPage("/Submission/Confirmation");
-                }
-                                
+                formSub = await _serviceManager.FormSubmissionService.SubmitForm(formSub.TemplateId.ToString(), formSub.Id.ToString(), formData);
+
+                if (formSub != null) return RedirectToPage("/Submission/Confirmation");
             }
+
             return Page();
         }
 

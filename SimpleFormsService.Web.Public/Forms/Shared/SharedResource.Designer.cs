@@ -106,6 +106,15 @@ namespace SimpleFormsService.Web.Public.Forms.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This field is optional.
+        /// </summary>
+        public static string Hint_OptionalField {
+            get {
+                return ResourceManager.GetString("Hint_OptionalField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File name(s):.
         /// </summary>
         public static string Label_FileName {

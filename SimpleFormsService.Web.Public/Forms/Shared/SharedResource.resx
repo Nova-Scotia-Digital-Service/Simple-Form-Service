@@ -132,6 +132,9 @@
   <data name="CrownCopyRight_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/copyright/</value>
   </data>
+  <data name="Hint_OptionalField" xml:space="preserve">
+    <value>This field is optional</value>
+  </data>
   <data name="Label_FileName" xml:space="preserve">
     <value>File name(s):</value>
   </data>

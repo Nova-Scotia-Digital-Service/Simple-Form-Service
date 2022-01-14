@@ -286,6 +286,24 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot upload duplicate files.
+        /// </summary>
+        public static string Upload_DuplicateErr {
+            get {
+                return ResourceManager.GetString("Upload_DuplicateErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File must be less than 10 MB.
+        /// </summary>
+        public static string Upload_FileSizeErr {
+            get {
+                return ResourceManager.GetString("Upload_FileSizeErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Upload your document(s).
         /// </summary>
         public static string Upload_RequiredErr {
