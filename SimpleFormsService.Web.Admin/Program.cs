@@ -81,13 +81,13 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
     options.KnownProxies.Clear();
 });
 
-builder.Services.AddControllers(options =>
+builder.Services.AddControllersWithViews(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
     .Build();
     options.Filters.Add(new AuthorizeFilter(policy));
-});
+}).AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -111,10 +111,11 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
+    endpoints.MapControllers();
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-    endpoints.MapRazorPages();
+        pattern: "{controller=Admin}/{action=Index}/{id?}");
+    //endpoints.MapRazorPages();
 });
 
 app.Run();

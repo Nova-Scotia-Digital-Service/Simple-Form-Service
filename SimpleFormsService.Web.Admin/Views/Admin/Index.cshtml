@@ -1,0 +1,100 @@
+﻿@using SimpleFormsService.Web.Admin.Resources
+@{
+    ViewData["Title"] = @StringResource.PageTitle_SearchSubmission;
+}
+
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="searchSubmissions">
+        <div class="col-lg-12">
+         <form method="post" asp-antiforgery="true">
+             <div class="row">
+                 <div class="col-lg-12 mb-0">
+                    <h2 class="ml-0">@StringResource.SearchSubmission_Search</h2>
+                    <div class="searchPanel pb-4">
+                        
+		                <div class="col-lg-3 form-group p-0 m-0">
+			                <fieldset class="ml-0">
+				                <div>
+				                <label>Status</label>
+                                <select class="dropdown fw-10" >
+                                    <option>@StringResource.Dropdown_Default</option>
+                                    <option>Initialized</option>
+                                    <option>In progress</option>
+                                    <option>Submitted</option>
+                                </select>  
+				                </div>
+			                </fieldset>
+		                </div>
+		                <div class="col-lg-6 form-group p-0 m-0">
+			                <fieldset>
+				                <div>
+				                    <label>@Html.Raw(StringResource.SearchSubmission_Keywords)</label>
+                                    <input type="text" value="" autocomplete="off" class="ns-input fw-30"/>
+				                </div>
+			                </fieldset>
+		                </div>
+		                <div class="col-lg-3 form-inline form-group pull-left buttons m-0 p-0">
+			                <input type="button" class="btn-link btn-inline" name="clearFilter" onclick="location.href='@Url.Action("SearchApplications", "Home", new { clearFilter = @StringResource.Btn_ClearFilter })'" value="@StringResource.Btn_ClearFilter" />                               
+                            <input type="submit" class="btn btn-success btn-inline ml-0" value="@StringResource.Btn_Search" />
+		                </div>
+	                </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="mb-2">@StringResource.SearchSubmission_Received</h2>
+                <div class="table-responsive-sm">
+                    <table class="table table-hover" id="submissions">
+                        <thead id="submissionHeader">
+                            <tr>
+                                <th scope="col"><a class="fontColor" asp-action="SearchApplications" asp-route-sortOrder="@ViewBag.CreatedDateSortParam">@StringResource.Label_TemplateID</a><i class="fa fa-sort"></i></th>
+                                <th scope="col"><a class="fontColor" asp-action="SearchApplications" asp-route-sortOrder="@ViewBag.CreatedDateSortParam">@StringResource.Label_SubmissionDate</a><i class="fa fa-sort"></i></th>
+                                <th scope="col"><a class="fontColor" asp-action="SearchApplications" asp-route-sortOrder="@ViewBag.SubmissionIDSortParam">@StringResource.Label_SubmissionID</a><i class="fa fa-sort"></i></th>
+                                <th scope="col"><a class="fontColor" asp-action="SearchApplications" asp-route-sortOrder="@ViewBag.StatusSortParam">@StringResource.Label_Status</a><i class="fa fa-sort"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody id="submissionBody" class="table-striped">
+                            <tr>
+                                <td>a7b65d0f-5b87-4050-a5ef-ef79ef0ec753</td>
+                                <td>Jan. 25, 2021</td>
+                                <td><a asp-page="/SubmissionDetail" asp-route-submissionId="129d929b-70a9-4fca-8013-3daf3b3e6309">129d929b-70a9-4fca-8013-3daf3b3e6309</a></td>                               
+                                <td>Initialized</td>
+                            </tr>
+                            <tr>
+                                <td>a7b65d0f-5b87-4050-a5ef-ef79ef0ec753</td>
+                                <td>Jan. 28, 2021</td>
+                                <td><a href="@Url.Action("SubmissionDetail", "Admin", new {templateId = "a7b65d0f-5b87-4050-a5ef-ef79ef0ec753", submissionId = "1c6c8ea2-78b7-40a5-aa2b-23770e1c82c6"})">1c6c8ea2-78b7-40a5-aa2b-23770e1c82c6</a></td>                               
+                                <td>In progress</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <ul class="pagination">
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                              </a>
+                            </li>
+                            @for (var i = 1; i <= 3; i++)
+                            {
+                                <li class="page-item @(i == 1 ? "active" : "")">
+                                    <a asp-action="SearchApplications" asp-route-currentpage="@i" class="page-link">@i</a>
+                                </li>
+                            }
+                            <li class="page-item">
+                              <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                              </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}

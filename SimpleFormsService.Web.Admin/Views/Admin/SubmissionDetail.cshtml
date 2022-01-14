@@ -1,5 +1,4 @@
-﻿@page "{templateId}/{submissionId}"
-@model SubmissionDetailModel
+﻿@model SimpleFormsService.Web.Admin.Models.Admin.SubmissionDetailModel
 @using SimpleFormsService.Web.Admin.Resources
 @{
     ViewData["Title"] = @StringResource.Section_SubmissionDetail;
@@ -13,29 +12,28 @@
                 <h2 class="m-b-md">@StringResource.Section_Submission</h2>
                 <div class="row m-t-md">
                     <div class="col-lg-4 form-group">
-                        <label asp-for="FormInfo.TemplateID"></label>
-                        @Model.FormInfo.SubmissionData.TemplateId          
+                        @Html.LabelFor(model => model.TemplateID)
+                        @Html.DisplayFor(model => model.SubmissionData.TemplateId)
                     </div>
                     <div class="col-lg-4 form-group">
-                        <label asp-for="FormInfo.SubmissionID"></label>
-                        @Model.FormInfo.SubmissionData.Identifier.GUID             
+                        @Html.LabelFor(model => model.SubmissionID)
+                        @Html.DisplayFor(model => model.SubmissionData.Identifier.FriendlyName)
                     </div>
                     <div class="col-lg-4 form-group">
-                        <label asp-for="FormInfo.SubmissionDate"></label>
-                        @Model.FormInfo.SubmissionData.DateSubmitted             
-                    </div>
-                    
+                        @Html.LabelFor(model => model.SubmissionDate)
+                        @Html.DisplayFor(model => model.SubmissionData.DateSubmitted)
+                    </div>                  
                 </div>
                 <hr />
                 <h2 class="m-b-md">@StringResource.Section_SubmissionDetail</h2>
                 <div class="row m-t-md">
-                @if (Model.FormInfo.SubmissionData.FormItems != null)
+                @if (Model.SubmissionData.FormItems != null)
                 {
-                    @foreach (var item in Model.FormInfo.SubmissionData.FormItems)
+                    @foreach (var item in Model.SubmissionData.FormItems)
                     {   
                         <div class="col-lg-4 form-group mt-3">
-                            <label>@item.Name</label>
-                            @item.Value             
+                            @Html.Label(item.Name)
+                            @Html.DisplayFor(model => @item.Value)           
                         </div>            
                     }
                 }
@@ -45,11 +43,13 @@
                 <div class="row m-t-md">
                     <div class="col-lg-4 form-group">
                         <table class="table table-responsive-sm table-borderless">
-                            @if (Model.FormInfo.SubmissionData.DocumentReferences != null)
+                            @if (Model.SubmissionData.DocumentReferences != null)
                             {
-                                @foreach(var doc in Model.FormInfo.SubmissionData.DocumentReferences)
+                                @foreach(var doc in Model.SubmissionData.DocumentReferences)
                                 {
-                                    <tr><td><a href="/ViewDocument/@doc.TemplateId/@doc.DocumentId" target="_blank">@doc.Filename</a></td></tr>
+                                    <tr>
+                                        <td><a href="@Url.Action("ViewDocument", "Admin", new { templateId = @doc.TemplateId, documentId = @doc.DocumentId })" target="_blank">@Html.DisplayFor(model => @doc.Filename)</a></td>
+                                     </tr>
                                 }
                             }
                         </table>
