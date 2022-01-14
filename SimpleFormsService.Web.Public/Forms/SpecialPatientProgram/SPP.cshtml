@@ -17,7 +17,7 @@
 
             <input type="hidden" asp-for="SPPForm.TemplateId" value="@Model.SPPForm?.TemplateId" />
             <input type="hidden" asp-for="SPPForm.SubmissionId" value="@Model.SPPForm?.SubmissionId" />      
-            <input type="text" asp-for="SPPForm.FileIdToDelete" value="@Model.SPPForm?.FileIdToDelete" />      
+            <input type="hidden" asp-for="SPPForm.FileIdToDelete" value="@Model.SPPForm?.FileIdToDelete" />      
 
             <h2 class="m-b-md">@StringResource.SPP_H2</h2>
             <div class="form-group">
@@ -76,9 +76,10 @@
                 </fieldset>              
             </div>
 
+            <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
+            
             <div class="form-group">
-                <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
-
+            
                 <div class="help-block text-danger ns-error-message">
                     <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
                     <span asp-validation-for="SPPForm.NumberOfUploadedFiles"></span>
@@ -123,7 +124,7 @@
 
                 }
                
-            </div>
+            
       
                 <label asp-for="SPPForm.Files" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
                     @SharedResource.Label_Upload
@@ -134,7 +135,8 @@
                     <p class="mt-0 mb-0">@Html.Raw(StringResource.AcceptedUploadType)</p>
                     <p>@Html.Raw(StringResource.MaxFileSize)</p>
                 </div>
-                
+               
+                </div>
 
             <div class="row mt-4">
                 <div class="col-sm-12">

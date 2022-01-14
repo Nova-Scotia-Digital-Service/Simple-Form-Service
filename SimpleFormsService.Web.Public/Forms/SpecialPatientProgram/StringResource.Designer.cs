@@ -106,7 +106,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The submitter email is invalid.
+        ///   Looks up a localized string similar to The email is invalid.
         /// </summary>
         public static string Email_FormatErr {
             get {
@@ -133,7 +133,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Confirm Submitter Email Address.
+        ///   Looks up a localized string similar to Confirm Email address.
         /// </summary>
         public static string Label_ConfirmEmail {
             get {
@@ -142,7 +142,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submitter Email Address.
+        ///   Looks up a localized string similar to Email address.
         /// </summary>
         public static string Label_Email {
             get {
@@ -160,7 +160,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submitter Name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Label_Name {
             get {
@@ -169,7 +169,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submitter Telephone Number.
+        ///   Looks up a localized string similar to Telephone number.
         /// </summary>
         public static string Label_Phone {
             get {
