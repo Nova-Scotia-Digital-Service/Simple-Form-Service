@@ -178,6 +178,15 @@ namespace SimpleFormsService.Web.Public.Forms.Shared {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://novascotia.ca/clf/ignition/img/nsvip-en.svg.
+        /// </summary>
+        public static string PrintLogo_link {
+            get {
+                return ResourceManager.GetString("PrintLogo_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://beta.novascotia.ca/privacy/.
         /// </summary>
         public static string Privacy_href {

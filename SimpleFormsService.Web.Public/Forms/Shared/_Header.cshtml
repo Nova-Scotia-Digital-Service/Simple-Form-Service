@@ -1,6 +1,6 @@
 ﻿@using SimpleFormsService.Web.Public.Forms.Shared;
 
-<nav id="navigation" class="ribbon pb-xl-5 pt-1" role="navigation" aria-label="Main navigation">
+<nav id="navigation" class="ribbon pb-xl-5 pt-1 d-print-none" role="navigation" aria-label="Main navigation">
     <div class="container">
         <div class="row">
             <div class="col-xs-12">
@@ -9,3 +9,7 @@
         </div>
     </div>
 </nav>
+
+<div class="d-none d-print-block centered">
+	<img id="ns-img-print" class="ribbon-img" src="@SharedResource.PrintLogo_link" alt="Province of Nova Scotia" />
+</div>

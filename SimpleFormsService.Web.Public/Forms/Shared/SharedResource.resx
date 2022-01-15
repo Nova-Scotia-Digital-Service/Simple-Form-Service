@@ -156,6 +156,9 @@
   <data name="Logo_link" xml:space="preserve">
     <value>https://novascotia.ca/clf/ignition/img/nsvip-en-white-flag.svg</value>
   </data>
+  <data name="PrintLogo_link" xml:space="preserve">
+    <value>https://novascotia.ca/clf/ignition/img/nsvip-en.svg</value>
+  </data>
   <data name="Privacy_href" xml:space="preserve">
     <value>https://beta.novascotia.ca/privacy/</value>
   </data>

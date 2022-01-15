@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using SimpleFormsService.Domain.Entities.Supporting;
 using SimpleFormsService.Domain.Entities.Supporting.JSON;
 using SimpleFormsService.Services.Abstractions;
@@ -82,20 +83,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
             {
                 var formSub = await _serviceManager.FormSubmissionService.Init(SPPForm.TemplateId);
                 SPPForm.SubmissionId = formSub.Id.ToString();
-            }
-
-            //UPLOAD FILE: if Files is not null (ignore form fields)
-            //if (SPPForm.Files != null && SPPForm.Files.Count == 1)
-            //{
-            //    var formSub = await _serviceManager.FormSubmissionService.UploadFile(SPPForm.TemplateId, SPPForm.SubmissionId, SPPForm.Files[0]);
-            //    SPPForm.SetFormFiles(formSub.Data.DocumentReferences);
-
-            //    if (SPPForm.UploadedFiles.Count > 0) ModelState.ClearValidationState("SPPForm.UploadedFiles");
-
-            //    return Page();
-            //}
-
-            
+            }            
 
             //SUBMIT FORM: If ModelState IsValid, Data.FormItems can be saved
             if (ModelState.IsValid)
@@ -106,7 +94,12 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
 
                 formSub = await _serviceManager.FormSubmissionService.SubmitForm(formSub.TemplateId.ToString(), formSub.Id.ToString(), formData);
 
-                if (formSub != null) return RedirectToPage("/Submission/Confirmation");
+                if (formSub != null)
+                {
+                    TempData.Clear();
+                    TempData.Add("ConfirmationFormData", JsonConvert.SerializeObject(formSub.Data));
+                    return RedirectToPage("/Submission/Confirmation");
+                }
             }
 
             return Page();

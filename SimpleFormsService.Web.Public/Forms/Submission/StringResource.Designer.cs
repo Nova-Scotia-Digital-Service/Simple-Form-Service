@@ -113,5 +113,14 @@ namespace SimpleFormsService.Web.Public.Forms.Submission {
                 return ResourceManager.GetString("SubmissionID", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitted on.
+        /// </summary>
+        public static string SubmittedOn {
+            get {
+                return ResourceManager.GetString("SubmittedOn", resourceCulture);
+            }
+        }
     }
 }

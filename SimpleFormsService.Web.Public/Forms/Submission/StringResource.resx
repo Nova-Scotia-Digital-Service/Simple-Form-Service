@@ -135,4 +135,7 @@
   <data name="SubmissionID" xml:space="preserve">
     <value>Your submission ID is: &lt;strong&gt;{0}&lt;/strong&gt;.</value>
   </data>
+  <data name="SubmittedOn" xml:space="preserve">
+    <value>Submitted on</value>
+  </data>
 </root>

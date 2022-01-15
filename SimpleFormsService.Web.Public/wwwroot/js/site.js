@@ -6,14 +6,14 @@
 
 /*Print confirmation page*/
 $("#printCopy").click(function () {
-    $('#printSaveArea').hide();
-    $('#confirm-hint').hide();
-    $('#ns-logo').hide();
-    $('#backToStart').hide();
     window.print();
-    $('#backToStart').show();
-    $('#confirm-hint').show();
-    $('#ns-logo').show();
-    $('#printSaveArea').show();
 });
+
+$("#saveCopy").click(function () {
+    savelink.click();
+});
+
+
+
+
 
