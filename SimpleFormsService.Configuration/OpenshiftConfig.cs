@@ -25,6 +25,8 @@ namespace SimpleFormsService.Configuration
         {
             get
             {
+                Console.WriteLine("=====INFO: connection-string empty? " + string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) + " ======");
+                Console.WriteLine("=====INFO: POSTGRES_CONNECT_STRING empty? " + string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("POSTGRES_CONNECT_STRING")) + " ======");
                 // hack to workaround default connection-string environment variable created by OpenShift
                 var postgresConnectionString = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("connection-string")) ? Environment.GetEnvironmentVariable("POSTGRES_CONNECT_STRING") : Environment.GetEnvironmentVariable("connection-string"); 
                 return string.IsNullOrWhiteSpace(postgresConnectionString) ? SharedSettings.GetSection("PostgreSQL:ConnectionString").Value : postgresConnectionString;
