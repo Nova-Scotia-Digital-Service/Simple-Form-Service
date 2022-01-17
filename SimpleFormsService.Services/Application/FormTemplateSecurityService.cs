@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Domain.Repositories;
@@ -7,7 +6,7 @@ using SimpleFormsService.Services.Abstractions.Application;
 
 namespace SimpleFormsService.Services.Application;
 
-public class FormTemplateSecurityService : IFormTemplateSecurityService
+public class FormTemplateSecurityService : ServiceBase, IFormTemplateSecurityService
 {
     private readonly IRepositoryManager _repositoryManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -34,6 +33,6 @@ public class FormTemplateSecurityService : IFormTemplateSecurityService
 
         var authorizedUsers = formTemplate.Data.AuthorizedUsers;
 
-        return authorizedUsers.Any(authorizedUser => email.Equals(authorizedUser.EmailAddress));
+        return authorizedUsers.Any(authorizedUser => email.Equals(authorizedUser.User));
     }
 }

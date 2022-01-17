@@ -1,9 +1,5 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using SimpleFormsService.Domain;
 using SimpleFormsService.Domain.Entities.Supporting.JSON;
 
@@ -25,7 +21,7 @@ public static class Constants
                 "\"TemplateId\": \"" + templateId + "\"," +
                 "\"DateSubmitted\": \"" + SystemTime.Now() + "\"," +
                 "\"SubmissionStatus\": \"INITIALIZED\"," +
-                "\"NotifyEmailAddresses\": [ " +
+                "\"ConfirmationEmailAddresses\": [ " +
                 "{ \"EmailAddress\": \"sclaus@northpole.com\" }," +
                 "{ \"EmailAddress\": \"ebunny@rabbithole.com\" }" +
                 "]," +
@@ -56,14 +52,15 @@ public static class Constants
             "{ " +
               "\"Identifier\": " +
               "{ \"GUID\": \"" + Guid.NewGuid() + "\", \"FriendlyName\": \"Friendly Name\" }," +
-              "\"NotifyEmailAddresses\": [ " +
+              "\"AdminNotifyEmailAddresses\": [ " +
               "{ \"EmailAddress\": \"sclaus@northpole.com\" }," +
               "{ \"EmailAddress\": \"ebunny@rabbithole.com\" }" +
               "]," +
               "\"AuthorizedUsers\": [" +
-              "{ \"EmailAddress\": \"authorizeduser1@email.com\" }," +
-              "{ \"EmailAddress\": \"authorizeduser2@email.com\" }" +
-              "]" +
+              "{ \"User\": \"authorizeduser1@email.com\" }," +
+              "{ \"User\": \"authorizeduser2@email.com\" }," +
+              "{ \"User\": \"MockHttpContextUser\" }" +
+            "]" +
             "}";
 
         var formTemplateData = JsonSerializer.Deserialize<FormTemplateData>(jsonString);

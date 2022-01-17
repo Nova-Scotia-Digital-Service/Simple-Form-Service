@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Persistence;
 using SimpleFormsService.Services.Abstractions;
+using SimpleFormsService.Services.Abstractions.Application;
 using SimpleFormsService.Test.SharedFixtures;
 using Xunit;
 
@@ -13,12 +14,12 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
 public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabaseSharedFixture<SimpleFormsServiceDbContext>>
 {
     private readonly ConcreteDatabaseSharedFixture<SimpleFormsServiceDbContext> _sharedFixture;
-    private readonly IServiceManager _serviceManager;
+    private readonly IFormTemplateSecurityService _formTemplateSecurityService;
 
     public FormTemplateSecurityServiceFixture(ConcreteDatabaseSharedFixture<SimpleFormsServiceDbContext> sharedFixture)
     {
         _sharedFixture = sharedFixture;
-        _serviceManager = sharedFixture.Container.GetService<IServiceManager>()!;
+        _formTemplateSecurityService = sharedFixture.Container.GetService<IFormTemplateSecurityService>()!;
     }
 
     [Fact]
@@ -26,7 +27,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
     {
         var email = "nonexistent@email.com";
 
-        Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateSecurityService.HasAccess(null).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(null).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
@@ -38,7 +39,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = "1234";
         var email = "nonexistent@email.com";
 
-        Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateSecurityService.HasAccess(templateId).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(templateId).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<InvalidFormatException>(exception.InnerException);
@@ -50,7 +51,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var formTemplate = _sharedFixture.CreateFormTemplate();
         var templateId = formTemplate.Id.ToString();
 
-        Func<Task> action = () => Task.Run(() => _serviceManager.FormTemplateSecurityService.HasAccess(templateId).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(templateId).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
@@ -63,7 +64,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = formTemplate.Id.ToString();
         var email = "unauthorized@email.com";
 
-        var hasAccess = _serviceManager.FormTemplateSecurityService.HasAccess(templateId).Result;
+        var hasAccess = _formTemplateSecurityService.HasAccess(templateId).Result;
 
         Assert.False(hasAccess);
     }
@@ -75,7 +76,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = formTemplate.Id.ToString();
         var email = "authorizeduser1@email.com";
 
-        var hasAccess = _serviceManager.FormTemplateSecurityService.HasAccess(templateId).Result;
+        var hasAccess = _formTemplateSecurityService.HasAccess(templateId).Result;
 
         Assert.True(hasAccess);
     }

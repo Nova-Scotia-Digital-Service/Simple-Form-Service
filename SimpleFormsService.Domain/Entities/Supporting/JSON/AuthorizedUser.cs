@@ -5,10 +5,10 @@ namespace SimpleFormsService.Domain.Entities.Supporting.JSON;
 [NotMapped]
 public class AuthorizedUser
 {
-    public AuthorizedUser(string emailAddress)
+    public AuthorizedUser(string user)
     {
-        EmailAddress = emailAddress;
+        User = user;
     }
 
-    public string EmailAddress { get; set; }
+    public string User { get; set; }
 }

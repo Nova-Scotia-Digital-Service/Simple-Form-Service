@@ -12,15 +12,15 @@ using SimpleFormsService.Persistence;
 using SimpleFormsService.Persistence.Repositories;
 using SimpleFormsService.Services;
 using SimpleFormsService.Services.Abstractions;
-using SimpleFormsService.Services.Abstractions.Application;
-using SimpleFormsService.Services.Application;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile("appSettings.json", true, true);
+
+#region DI Configuration
 
 //TODO: read azure ad from API
 builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-        .AddMicrosoftIdentityWebApp(options =>
+    .AddMicrosoftIdentityWebApp(options =>
         {
             options.ClientId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("CLIENT_ID")) ? builder.Configuration["AzureAd:ClientId"] : Environment.GetEnvironmentVariable("CLIENT_ID");
             options.TenantId = string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TENANT_ID")) ? builder.Configuration["AzureAd:TenantId"] : Environment.GetEnvironmentVariable("TENANT_ID");
@@ -33,71 +33,81 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             cookieOptions.SlidingExpiration = true;
         });
 
+builder.Services.AddAuthorization(policies =>
+    {
+        policies.AddPolicy("GroupAdmin", p =>
+        {
+            p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
+        });
+    });
+
 builder.Services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddMinio(options =>
-{
-    options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
-    options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
-    options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
-});
 
-//DI
+builder.Services.AddMinio(options =>
+    {
+        options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+        options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+        options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+    });
+
+builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
+    .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)).Where(type => !type.IsGenericType), false)
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+
+builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof(ServiceBase))
+    .AddClasses(classes => classes.AssignableTo<IServiceBase>(), false)
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
-builder.Services.AddScoped<IDocumentService, MinioDocumentService>();
 
 builder.Services.AddCookiePolicy(options =>
-{
-    // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-    options.CheckConsentNeeded = context => true;
-    options.MinimumSameSitePolicy = SameSiteMode.None;
-});
-
-//TODO: authorization
-builder.Services.AddAuthorization(policies =>
-{
-    policies.AddPolicy("GroupAdmin", p =>
     {
-        p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
+        // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+        options.CheckConsentNeeded = context => true;
+        options.MinimumSameSitePolicy = SameSiteMode.None;
     });
-});
 
-// Add services to the container.
 builder.Services.AddRazorPages().AddMvcOptions(options =>
-{
-    var policy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-    options.Filters.Add(new AuthorizeFilter(policy));
-}).AddMicrosoftIdentityUI();
+    {
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+        options.Filters.Add(new AuthorizeFilter(policy));
+    }).AddMicrosoftIdentityUI();
 
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders =
-        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-    options.KnownNetworks.Clear();
-    options.KnownProxies.Clear();
-});
+    {
+        options.ForwardedHeaders =
+            ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownNetworks.Clear();
+        options.KnownProxies.Clear();
+    });
 
 builder.Services.AddControllersWithViews(options =>
-{
-    var policy = new AuthorizationPolicyBuilder()
-    .RequireAuthenticatedUser()
-    .Build();
-    options.Filters.Add(new AuthorizeFilter(policy));
-}).AddRazorRuntimeCompilation();
+    {
+        var policy = new AuthorizationPolicyBuilder()
+            .RequireAuthenticatedUser()
+            .Build();
+        options.Filters.Add(new AuthorizeFilter(policy));
+    }).AddRazorRuntimeCompilation();
+
+#endregion
 
 var app = builder.Build();
 
+#region HTTP Configuration
+
 app.UseForwardedHeaders();
 app.UseCookiePolicy();
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -112,10 +122,10 @@ app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Admin}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute(name: "default", pattern: "{controller=Admin}/{action=Index}/{id?}");
     //endpoints.MapRazorPages();
 });
+
+#endregion
 
 app.Run();

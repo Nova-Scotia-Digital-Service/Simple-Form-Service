@@ -20,5 +20,16 @@ public class FormTemplateSecurityFixture : IClassFixture<ConcreteDatabaseSharedF
         _sharedFixture = sharedFixture;
         _serviceManager = sharedFixture.Container.GetService<IServiceManager>()!;
     }
-    
+
+    [Fact]
+    public async void GetFormTemplateByIdAsync_WhenCalledWithAValidTemplateIdAndAuthorizedUser_AFormSubmissionShouldBeReturned()
+    {
+        var formTemplate = _sharedFixture.CreateFormTemplate();
+        var templateId = formTemplate.Id.ToString();
+
+        var formSubmission = await _serviceManager.FormTemplateService.GetFormTemplateByIdAsync(templateId);
+
+        Assert.True(formSubmission != null);
+    }
+
 }

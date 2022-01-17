@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SimpleFormsService.Domain.Entities;
+﻿using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Domain.Repositories;
+using SimpleFormsService.Services.Abstractions.Application;
 using SimpleFormsService.Services.Abstractions.Domain;
 
 namespace SimpleFormsService.Services.Domain
@@ -9,18 +9,32 @@ namespace SimpleFormsService.Services.Domain
     internal sealed class FormTemplateService : ServiceBase, IFormTemplateService
     {
         private readonly IRepositoryManager _repositoryManager;
+        private readonly IFormTemplateSecurityService _formTemplateSecurityService;
 
-        public FormTemplateService(IRepositoryManager repositoryManager) => _repositoryManager = repositoryManager;
-
-        public async Task<FormTemplate> GetFormTemplateByIdAsync(string id, CancellationToken cancellationToken = default)
+        public FormTemplateService(IRepositoryManager repositoryManager, IFormTemplateSecurityService formTemplateSecurityService)
         {
-            Guard.AgainstNullEmptyOrWhiteSpace(id, nameof(id));
+            _repositoryManager = repositoryManager;
+            _formTemplateSecurityService = formTemplateSecurityService;
+        }
 
-            var formTemplate = await _repositoryManager.FormTemplateRepository.GetFormTemplateByIdAsync(id, cancellationToken);
+        public async Task<FormTemplate> GetFormTemplateByIdAsync(string templateId, CancellationToken cancellationToken = default)
+        {
+            Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
+            Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
 
-            Guard.AgainstObjectNotFound(formTemplate, "form template", id, nameof(id));
+            // todo move this to an attribute that uses service locator to get access to the form template security service to genericise it accross this service
+            var hasAccess =  await _formTemplateSecurityService.HasAccess(templateId, cancellationToken);
 
-            return formTemplate;
+            if (hasAccess)
+            {
+                var formTemplate = await _repositoryManager.FormTemplateRepository.GetFormTemplateByIdAsync(templateId, cancellationToken);
+
+                Guard.AgainstObjectNotFound(formTemplate, "form template", templateId, nameof(templateId));
+
+                return formTemplate;
+            }
+
+            throw new NotAuthorizedException("form template", templateId);
         }
     }
 }

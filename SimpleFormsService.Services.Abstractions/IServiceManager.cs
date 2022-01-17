@@ -8,6 +8,5 @@ namespace SimpleFormsService.Services.Abstractions
         IFormSubmissionService FormSubmissionService { get; }
         IFormTemplateService FormTemplateService { get; }
         IDocumentService MinIoDocumentService { get; }
-        IFormTemplateSecurityService FormTemplateSecurityService { get; }
     }
 }

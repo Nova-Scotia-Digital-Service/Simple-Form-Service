@@ -16,7 +16,7 @@ public class FormSubmissionData : JsonEntityBase
         string createUser,
         string updateDate,
         string updateUser,
-        NotifyEmailAddress[] notifyEmailAddresses,
+        NotifyEmailAddress[] confirmationEmailAddresses,
         FormItem[] formItems,
         DocumentReference[] documentReferences) : base(createDate, createUser, updateDate, updateUser)
     {
@@ -24,7 +24,7 @@ public class FormSubmissionData : JsonEntityBase
         TemplateId = templateId;
         DateSubmitted = dateSubmitted;
         SubmissionStatus = submissionStatus;
-        NotifyEmailAddresses = notifyEmailAddresses;
+        ConfirmationEmailAddresses = confirmationEmailAddresses;
         FormItems = formItems;
         DocumentReferences = documentReferences;
     }
@@ -38,7 +38,7 @@ public class FormSubmissionData : JsonEntityBase
     [JsonPropertyOrder(4)]
     public string SubmissionStatus { get; set; }
     [JsonPropertyOrder(5)]
-    public NotifyEmailAddress[] NotifyEmailAddresses { get; set; }
+    public NotifyEmailAddress[] ConfirmationEmailAddresses { get; set; }
     [JsonPropertyOrder(6)]
     public FormItem[] FormItems { get; set; }
     [JsonPropertyOrder(7)]

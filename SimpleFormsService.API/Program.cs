@@ -32,8 +32,20 @@ builder.Services.AddMinio(options =>
 });
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
+    .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)).Where(type => !type.IsGenericType), false)
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+
+builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof(ServiceBase))
+    .AddClasses(classes => classes.AssignableTo<IServiceBase>(), false)
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 //TODO: Add azure ad integration
