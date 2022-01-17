@@ -62,7 +62,7 @@ function build (){
   echo -e "\nBuilding sfs-public-ui development image..."
   docker build \
     -t 'sfs-public-ui-dev' \
-    -f './SimpleFormsService.Web.Public/Dockerfile' '.'
+    -f './SimpleFormsService.Web.Public/Dockerfile.dev' '.'
 
   echo -e "\nBuilding sfs-admin-ui development image..."
   docker build \

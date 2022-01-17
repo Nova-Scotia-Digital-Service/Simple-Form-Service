@@ -7,12 +7,24 @@ services:
     image: sfs-public-ui-dev
     environment:
       APP: "dev"
+      POSTGRES_CONNECT_STRING: "${POSTGRES_CONNECT_STRING}"
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+      CLIENT_ID: ${AZURE_AD_CLIENT_ID}
+      TENANT_ID: ${AZURE_AD_TENANT_ID}
+      AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
+      CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
+      BASE_URL: ${GCNOTIFY_BASE_URL}      
+      API_KEY: ${GCNOTIFY_API_KEY}
+      TEMPLATE_ID: ${GCNOTIFY_TEMPLATE_ID}
     ports:
       - ${PUBLIC_UI_WEB_PORT}:8080
+      - 4300:8443
     networks:
       - sfs-dev
-    # depends_on:
-      # - api-dev
+    depends_on:
+      - postgres
 
   admin-ui-dev:
     image: sfs-admin-ui-dev
