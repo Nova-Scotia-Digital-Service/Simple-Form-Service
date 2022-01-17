@@ -20,7 +20,6 @@ namespace SimpleFormsService.Configuration
         public static string MINIO_EndPoint => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ENDPOINT")) ? SharedSettings.GetSection("Minio:Endpoint").Value : Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
         public static string MINIO_AccessKey => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY")) ? SharedSettings.GetSection("Minio:AccessKey").Value : Environment.GetEnvironmentVariable("MINIO_ACCESSKEY");
         public static string MINIO_SecretKey => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_SECRET_KEY")) ? SharedSettings.GetSection("Minio:SecretKey").Value : Environment.GetEnvironmentVariable("MINIO_SECRETKEY");
-
         public static string Postgres_ConnectionString
         {
             get

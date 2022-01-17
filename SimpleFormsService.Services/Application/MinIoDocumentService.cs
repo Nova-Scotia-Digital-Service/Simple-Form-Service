@@ -109,6 +109,7 @@ namespace SimpleFormsService.Services.Application
 
                             if (results.Count > 0)
                             {
+                                Console.WriteLine("====== INFO: Ready to upload object ======");
                                 var objectName = await UploadFile(file, bucketName: bucketName, cancellationToken);
                                 objectNames.Add(objectName);
                             }
@@ -197,7 +198,7 @@ namespace SimpleFormsService.Services.Application
             try
             {
                 var found = await _client.BucketExistsAsync(bucketName, cancellationToken);
-                
+                Console.WriteLine("==== INFO: Bucket " + bucketName + " found? " + found + " ====");
                 if (!found)
                 {
                     await _client.MakeBucketAsync(bucketName, cancellationToken: cancellationToken);
