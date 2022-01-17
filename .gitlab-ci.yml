@@ -97,7 +97,6 @@ Sync latest EF DB Migration in Dev:
   image: mcr.microsoft.com/dotnet/sdk:6.0
   stage: db-migration
   script:
-    - echo "Postgres Connect String: ${POSTGRES_CONNECT_STRING}"
     - curl https://downloads-openshift-console.apps.ext.novascotia.ca/amd64/linux/oc.tar -o oc.tar
     - tar -xf oc.tar && chmod a+x ./oc
     - ./oc login ${OPENSHIFT_DEV_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_DEV_TOKEN}
