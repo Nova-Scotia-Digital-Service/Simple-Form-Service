@@ -35,7 +35,11 @@ namespace SimpleFormsService.Web.Public
             services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
 
             Console.WriteLine("==== INFO: GC Notify BaseURL null? " + OpenshiftConfig.GCNotify_BaseURL + " ====");
+            Console.WriteLine("==== INFO: GC Notify Template Id null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + " ====");
+            Console.WriteLine("==== INFO: GC Notify API Key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_ApiKey) + " ====");
             Console.WriteLine("==== INFO: Minio endpoint null? " + OpenshiftConfig.MINIO_EndPoint + " ====");
+            Console.WriteLine("==== INFO: Minio access key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_AccessKey) + " ====");
+            Console.WriteLine("==== INFO: Minio secret key? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_SecretKey) + " ====");
 
             services.AddMinio(options =>
             {
