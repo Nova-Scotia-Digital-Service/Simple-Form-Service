@@ -28,7 +28,7 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
         {         
             SubmissionDetailModel detail = new();
             
-            detail.FormSubmission = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdAsync(submissionId, cancellationToken);
+            detail.FormSubmission = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdTemplateIdAsync(submissionId, templateId, cancellationToken);
             if (detail.FormSubmission != null)
             {
                 detail.FormItems = detail.FormSubmission.Data.FormItems;
