@@ -105,9 +105,11 @@ Sync latest EF DB Migration in Dev:
     - /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.Persistence/SimpleFormsService.Persistence.csproj
   tags:
     - docker
+  environment:
+    name: development
   only:
     refs:
-      - 5-technical-pipeline-creates-db-tables
+      - 78-issue-with-ef-and-the-single-variable
       - dev
 
 Sync latest EF DB Migration in Prod:
@@ -124,6 +126,8 @@ Sync latest EF DB Migration in Prod:
   tags:
     - docker
   when: manual
+  environment:
+    name: production
   only:
     refs:
       - main
