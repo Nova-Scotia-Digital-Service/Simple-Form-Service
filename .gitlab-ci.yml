@@ -102,6 +102,8 @@ Tag Docker Prod:
 Sync latest EF DB Migration in Dev:
   image: mcr.microsoft.com/dotnet/sdk:6.0
   stage: db-migration
+  variables:
+    POSTGRES_CONNECT_STRING: ${POSTGRES_CONNECT_STRING_DEV}
   script:
     - curl https://downloads-openshift-console.apps.ext.novascotia.ca/amd64/linux/oc.tar -o oc.tar
     - tar -xf oc.tar && chmod a+x ./oc
@@ -111,18 +113,17 @@ Sync latest EF DB Migration in Dev:
     - /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.Persistence/SimpleFormsService.Persistence.csproj
   tags:
     - docker
-  environment:
-    name: development
   only:
     refs:
-      - 78-issue-with-ef-and-the-single-variable
+      - 81-split-ef-to-make-it-stable
       - dev
 
 Sync latest EF DB Migration in Prod:
   image: mcr.microsoft.com/dotnet/sdk:6.0
   stage: db-migration
+  variables:
+    POSTGRES_CONNECT_STRING: ${POSTGRES_CONNECT_STRING_PROD}
   script:
-    - echo Postgres Connect String - ${POSTGRES_CONNECT_STRING}
     - curl https://downloads-openshift-console.apps.ext.novascotia.ca/amd64/linux/oc.tar -o oc.tar
     - tar -xf oc.tar && chmod a+x ./oc
     - ./oc login ${OPENSHIFT_PROD_URL} --insecure-skip-tls-verify --token=${OPENSHIFT_PROD_TOKEN}
@@ -132,8 +133,6 @@ Sync latest EF DB Migration in Prod:
   tags:
     - docker
   when: manual
-  environment:
-    name: production
   only:
     refs:
       - main
