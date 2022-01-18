@@ -15,7 +15,8 @@ namespace SimpleFormsService.Configuration
 
         public static string GCNotify_ApiKey => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("API_KEY")) ? SharedSettings.GetSection("GCNotify:ApiKey").Value : Environment.GetEnvironmentVariable("API_KEY");
         public static string GCNotify_BaseURL => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("BASE_URL")) ? SharedSettings.GetSection("GCNotify: BaseURL").Value : Environment.GetEnvironmentVariable("BASE_URL");
-        public static string GCNotify_TemplateId => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("TEMPLATE_ID")) ? SharedSettings.GetSection("GCNotify:TemplateId").Value : Environment.GetEnvironmentVariable("TEMPLATE_ID");
+        public static string GCNotify_Admin_TemplateId => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ADMIN_TEMPLATE_ID")) ? SharedSettings.GetSection("GCNotify:TemplateId").Value : Environment.GetEnvironmentVariable("ADMIN_TEMPLATE_ID");
+        public static string GCNotify_User_TemplateId => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("USER_TEMPLATE_ID")) ? SharedSettings.GetSection("GCNotify:TemplateId").Value : Environment.GetEnvironmentVariable("USER_TEMPLATE_ID");
 
         public static string MINIO_EndPoint => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ENDPOINT")) ? SharedSettings.GetSection("Minio:Endpoint").Value : Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
         public static string MINIO_AccessKey => string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY")) ? SharedSettings.GetSection("Minio:AccessKey").Value : Environment.GetEnvironmentVariable("MINIO_ACCESS_KEY");

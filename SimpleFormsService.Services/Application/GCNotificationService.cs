@@ -30,7 +30,10 @@ namespace SimpleFormsService.Services.Application
 
             var personalisation = new Dictionary<string, dynamic>
             {
-                {"url", "https://www.test.com"}
+                {"url", "https://www.test.com"},
+                {"template-id-friendly", formTemplateId },
+                {"submission-id-friendly", formSubmissionId},
+                {"routing-info","" }
             };
 
             if (emailAddresses != null && emailAddresses.Count > 0)

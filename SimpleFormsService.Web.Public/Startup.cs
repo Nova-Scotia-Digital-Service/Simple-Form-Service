@@ -1,14 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SimpleFormsService.Web.Public.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SimpleFormsService.Services;
 using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Persistence.Repositories;
@@ -36,7 +31,8 @@ namespace SimpleFormsService.Web.Public
             services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
 
             Console.WriteLine("==== INFO: GC Notify BaseURL null? " + OpenshiftConfig.GCNotify_BaseURL + " ====");
-            Console.WriteLine("==== INFO: GC Notify Template Id null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + " ====");
+            Console.WriteLine("==== INFO: GC Notify Admin Template Id null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_Admin_TemplateId) + " ====");
+            Console.WriteLine("==== INFO: GC Notify User Template Id null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_User_TemplateId) + " ====");
             Console.WriteLine("==== INFO: GC Notify API Key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_ApiKey) + " ====");
             Console.WriteLine("==== INFO: Minio endpoint null? " + OpenshiftConfig.MINIO_EndPoint + " ====");
             Console.WriteLine("==== INFO: Minio access key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_AccessKey) + " ====");
