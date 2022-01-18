@@ -24,6 +24,10 @@ stages:
   - performance
   - cleanup
 
+# from https://gitlab.com/-/snippets/2223915
+security-code-scan-sast:
+  variables:
+    SAST_ANALYZER_IMAGE_TAG: 3 
 
 include:
   # - template: Security/Container-Scanning.gitlab-ci.yml
