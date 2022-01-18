@@ -7,6 +7,14 @@
 	var saveFileOutput = StringResource.PageTitle + "<br />";
 	saveFileOutput += string.Format(StringResource.SubmissionID, @Model.FormData.Identifier.FriendlyName) + "<br />";
 	saveFileOutput += StringResource.SubmittedOn + " " + Model.FormData.DateSubmitted;
+
+	//return url to be base on template id
+	//KDA - this hardcoded lookup is to be replaced when generic form page is built
+	var returnUrl = "~/";
+	if(Model.FormData != null && Model.FormData.TemplateId == "a7b65d0f-5b87-4050-a5ef-ef79ef0ec753")
+	{
+		returnUrl = "~/SpecialPatientProgram/SPP";
+	}
 }
 
 @section featured
@@ -45,7 +53,7 @@
 				</form>
 				}
 				<div class="ns-fieldset d-print-none">
-					<a href="@Url.Content("~/")" class="ns-back-link pr-2 d-print-none" id="backToStart">@Html.Raw(StringResource.BackToStart)</a>
+					<a href="@Url.Content(returnUrl)" class="ns-back-link pr-2 d-print-none" id="backToStart">@Html.Raw(StringResource.BackToStart)</a>
 				</div>
 			</div>
 		</div>

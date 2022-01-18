@@ -12,7 +12,7 @@ namespace SimpleFormsService.Web.Public.Forms.Submission
         {
             if (TempData["ConfirmationFormData"] == null)
             {
-                //return RedirectToPage("~/");
+                return RedirectToPage("~/");
             }
             else
             {
