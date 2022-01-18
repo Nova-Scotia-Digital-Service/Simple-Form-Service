@@ -6,11 +6,12 @@
     }
   },
   "AllowedHosts": "*",
-
   "GCNotify": {
+    "ApiKey": "xxxxxxx",
     "BaseURL": "xxxx",
-    "TemplateId": "xxxx",
-    "ApiKey": "xxxxxxx"
+    "AdminTemplateId": "xxxx",
+    "UserTemplateId": "xxxx",
+    "AdminBaseURL": "xxxx"
   },
   "Minio": {
     "Endpoint": "xxx",

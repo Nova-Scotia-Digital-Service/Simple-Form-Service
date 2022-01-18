@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SimpleFormsService.Configuration;
 using SimpleFormsService.Domain;
 using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Entities.Supporting;
@@ -108,14 +107,15 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
 
         void handleNotifications()
         {
+            var formTemplate = _repositoryManager.FormTemplateRepository.FindByCondition(x => x.Id == Guid.Parse(templateId)).SingleOrDefault();
+
             var notifyEmailAddresses = formSubmission.Data?.ConfirmationEmailAddresses;
             var emailAddresses = notifyEmailAddresses.Select(emailAddress => emailAddress.EmailAddress).ToList();
-            _gcNotificationService.SendNotification(OpenshiftConfig.GCNotify_User_TemplateId, templateId, submissionId, emailAddresses);
+            _gcNotificationService.SendConfirmationNotification(formTemplate, formSubmission, emailAddresses);
 
-            var formTemplate = _repositoryManager.FormTemplateRepository.FindByCondition(x => x.Id == Guid.Parse(templateId)).SingleOrDefault();
             var adminNotifyEmailAddresses = formTemplate?.Data?.AdminNotifyEmailAddresses;
             emailAddresses = adminNotifyEmailAddresses.Select(emailAddress => emailAddress.EmailAddress).ToList();
-            _gcNotificationService.SendNotification(OpenshiftConfig.GCNotify_Admin_TemplateId, templateId, submissionId, emailAddresses);
+            _gcNotificationService.SendAdminNotification(formTemplate, formSubmission, emailAddresses);
         }
     }
     

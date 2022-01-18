@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Minio.AspNetCore;
+using Notify.Client;
 using SimpleFormsService.Configuration;
 using SimpleFormsService.Domain.Entities;
 using SimpleFormsService.Domain.Repositories;
@@ -84,7 +85,8 @@ namespace SimpleFormsService.Test.SharedFixtures
 
             services.AddScoped(typeof(IRepositoryManager), typeof(RepositoryManager));
             services.AddScoped(typeof(IServiceManager), typeof(ServiceManager));
-
+            services.AddSingleton(x => new NotificationClient(OpenshiftConfig.GCNotify_BaseURL, OpenshiftConfig.GCNotify_ApiKey));
+            
             services.AddSingleton<IHttpContextAccessor, MockHttpContextAccessor>();
 
             return services.BuildServiceProvider();

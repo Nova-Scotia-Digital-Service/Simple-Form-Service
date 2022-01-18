@@ -1,9 +1,11 @@
 ﻿using Notify.Models.Responses;
+using SimpleFormsService.Domain.Entities;
 
 namespace SimpleFormsService.Services.Abstractions.Application
 {
     public interface INotificationService
     {
-        EmailNotificationResponse SendNotification(string gcNotifyTemplateId, string formTemplateId, string formSubmissionId, List<string> emailAddresses);
+        EmailNotificationResponse SendConfirmationNotification(FormTemplate formTemplate, FormSubmission formSubmission, List<string> emailAddresses);
+        EmailNotificationResponse SendAdminNotification(FormTemplate formTemplate, FormSubmission formSubmission, List<string> emailAddresses);
     }
 }

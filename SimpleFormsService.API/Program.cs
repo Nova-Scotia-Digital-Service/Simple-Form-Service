@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Minio.AspNetCore;
+using Notify.Client;
 using SimpleFormsService.API.Middleware;
 using SimpleFormsService.Configuration;
 using SimpleFormsService.Domain.Repositories;
@@ -11,10 +12,6 @@ using SimpleFormsService.Services.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddJsonFile("appSettings.json", optional: true, reloadOnChange: true);
-
-//Console.Write("====== INFO: GCNotify templateID is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + "======");
-Console.Write("====== INFO: Postgresql connection string is NULL?? " + string.IsNullOrWhiteSpace(OpenshiftConfig.Postgres_ConnectionString + "======"));
-Console.Write("====== INFO: MINIO endpoint - " + OpenshiftConfig.MINIO_EndPoint + " ======");
 
 builder.Services.AddControllers()
     .AddApplicationPart(typeof(SimpleFormsService.Presentation.AssemblyReference).Assembly); // add controllers from the SimpleFormsService.Presentation assembly to the container
@@ -45,6 +42,7 @@ builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof
 
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+builder.Services.AddSingleton(x => new NotificationClient(OpenshiftConfig.GCNotify_BaseURL, OpenshiftConfig.GCNotify_ApiKey));
 
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
