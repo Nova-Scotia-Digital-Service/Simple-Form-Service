@@ -55,6 +55,14 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
             };
         }
 
+        public NotifyEmailAddress[] GetConfirmationEmailAddresses()
+        {
+            return new NotifyEmailAddress[]
+            {
+                new NotifyEmailAddress(Email)
+            };
+        }
+
         public void SetFormItems(FormItem[] formItems)
         {
             var formItemList = formItems.ToList<FormItem>();

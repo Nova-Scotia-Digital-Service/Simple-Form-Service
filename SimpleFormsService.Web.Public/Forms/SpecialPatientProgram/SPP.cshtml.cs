@@ -91,6 +91,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
                 var formSub = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdAsync(SPPForm.SubmissionId);
                 var formData = formSub.Data;
                 formData.FormItems = SPPForm.GetFormItems();
+                formData.ConfirmationEmailAddresses = SPPForm.GetConfirmationEmailAddresses();
 
                 formSub = await _serviceManager.FormSubmissionService.SubmitForm(formSub.TemplateId.ToString(), formSub.Id.ToString(), formData);
 
