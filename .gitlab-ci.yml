@@ -26,6 +26,8 @@ stages:
 
 # from https://gitlab.com/-/snippets/2223915
 security-code-scan-sast:
+  before_script:
+    - dotnet restore
   variables:
     SAST_ANALYZER_IMAGE_TAG: 3 
 
