@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Minio;
-using SimpleFormsService.Domain.Repositories;
+﻿using SimpleFormsService.Domain.Repositories;
 using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Services.Abstractions.Application;
 using SimpleFormsService.Services.Abstractions.Domain;
-using SimpleFormsService.Services.Application;
 using SimpleFormsService.Services.Domain;
 
 namespace SimpleFormsService.Services
@@ -15,9 +12,9 @@ namespace SimpleFormsService.Services
         private readonly Lazy<IFormTemplateService> _lazyFormTemplateService;
         private readonly Lazy<IDocumentService> _lazyMinIoDocumentService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IDocumentService minioDocumentService, IFormTemplateSecurityService formTemplateSecurityService)
+        public ServiceManager(IRepositoryManager repositoryManager, IDocumentService minioDocumentService, INotificationService gcNotificationService, IFormTemplateSecurityService formTemplateSecurityService)
         {
-            _lazyFormSubmissionService = new Lazy<IFormSubmissionService>(() => new FormSubmissionService(repositoryManager, minioDocumentService));
+            _lazyFormSubmissionService = new Lazy<IFormSubmissionService>(() => new FormSubmissionService(repositoryManager, minioDocumentService, gcNotificationService));
             _lazyFormTemplateService = new Lazy<IFormTemplateService>(() => new FormTemplateService(repositoryManager, formTemplateSecurityService));
             _lazyMinIoDocumentService = new Lazy<IDocumentService>(() => minioDocumentService); 
         }

@@ -1,26 +1,29 @@
 ﻿using Notify.Client;
 using Notify.Models.Responses;
-using SimpleFormsService.Configuration;
 using SimpleFormsService.Services.Abstractions.Application;
 
 namespace SimpleFormsService.Services.Application
 {
     public class GCNotificationService : ServiceBase ,INotificationService
     {
-        private readonly string reference = "Simple form service email notification";
+        private readonly NotificationClient _client;
+        private const string _reference = "Simple form service email notification";
+
+        public GCNotificationService(NotificationClient client)
+        {
+            _client = client;
+        }
 
         /// <summary>
         /// Send email notification to Admin with a URL to the form.
         /// </summary>
-        /// <param name="client"></param>
-        /// <param name="templateId"></param>
-        /// <param name="formId"></param>
-        /// <param name="submissionId"></param>
+        /// <param name="gcNotifyTemplateId"></param>
+        /// <param name="formTemplateId"></param>
+        /// <param name="formSubmissionId"></param>
         /// <param name="emailAddresses"></param>
         /// <returns></returns>
-        public EmailNotificationResponse SendNotification(NotificationClient client, string templateId, string formId, string submissionId, List<string> emailAddresses) // TODO inject NotificationClient
+        public EmailNotificationResponse SendNotification(string gcNotifyTemplateId, string formTemplateId, string formSubmissionId, List<string> emailAddresses) 
         {
-            client = new NotificationClient(OpenshiftConfig.GCNotify_BaseURL, OpenshiftConfig.GCNotify_ApiKey);
             var response = new EmailNotificationResponse();
             var successCount = 0;
             var failedCount = 0;
@@ -29,14 +32,15 @@ namespace SimpleFormsService.Services.Application
             {
                 {"url", "https://www.test.com"}
             };
+
             if (emailAddresses != null && emailAddresses.Count > 0)
             {
-                Console.WriteLine("===== INFO: Ready to send email to Admin... Form ID: " + formId + " Submission Id: " + submissionId);
+                Console.WriteLine("===== INFO: Ready to send email to Admin... Form ID: " + formTemplateId + " Submission Id: " + formSubmissionId);
                 foreach (var email in emailAddresses)
                 {
                     try
                     {
-                        response = client.SendEmail(email, templateId, personalisation, reference);
+                        response = _client.SendEmail(email, gcNotifyTemplateId, personalisation, _reference);
                         successCount++;
                     }
                     catch

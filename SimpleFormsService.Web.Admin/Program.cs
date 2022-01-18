@@ -6,12 +6,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using Minio.AspNetCore;
+using Notify.Client;
 using SimpleFormsService.Configuration;
 using SimpleFormsService.Domain.Repositories;
 using SimpleFormsService.Persistence;
 using SimpleFormsService.Persistence.Repositories;
 using SimpleFormsService.Services;
 using SimpleFormsService.Services.Abstractions;
+using SimpleFormsService.Services.Abstractions.Application;
+using SimpleFormsService.Services.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appSettings.json", true, true);
@@ -63,6 +66,7 @@ builder.Services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof
 
 builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
 builder.Services.AddScoped<IServiceManager, ServiceManager>();
+builder.Services.AddSingleton(x => new NotificationClient(OpenshiftConfig.GCNotify_BaseURL, OpenshiftConfig.GCNotify_ApiKey));
 
 builder.Services.AddCookiePolicy(options =>
     {

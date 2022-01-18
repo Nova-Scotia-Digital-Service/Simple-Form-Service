@@ -1,10 +1,9 @@
-﻿using Notify.Client;
-using Notify.Models.Responses;
+﻿using Notify.Models.Responses;
 
 namespace SimpleFormsService.Services.Abstractions.Application
 {
     public interface INotificationService
     {
-        EmailNotificationResponse SendNotification(NotificationClient client, string templateId, string formId, string submissionID, List<string> emailAddresses);
+        EmailNotificationResponse SendNotification(string gcNotifyTemplateId, string formTemplateId, string formSubmissionId, List<string> emailAddresses);
     }
 }

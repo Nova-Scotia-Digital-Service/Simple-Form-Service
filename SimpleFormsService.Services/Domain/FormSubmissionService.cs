@@ -14,11 +14,13 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
 {
     private readonly IRepositoryManager _repositoryManager;
     private readonly IDocumentService _minioDocumentService;
+    private readonly INotificationService _gcNotificationService;
 
-    public FormSubmissionService(IRepositoryManager repositoryManager, IDocumentService minioDocumentService)
+    public FormSubmissionService(IRepositoryManager repositoryManager, IDocumentService minioDocumentService, INotificationService gcNotificationService)
     {
         _repositoryManager = repositoryManager;
         _minioDocumentService = minioDocumentService;
+        _gcNotificationService = gcNotificationService;
     }
 
     public async Task<FormSubmission> Init(string templateId, CancellationToken cancellationToken = default)
@@ -99,7 +101,21 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
 
         await _repositoryManager.UnitOfWork.SaveChangesAsync(cancellationToken);
 
+        handleNotifications();
+
         return formSubmission;
+
+        void handleNotifications()
+        {
+            var notifyEmailAddresses = formSubmission.Data?.ConfirmationEmailAddresses;
+            var emailAddresses = notifyEmailAddresses.Select(emailAddress => emailAddress.EmailAddress).ToList();
+            _gcNotificationService.SendNotification("9026a714-8fc1-434e-94c8-65d02ef38691", templateId, submissionId, emailAddresses);
+
+            var formTemplate = _repositoryManager.FormTemplateRepository.FindByCondition(x => x.Id == Guid.Parse(templateId)).SingleOrDefault();
+            var adminNotifyEmailAddresses = formTemplate?.Data?.AdminNotifyEmailAddresses;
+            emailAddresses = adminNotifyEmailAddresses.Select(emailAddress => emailAddress.EmailAddress).ToList();
+            _gcNotificationService.SendNotification("bd1eddde-6313-4f11-8c9c-842f29e49f1f", templateId, submissionId, emailAddresses);
+        }
     }
     
     public async Task<FormSubmission> GetFormSubmissionByIdAsync(string id, CancellationToken cancellationToken = default)
