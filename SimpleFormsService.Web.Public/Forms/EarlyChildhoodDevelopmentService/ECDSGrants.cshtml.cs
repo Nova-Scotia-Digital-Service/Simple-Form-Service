@@ -18,7 +18,7 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService
         {
         }
 
-        public IList<SelectListItem> Consultants()
+        public IList<SelectListItem> Recipients()
         {
             IList<SelectListItem> names = new List<SelectListItem>()
             {

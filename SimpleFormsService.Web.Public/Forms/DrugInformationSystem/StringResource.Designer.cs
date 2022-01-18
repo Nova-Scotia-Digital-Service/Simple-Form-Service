@@ -70,15 +70,6 @@ namespace SimpleFormsService.Web.Public.Forms.DrugInformationSystem {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        public static string Btn_Submit {
-            get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Enter contact name.
         /// </summary>
         public static string Contact_RequiredErr {
@@ -129,6 +120,15 @@ namespace SimpleFormsService.Web.Public.Forms.DrugInformationSystem {
         public static string Hint_Optional {
             get {
                 return ResourceManager.GetString("Hint_Optional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name of the selected source type.
+        /// </summary>
+        public static string Hint_SourceName {
+            get {
+                return ResourceManager.GetString("Hint_SourceName", resourceCulture);
             }
         }
         
@@ -201,15 +201,6 @@ namespace SimpleFormsService.Web.Public.Forms.DrugInformationSystem {
         public static string Label_Subject {
             get {
                 return ResourceManager.GetString("Label_Subject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upload documents.
-        /// </summary>
-        public static string Label_Upload {
-            get {
-                return ResourceManager.GetString("Label_Upload", resourceCulture);
             }
         }
         

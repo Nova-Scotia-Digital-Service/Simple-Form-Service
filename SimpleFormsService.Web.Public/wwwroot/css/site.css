@@ -1196,7 +1196,6 @@ input + .ns-input__suffix {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display: block;
-    margin-bottom: 15px;
 }
 
 .ns-fieldset__legend + .ns-hint, .ns-label-wrapper + .ns-hint {
@@ -1416,4 +1415,86 @@ input + .ns-input__suffix {
 
 .warning {
     margin: 0 0.5em 0 0 !important;
+}
+
+/* --------------------------------------------start visiually hidden screen reader accessible ----------------------------------------------------- */
+.ns-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+}
+
+.ns-visually-hidden-focusable {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    white-space: nowrap !important;
+}
+
+    .ns-visually-hidden-focusable:active,
+    .ns-visually-hidden-focusable:focus {
+        position: static !important;
+        width: auto !important;
+        height: auto !important;
+        margin: inherit !important;
+        overflow: visible !important;
+        clip: auto !important;
+        -webkit-clip-path: none !important;
+        clip-path: none !important;
+        white-space: inherit !important;
+    }
+/* --------------------------------------------end visiually hidden screen reader accessible ----------------------------------------------------- */
+
+
+.ns-visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+}
+
+.uploadTable {
+    border: none !important;
+}
+table thead tr th {
+    border: none !important;
+    padding: 0px !important;
+}
+
+table tbody {
+    border: none !important;
+}
+
+table tbody tr {
+    border: none !important;
+}
+
+table tbody tr td {
+    border-bottom: none !important;   
+    border-color: #dee2e6;
+    padding: 0px !important;
+}
+
+.faCheckColor {
+    color: #408334;
 }

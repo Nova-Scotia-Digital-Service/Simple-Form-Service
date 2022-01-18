@@ -61,7 +61,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jpg&lt;/abbr&gt;.
+        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jpg&lt;/abbr&gt;, &lt;abbr title=&quot;Portable Graphics Format&quot;&gt;png&lt;/abbr&gt;, &lt;abbr title=&quot;Document/Documentation&quot;&gt;doc&lt;/abbr&gt;, &lt;abbr title=&quot;OpenDocument Text Document&quot;&gt;odt&lt;/abbr&gt;.
         /// </summary>
         public static string AcceptedUploadType {
             get {
@@ -70,16 +70,79 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit.
+        ///   Looks up a localized string similar to The confirmation email does not match.
         /// </summary>
-        public static string Btn_Submit {
+        public static string ConfirmEmail_CompareErr {
             get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
+                return ResourceManager.GetString("ConfirmEmail_CompareErr", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to The confirmation email is invalid.
+        /// </summary>
+        public static string ConfirmEmail_FormatErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirmation email must be 150 characters or less.
+        /// </summary>
+        public static string ConfirmEmail_LengthErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter confirmation email.
+        /// </summary>
+        public static string ConfirmEmail_RequiredErr {
+            get {
+                return ResourceManager.GetString("ConfirmEmail_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The email is invalid.
+        /// </summary>
+        public static string Email_FormatErr {
+            get {
+                return ResourceManager.GetString("Email_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email must be 150 characters or less.
+        /// </summary>
+        public static string Email_LengthErr {
+            get {
+                return ResourceManager.GetString("Email_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter email.
+        /// </summary>
+        public static string Email_RequiredErr {
+            get {
+                return ResourceManager.GetString("Email_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm Email address.
+        /// </summary>
+        public static string Label_ConfirmEmail {
+            get {
+                return ResourceManager.GetString("Label_ConfirmEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email address.
         /// </summary>
         public static string Label_Email {
             get {
@@ -88,25 +151,25 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First name.
+        ///   Looks up a localized string similar to File name.
         /// </summary>
-        public static string Label_FirstName {
+        public static string Label_FileName {
             get {
-                return ResourceManager.GetString("Label_FirstName", resourceCulture);
+                return ResourceManager.GetString("Label_FileName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Last name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
-        public static string Label_LastName {
+        public static string Label_Name {
             get {
-                return ResourceManager.GetString("Label_LastName", resourceCulture);
+                return ResourceManager.GetString("Label_Name", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone.
+        ///   Looks up a localized string similar to Telephone number.
         /// </summary>
         public static string Label_Phone {
             get {
@@ -124,20 +187,20 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload documents.
-        /// </summary>
-        public static string Label_Upload {
-            get {
-                return ResourceManager.GetString("Label_Upload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Maximum file size per file: 10 &lt;abbr title=&quot;megabyte&quot;&gt;MB&lt;/abbr&gt;.
         /// </summary>
         public static string MaxFileSize {
             get {
                 return ResourceManager.GetString("MaxFileSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name must be between 5 and 150 characters.
+        /// </summary>
+        public static string Name_LengthErr {
+            get {
+                return ResourceManager.GetString("Name_LengthErr", resourceCulture);
             }
         }
         
@@ -151,7 +214,25 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patient information.
+        ///   Looks up a localized string similar to Phone number is invalid.
+        /// </summary>
+        public static string Phone_FormatErr {
+            get {
+                return ResourceManager.GetString("Phone_FormatErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone number must be 14 characters or less.
+        /// </summary>
+        public static string Phone_LengthErr {
+            get {
+                return ResourceManager.GetString("Phone_LengthErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submitter information.
         /// </summary>
         public static string SPP_H2 {
             get {
@@ -196,11 +277,38 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter submitter email.
+        ///   Looks up a localized string similar to Choose a submission type.
         /// </summary>
-        public static string SubmitterEmail_RequiredErr {
+        public static string SubmissionType_RequiredErr {
             get {
-                return ResourceManager.GetString("SubmitterEmail_RequiredErr", resourceCulture);
+                return ResourceManager.GetString("SubmissionType_RequiredErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot upload duplicate files.
+        /// </summary>
+        public static string Upload_DuplicateErr {
+            get {
+                return ResourceManager.GetString("Upload_DuplicateErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File must be less than 10 MB.
+        /// </summary>
+        public static string Upload_FileSizeErr {
+            get {
+                return ResourceManager.GetString("Upload_FileSizeErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload your document(s).
+        /// </summary>
+        public static string Upload_RequiredErr {
+            get {
+                return ResourceManager.GetString("Upload_RequiredErr", resourceCulture);
             }
         }
     }

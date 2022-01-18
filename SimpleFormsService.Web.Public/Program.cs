@@ -20,6 +20,11 @@ namespace SimpleFormsService.Web.Public
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseKestrel(options =>
+                    {
+                        options.AddServerHeader = false;
+                        options.Limits.MaxRequestBodySize = 10485760;
+                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -1,0 +1,126 @@
+version: "3"
+
+services:
+
+  # .Net Core public ui
+  public-ui-dev:
+    image: sfs-public-ui-dev
+    environment:
+      APP: "dev"
+      POSTGRES_CONNECT_STRING: "${POSTGRES_CONNECT_STRING}"
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+      CLIENT_ID: ${AZURE_AD_CLIENT_ID}
+      TENANT_ID: ${AZURE_AD_TENANT_ID}
+      AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
+      CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
+      BASE_URL: ${GCNOTIFY_BASE_URL}      
+      API_KEY: ${GCNOTIFY_API_KEY}
+      TEMPLATE_ID: ${GCNOTIFY_TEMPLATE_ID}
+    ports:
+      - ${PUBLIC_UI_WEB_PORT}:8080
+      - 4300:8443
+    networks:
+      - sfs-dev
+    depends_on:
+      - postgres
+
+  admin-ui-dev:
+    image: sfs-admin-ui-dev
+    environment:
+      APP: "dev"
+      connection-string: "${POSTGRES_CONNECT_STRING}"
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+      CLIENT_ID: ${AZURE_AD_CLIENT_ID}
+      TENANT_ID: ${AZURE_AD_TENANT_ID}
+      AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
+      CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
+      BASE_URL: ${GCNOTIFY_BASE_URL}      
+    ports:
+      - ${ADMIN_UI_WEB_PORT}:8080
+    networks:
+      - sfs-dev
+    # depends_on:
+      # - api-dev
+    entrypoint: /bin/bash 
+    command: [
+      "-c",
+      "echo waiting for db ...;
+      sleep 5;
+      echo \"Running database migrations...\";
+      cd /src;
+      dotnet-ef database update --project SimpleFormsService.Persistence/SimpleFormsService.Persistence.csproj;
+      echo \"Starting service...\";
+      cd /app/publish;
+      dotnet SimpleFormsService.Web.Admin.dll"
+    ]       
+
+  # api-dev:
+    # image: sfs-api-dev
+    # environment:
+      # APP: "dev"
+      # connection-string: "${POSTGRES_CONNECT_STRING}"
+      # MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      # MINIO_ACCESSKEY: ${MINIO_ROOT_USER}
+      # MINIO_SECRETKEY: ${MINIO_ROOT_PASSWORD}
+      # CLIENT_ID: ${AZURE_AD_CLIENT_ID}
+      # TENANT_ID: ${AZURE_AD_TENANT_ID}
+      # AZURE_AD_INSTANCE: ${AZURE_AD_INSTANCE}
+      # CALL_BACK_PATH: ${AZURE_AD_CALL_BACK_PATH}
+      # BASE_URL: ${GCNOTIFY_BASE_URL}
+    # ports:
+      # - ${API_WEB_PORT}:8080
+    # networks:
+      # - sfs-dev
+    # depends_on:
+       # - postgres
+    # entrypoint: /bin/bash 
+    # command: [
+      # "-c",
+      # "echo waiting for db ...;
+      # sleep 5;
+      # echo \"Running database migrations...\";
+      # cd /src;
+      # /root/.dotnet/tools/dotnet-ef database update --project SimpleFormsService.API/SimpleFormsService.API.csproj;
+      # echo \"Starting service...\";
+      # cd /app/publish;
+      # dotnet SimpleFormsService.API.dll"
+    # ]    
+
+  postgres:
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_DB_PASS}
+    ports:
+     - ${POSTGRES_DB_PUBLIC_PORT}:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data     
+    networks:
+     - sfs-dev
+      
+  minio:
+    image: "minio/minio"
+    command: minio server --console-address ":9001" /data
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - ${MINIO_PORT}:9000
+      - ${MINIO_CONSOLE_PORT}:9001
+    volumes:
+      - "minio-data:/data"
+    networks:
+      - sfs-dev     
+      
+networks:
+  sfs-dev:
+
+volumes:
+  postgres-data:
+  minio-data:

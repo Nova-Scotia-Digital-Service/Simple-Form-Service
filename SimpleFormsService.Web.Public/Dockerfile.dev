@@ -1,0 +1,20 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8443
+ENV ASPNETCORE_URLS=http://*:8080;https://*:8443 \
+    TZ=Canada/Atlantic
+
+
+WORKDIR /src
+COPY ["SimpleFormsService.Web.Public/SimpleFormsService.Web.Public.csproj", "SimpleFormsService.Web.Public/"]
+RUN dotnet dev-certs https --trust
+RUN dotnet restore "SimpleFormsService.Web.Public/SimpleFormsService.Web.Public.csproj"
+
+COPY . .
+WORKDIR "/src/SimpleFormsService.Web.Public"
+RUN dotnet build "SimpleFormsService.Web.Public.csproj" -c Release -o /app/build
+RUN dotnet publish "SimpleFormsService.Web.Public.csproj" -c Release -o /app/publish
+
+WORKDIR /app/publish
+ENTRYPOINT ["dotnet", "SimpleFormsService.Web.Public.dll"]

@@ -9,7 +9,8 @@ namespace SimpleFormsService.Web.Public.Forms.EarlyChildhoodDevelopmentService
     [ValidateAntiForgeryToken(Order = 1000)]
     public class ECDSGrant
     {
-        public string Consultant { get; set; }
+        [Required(ErrorMessageResourceName = "Recipients_RequiredErr", ErrorMessageResourceType = typeof(StringResource))]
+        public string Recipient { get; set; }
 
         [Required(ErrorMessageResourceName = "CentreEmail_RequiredErr", ErrorMessageResourceType = typeof(StringResource))]
         [Display(Name = "Label_CentreEmail", ResourceType = typeof(StringResource))]

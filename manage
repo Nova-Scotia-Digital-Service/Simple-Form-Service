@@ -1,0 +1,161 @@
+#!/bin/bash
+export MSYS_NO_PATHCONV=1
+export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host eclipse/che-ip)}
+SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
+set -e
+
+# =================================================================================================================
+# Usage:
+# -----------------------------------------------------------------------------------------------------------------
+function usage() {
+  cat <<-EOF
+      Usage: $0 [command] [options]
+      Commands:
+      build - builds the containers
+      start | run | up  - Runs the previously built containers using docker compose
+      stop | down - stops the containers without removing them
+      rm - stops and removes the containers and associated volumes and networks
+EOF
+  exit 1
+}
+
+toLower() {
+  echo $(echo ${@} | tr '[:upper:]' '[:lower:]')
+}
+# =================================================================================================================
+# Set Environment Variables
+# =================================================================================================================
+function configureEnv () {
+  export PUBLIC_UI_WEB_PORT=4200
+  export ADMIN_UI_WEB_PORT=4201
+  export API_WEB_PORT=4202
+  
+  export POSTGRES_DB_HOST=postgres
+  export POSTGRES_DB_PUBLIC_PORT=4205
+  export POSTGRES_DB_USER=simple-forms
+  export POSTGRES_DB_PASS=postgres_pass
+  export POSTGRES_CONNECT_STRING="Server=${POSTGRES_DB_HOST}:5432;Database=${POSTGRES_DB_USER};User ID=${POSTGRES_DB_USER};Password=${POSTGRES_DB_PASS}"
+
+# Azure AD config - replace with proper values
+  export AZURE_AD_CLIENT_ID=xxCHANGEMExx
+  export AZURE_AD_TENANT_ID=xxCHANGEMExx
+  export AZURE_AD_INSTANCE=xxCHANGEMExx
+  export AZURE_AD_CALL_BACK_PATH=xxCHANGEMExx
+
+# GCNotify config - replace with proper values  
+  export GCNOTIFY_BASE_URL=xxCHANGEMExx
+  export GCNOTIFY_TEMPLATE_ID=xxCHANGEMExx
+  export GCNOTIFY_API_KEY=xxCHANGEMExx
+
+  export MINIO_PORT=9000
+  export MINIO_CONSOLE_PORT=9001
+  export MINIO_ROOT_USER=minio_user
+  export MINIO_ROOT_PASSWORD=minio_pass
+  export MINIO_ENDPOINT=minio:${MINIO_PORT}
+
+}
+
+# =================================================================================================================
+# Build Docker Images
+# =================================================================================================================
+function build (){
+  echo -e "\nBuilding sfs-public-ui development image..."
+  docker build \
+    -t 'sfs-public-ui-dev' \
+    -f './SimpleFormsService.Web.Public/Dockerfile.dev' '.'
+
+  echo -e "\nBuilding sfs-admin-ui development image..."
+  docker build \
+    -t 'sfs-admin-ui-dev' \
+    -f './SimpleFormsService.Web.Admin/Dockerfile.dev' '.'
+
+  # echo -e "\nBuilding sfs-api development image..."
+  # docker build \
+  #   -t 'sfs-api-dev' \
+  #   -f './SimpleFormsService.API/Dockerfile' '.'
+
+}
+
+
+function run () {
+  docker-compose up -d
+}
+
+function stop () {
+  docker-compose stop
+}
+
+function deleteVolumes() {
+  _projectName=${COMPOSE_PROJECT_NAME:-docker}
+
+  echo "Stopping and removing any running containers ..."
+  docker-compose down -v
+
+  _pattern="^${_projectName}_\|^docker_"
+  _volumes=$(docker volume ls -q | grep ${_pattern})
+
+  echo "================./============================="
+  echo "\nPattern: ${_pattern}"
+  echo "\nVolumns: ${_volumes}"
+  echo "============================================="
+
+}
+function getStartupParams() {
+  CONTAINERS=""
+  ARGS=""
+
+  for arg in $@; do
+    case "$arg" in
+    *=*)
+      # Skip it
+      ;;
+    -*)
+      ARGS+=" $arg"
+      ;;
+    *)
+      CONTAINERS+=" $arg"
+      ;;
+    esac
+  done
+
+  if [ -z "$CONTAINERS" ]; then
+    CONTAINERS="$DEFAULT_CONTAINERS"
+  fi
+
+  echo ${ARGS} ${CONTAINERS}
+}
+
+# =================================================================================================================
+
+pushd "${SCRIPT_HOME}" >/dev/null
+COMMAND=$(toLower ${1})
+shift || COMMAND=usage
+
+_startupParams=$(getStartupParams --force-recreate $@)
+
+case "${COMMAND}" in
+  build)
+    configureEnv
+    build 
+    ;;
+  start|run|up)
+    configureEnv
+    run
+    ;;
+  stop|down)
+    configureEnv
+    stop    
+    ;;
+  rm)
+    configureEnv
+    deleteVolumes    
+    ;;    
+  *)
+    usage
+    ;;
+esac
+
+popd >/dev/null
+
+
+

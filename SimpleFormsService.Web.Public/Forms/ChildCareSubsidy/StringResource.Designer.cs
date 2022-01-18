@@ -79,11 +79,20 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidy {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Submit.
+        ///   Looks up a localized string similar to Applicant information.
         /// </summary>
-        public static string Btn_Submit {
+        public static string CCS_H2 {
             get {
-                return ResourceManager.GetString("Btn_Submit", resourceCulture);
+                return ResourceManager.GetString("CCS_H2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other information.
+        /// </summary>
+        public static string CCS_Other_H2 {
+            get {
+                return ResourceManager.GetString("CCS_Other_H2", resourceCulture);
             }
         }
         
@@ -205,7 +214,7 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidy {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applicant email.
+        ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string Label_ApplicantEmail {
             get {
@@ -214,7 +223,7 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidy {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applicant name.
+        ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Label_ApplicantName {
             get {
@@ -237,15 +246,6 @@ namespace SimpleFormsService.Web.Public.Forms.ChildCareSubsidy {
         public static string Label_SupportingDocument {
             get {
                 return ResourceManager.GetString("Label_SupportingDocument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Upload.
-        /// </summary>
-        public static string Label_Upload {
-            get {
-                return ResourceManager.GetString("Label_Upload", resourceCulture);
             }
         }
         

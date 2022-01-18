@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "html2canvas@1.3.3",
+      "destination": "wwwroot/lib",
+      "files": [
+        "html2canvas.min.js"
+      ]
+    }
+  ]
+}

@@ -9,6 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SimpleFormsService.Services;
+using SimpleFormsService.Services.Abstractions;
+using SimpleFormsService.Persistence.Repositories;
+using SimpleFormsService.Domain.Repositories;
+using SimpleFormsService.Persistence;
+using Microsoft.EntityFrameworkCore;
+using SimpleFormsService.Configuration;
+using Minio.AspNetCore;
 
 namespace SimpleFormsService.Web.Public
 {
@@ -24,6 +32,35 @@ namespace SimpleFormsService.Web.Public
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<SimpleFormsServiceDbContext>(options => options.UseNpgsql(OpenshiftConfig.Postgres_ConnectionString));
+
+            Console.WriteLine("==== INFO: GC Notify BaseURL null? " + OpenshiftConfig.GCNotify_BaseURL + " ====");
+            Console.WriteLine("==== INFO: GC Notify Template Id null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_TemplateId) + " ====");
+            Console.WriteLine("==== INFO: GC Notify API Key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.GCNotify_ApiKey) + " ====");
+            Console.WriteLine("==== INFO: Minio endpoint null? " + OpenshiftConfig.MINIO_EndPoint + " ====");
+            Console.WriteLine("==== INFO: Minio access key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_AccessKey) + " ====");
+            Console.WriteLine("==== INFO: Minio secret key? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_SecretKey) + " ====");
+
+            services.Scan(scan => scan.FromAssembliesOf(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
+            .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)).Where(type => !type.IsGenericType), false)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
+            services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof(ServiceBase))
+                .AddClasses(classes => classes.AssignableTo<IServiceBase>(), false)
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
+            services.AddMinio(options =>
+            {
+                options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
+                options.AccessKey = OpenshiftConfig.MINIO_AccessKey;
+                options.SecretKey = OpenshiftConfig.MINIO_SecretKey;
+            });
+
+            services.AddHttpContextAccessor();
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
+            services.AddScoped<IServiceManager, ServiceManager>();
+
             services.AddRazorPages()
                 .AddRazorPagesOptions(options => {
                     options.RootDirectory = "/Forms";

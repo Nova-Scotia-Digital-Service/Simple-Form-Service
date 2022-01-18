@@ -15,9 +15,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+    <PackageReference Include="Scrutor" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleFormsService.Configuration\SimpleFormsService.Configuration.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Persistence\SimpleFormsService.Persistence.csproj" />
+    <ProjectReference Include="..\SimpleFormsService.Services\SimpleFormsService.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +58,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>StringResource.resx</DependentUpon>
     </Compile>
+    <Compile Update="Forms\Submission\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +89,10 @@
     <EmbeddedResource Update="Forms\SpecialPatientProgram\StringResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\Submission\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 
