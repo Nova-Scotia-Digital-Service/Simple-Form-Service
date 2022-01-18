@@ -41,6 +41,15 @@ namespace SimpleFormsService.Web.Public
             Console.WriteLine("==== INFO: Minio access key null? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_AccessKey) + " ====");
             Console.WriteLine("==== INFO: Minio secret key? " + string.IsNullOrWhiteSpace(OpenshiftConfig.MINIO_SecretKey) + " ====");
 
+            services.Scan(scan => scan.FromAssembliesOf(typeof(IRepositoryBase<>), typeof(RepositoryBase<>))
+            .AddClasses(classes => classes.AssignableTo(typeof(IRepositoryBase<>)).Where(type => !type.IsGenericType), false)
+            .AsImplementedInterfaces()
+            .WithScopedLifetime());
+
+            services.Scan(scan => scan.FromAssembliesOf(typeof(IServiceBase), typeof(ServiceBase))
+                .AddClasses(classes => classes.AssignableTo<IServiceBase>(), false)
+                .AsImplementedInterfaces()
+                .WithScopedLifetime());
             services.AddMinio(options =>
             {
                 options.Endpoint = OpenshiftConfig.MINIO_EndPoint;
@@ -49,8 +58,8 @@ namespace SimpleFormsService.Web.Public
             });
 
             services.AddHttpContextAccessor();
-            services.AddScoped<IServiceManager, ServiceManager>();
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+            services.AddScoped<IServiceManager, ServiceManager>();
 
             services.AddRazorPages()
                 .AddRazorPagesOptions(options => {
