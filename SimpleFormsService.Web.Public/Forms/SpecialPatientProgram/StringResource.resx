@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AcceptedUploadType" xml:space="preserve">
-    <value>Accepted file types: &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jpg&lt;/abbr&gt;, &lt;abbr title="Portable Graphics Format"&gt;png&lt;/abbr&gt;, &lt;abbr title="Document/Documentation"&gt;doc&lt;/abbr&gt;, &lt;abbr title="OpenDocument Text Document"&gt;odt&lt;/abbr&gt;</value>
+    <value>Accepted file types: &lt;abbr title="Document/Documentation"&gt;doc(x)&lt;/abbr&gt;, &lt;abbr title="Joint Photographic Experts Group"&gt;jp(e)g&lt;/abbr&gt;, &lt;abbr title="Portable Document Format"&gt;pdf&lt;/abbr&gt;, &lt;abbr title="Portable Graphics Format"&gt;png&lt;/abbr&gt;, </value>
   </data>
   <data name="ConfirmEmail_CompareErr" xml:space="preserve">
     <value>The confirmation email does not match</value>
@@ -192,11 +192,17 @@
   <data name="SubmissionType_RequiredErr" xml:space="preserve">
     <value>Choose a submission type</value>
   </data>
+  <data name="Upload_AllowedTypes" xml:space="preserve">
+    <value>.doc,.docx,.jpeg,.jpg,.pdf,.png</value>
+  </data>
   <data name="Upload_DuplicateErr" xml:space="preserve">
     <value>Cannot upload duplicate files</value>
   </data>
   <data name="Upload_FileSizeErr" xml:space="preserve">
     <value>File must be less than 10 MB</value>
+  </data>
+  <data name="Upload_FileTypeErr" xml:space="preserve">
+    <value>File type not supported</value>
   </data>
   <data name="Upload_RequiredErr" xml:space="preserve">
     <value>Upload your document(s)</value>

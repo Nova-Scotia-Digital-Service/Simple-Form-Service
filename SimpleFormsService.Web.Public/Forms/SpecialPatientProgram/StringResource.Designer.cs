@@ -61,7 +61,7 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jpg&lt;/abbr&gt;, &lt;abbr title=&quot;Portable Graphics Format&quot;&gt;png&lt;/abbr&gt;, &lt;abbr title=&quot;Document/Documentation&quot;&gt;doc&lt;/abbr&gt;, &lt;abbr title=&quot;OpenDocument Text Document&quot;&gt;odt&lt;/abbr&gt;.
+        ///   Looks up a localized string similar to Accepted file types: &lt;abbr title=&quot;Document/Documentation&quot;&gt;doc(x)&lt;/abbr&gt;, &lt;abbr title=&quot;Joint Photographic Experts Group&quot;&gt;jp(e)g&lt;/abbr&gt;, &lt;abbr title=&quot;Portable Document Format&quot;&gt;pdf&lt;/abbr&gt;, &lt;abbr title=&quot;Portable Graphics Format&quot;&gt;png&lt;/abbr&gt;, .
         /// </summary>
         public static string AcceptedUploadType {
             get {
@@ -286,6 +286,15 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .doc,.docx,.jpeg,.jpg,.pdf,.png.
+        /// </summary>
+        public static string Upload_AllowedTypes {
+            get {
+                return ResourceManager.GetString("Upload_AllowedTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot upload duplicate files.
         /// </summary>
         public static string Upload_DuplicateErr {
@@ -300,6 +309,15 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram {
         public static string Upload_FileSizeErr {
             get {
                 return ResourceManager.GetString("Upload_FileSizeErr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File type not supported.
+        /// </summary>
+        public static string Upload_FileTypeErr {
+            get {
+                return ResourceManager.GetString("Upload_FileTypeErr", resourceCulture);
             }
         }
         

@@ -8,6 +8,7 @@ using SimpleFormsService.Domain.Entities.Supporting.JSON;
 using SimpleFormsService.Services.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -49,7 +50,11 @@ namespace SimpleFormsService.Web.Public.Forms.SpecialPatientProgram
             if (SPPForm.Files != null && SPPForm.Files.Count == 1)
             {
                 ModelState.ClearValidationState("SPPForm.NumberOfUploadedFiles");
-                if (SPPForm.Files[0].Length > 10485760)
+                if (!StringResource.Upload_AllowedTypes.Contains(Path.GetExtension(SPPForm.Files[0].FileName)))
+                {
+                    ModelState.AddModelError("SPPForm.NumberOfUploadedFiles", StringResource.Upload_FileTypeErr);
+                }
+                else if (SPPForm.Files[0].Length > 10485760)
                 {
                     ModelState.AddModelError("SPPForm.NumberOfUploadedFiles", StringResource.Upload_FileSizeErr);
                 }

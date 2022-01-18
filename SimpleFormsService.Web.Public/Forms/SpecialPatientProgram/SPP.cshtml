@@ -128,7 +128,7 @@
       
                 <label asp-for="SPPForm.Files" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
                     @SharedResource.Label_Upload
-                   <input type="file" class="ns-upload-button" asp-for="SPPForm.Files" accept=".pdf,.jpeg,.jpg,.png,.doc,.odt,.docx,.txt,.xlxs,.zip" />                   
+                   <input type="file" class="ns-upload-button" asp-for="SPPForm.Files" accept="@StringResource.Upload_AllowedTypes" />                   
                 </label>
 
                 <div id="fileDescription" class="nshinttext mt-0">
