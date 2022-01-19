@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Minio.DataModel;
-using SimpleFormsService.Domain.Entities.Supporting.JSON;
 using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Web.Admin.Models.Admin;
 
@@ -47,11 +45,10 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
         [HttpGet]
         [Route("Admin/View-Document/{templateId}/{documentId}")]
         public async Task<IActionResult> ViewDocument(string templateId, string documentId, CancellationToken cancellationToken)
-        {          
-            ObjectStat objectStat = await _serviceManager.MinIoDocumentService.FindObject(templateId, documentId, cancellationToken);
-            MemoryStream responseStream = await _serviceManager.MinIoDocumentService.GetObject(templateId, documentId, cancellationToken);
-
-            return File(responseStream, objectStat.ContentType);
+        {     
+            var fileStreamResultAdapter = await _serviceManager.MinIoDocumentService.GetObject(templateId, documentId, cancellationToken);
+            
+            return File(fileStreamResultAdapter.MemoryStream, fileStreamResultAdapter.ContentType);
         }
 
     }

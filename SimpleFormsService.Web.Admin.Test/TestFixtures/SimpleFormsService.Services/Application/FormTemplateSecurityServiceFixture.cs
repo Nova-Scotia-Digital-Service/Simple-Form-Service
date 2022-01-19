@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Persistence;
-using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Services.Abstractions.Application;
 using SimpleFormsService.Test.SharedFixtures;
 using Xunit;
@@ -27,7 +26,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
     {
         var email = "nonexistent@email.com";
 
-        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(null).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.IsUserAuthorized(null).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
@@ -39,7 +38,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = "1234";
         var email = "nonexistent@email.com";
 
-        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(templateId).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.IsUserAuthorized(templateId).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<InvalidFormatException>(exception.InnerException);
@@ -51,7 +50,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var formTemplate = _sharedFixture.CreateFormTemplate();
         var templateId = formTemplate.Id.ToString();
 
-        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.HasAccess(templateId).Result);
+        Func<Task> action = () => Task.Run(() => _formTemplateSecurityService.IsUserAuthorized(templateId).Result);
         var exception = await Record.ExceptionAsync(action);
 
         Assert.IsType<NullEmptyOrWhitespaceException>(exception.InnerException);
@@ -64,7 +63,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = formTemplate.Id.ToString();
         var email = "unauthorized@email.com";
 
-        var hasAccess = _formTemplateSecurityService.HasAccess(templateId).Result;
+        var hasAccess = _formTemplateSecurityService.IsUserAuthorized(templateId).Result;
 
         Assert.False(hasAccess);
     }
@@ -76,7 +75,7 @@ public class FormTemplateSecurityServiceFixture : IClassFixture<ConcreteDatabase
         var templateId = formTemplate.Id.ToString();
         var email = "authorizeduser1@email.com";
 
-        var hasAccess = _formTemplateSecurityService.HasAccess(templateId).Result;
+        var hasAccess = _formTemplateSecurityService.IsUserAuthorized(templateId).Result;
 
         Assert.True(hasAccess);
     }

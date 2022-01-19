@@ -2,6 +2,9 @@
 {
     public interface IFormTemplateSecurityService
     {
-        Task<bool> HasAccess(string templateId, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Determines whether or not the current user is authorized to work with the given form template.
+        /// </summary>
+        Task<bool> IsUserAuthorized(string templateId, CancellationToken cancellationToken = default);
     }
 }

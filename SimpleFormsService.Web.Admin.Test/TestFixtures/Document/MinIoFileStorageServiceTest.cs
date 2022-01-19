@@ -16,18 +16,11 @@ namespace SimpleFormsService.Test.TestFixtures.Document
         [Fact]
         public async Task GetObjectReturnAResultAsync()
         {
-            var responseStream = await _mockFactory.GetObject(_mockFactory.bucketName, _mockFactory.objectName);
+            var response = await _mockFactory.GetObject(_mockFactory.bucketName, _mockFactory.objectName);
             MemoryStream ms = new MemoryStream();
-            Assert.True(responseStream.Capacity > 0);
+            Assert.True(response.MemoryStream.Capacity > 0);
         }
-
-        [Fact]
-        public async Task FindObjectReturnAResultAsync()
-        {
-            ObjectStat objStat = await _mockFactory.FindObject(_mockFactory.bucketName, _mockFactory.objectName);
-            Assert.NotNull(objStat);
-        }
-
+        
         [Fact]
         public async Task RemoveFileReturnTrueAsync()
         {

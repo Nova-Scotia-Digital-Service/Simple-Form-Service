@@ -13,12 +13,14 @@ namespace SimpleFormsService.Services.Domain;
 internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionService
 {
     private readonly IRepositoryManager _repositoryManager;
+    private readonly IFormTemplateSecurityService _formTemplateSecurityService;
     private readonly IDocumentService _minioDocumentService;
     private readonly INotificationService _gcNotificationService;
 
-    public FormSubmissionService(IRepositoryManager repositoryManager, IDocumentService minioDocumentService, INotificationService gcNotificationService)
+    public FormSubmissionService(IRepositoryManager repositoryManager, IFormTemplateSecurityService formTemplateSecurityService, IDocumentService minioDocumentService, INotificationService gcNotificationService)
     {
         _repositoryManager = repositoryManager;
+        _formTemplateSecurityService = formTemplateSecurityService;
         _minioDocumentService = minioDocumentService;
         _gcNotificationService = gcNotificationService;
     }
@@ -137,27 +139,22 @@ internal sealed class FormSubmissionService : ServiceBase, IFormSubmissionServic
         Guard.AgainstInvalidGuidFormat(id, nameof(id));
         Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
         Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
-        
-        var formSubmission = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionByIdTemplateIdAsync(id, templateId, cancellationToken);
 
-        Guard.AgainstObjectNotFound(formSubmission, "form submission", id, nameof(id));
+        // todo move this to an attribute that uses service locator to get access to the form template security service to genericise it accross this service
+        var isUserAuthorized = await _formTemplateSecurityService.IsUserAuthorized(templateId, cancellationToken);
 
-        return formSubmission;
+        if (isUserAuthorized)
+        {
+            var formSubmission = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionByIdTemplateIdAsync(id, templateId, cancellationToken);
+
+            Guard.AgainstObjectNotFound(formSubmission, "form submission", id, nameof(id));
+
+            return formSubmission;
+        }
+
+        throw new NotAuthorizedException("form template", templateId);
     }
-
-
-    public async Task<List<FormSubmission>> GetFormSubmissionsByTemplateIdAsync(string templateId, CancellationToken cancellationToken = default)
-    {
-        Guard.AgainstNullEmptyOrWhiteSpace(templateId, nameof(templateId));
-        Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
-
-        var formSubmissions = await _repositoryManager.FormSubmissionRepository.GetFormSubmissionsByTemplateIdAsync(templateId, cancellationToken);
-
-        Guard.AgainstEmptyList(formSubmissions, "form submissions", templateId, nameof(templateId));
-
-        return formSubmissions;
-    }
-
+    
     #region Private Helpers
 
     private static FormSubmission InitializeFormSubmission(string templateId)

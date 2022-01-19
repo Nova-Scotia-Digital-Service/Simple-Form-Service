@@ -3,6 +3,7 @@ using Minio;
 using Minio.DataModel;
 using Minio.Exceptions;
 using Myrmec;
+using SimpleFormsService.Domain.Entities.Supporting;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Services.Abstractions.Application;
 
@@ -11,51 +12,54 @@ namespace SimpleFormsService.Services.Application
     public class MinioDocumentService : ServiceBase, IDocumentService
     {
         public MinioClient _client;
+        private readonly IFormTemplateSecurityService _formTemplateSecurityService;
 
-        public MinioDocumentService(MinioClient client)
+        public MinioDocumentService(MinioClient client, IFormTemplateSecurityService formTemplateSecurityService)
         {
             _client = client;
+            _formTemplateSecurityService = formTemplateSecurityService;
         }
-
+       
         /// <summary>
-        /// Check whether the object exists. If it does, return the object
+        /// Get object from bucket 
         /// </summary>
         /// <param name="bucketName"></param>
         /// <param name="objectName"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
+        public async Task<FileStreamResultAdapter> GetObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
-            var objectStat = await _client.StatObjectAsync(bucketName, objectName, cancellationToken: cancellationToken);
-            Console.WriteLine("===== Object Stat: " + objectStat + " ======");
-            return objectStat;
-        }
+            Guard.AgainstNullEmptyOrWhiteSpace(bucketName, nameof(bucketName));
+            Guard.AgainstInvalidGuidFormat(bucketName, nameof(bucketName));
+            Guard.AgainstNullEmptyOrWhiteSpace(objectName, nameof(objectName));
+            Guard.AgainstInvalidGuidFormat(objectName, nameof(objectName));
 
-        /// <summary>
-        /// Get object from bucket and write it in to memory
-        /// </summary>
-        /// <param name="bucketName"></param>
-        /// <param name="objectName"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<MemoryStream> GetObject(string bucketName,string objectName, CancellationToken cancellationToken = default)
-        {
-            var responseStream = new MemoryStream();
+            var isUserAuthorized = await _formTemplateSecurityService.IsUserAuthorized(bucketName, cancellationToken);
 
-            try
+            if (isUserAuthorized)
             {
-                await _client.GetObjectAsync(bucketName, objectName, (stream) =>
+                var responseStream = new MemoryStream();
+
+                try
                 {
-                    stream.CopyTo(responseStream);
-                    responseStream.Position = 0;
-                    stream.Dispose();
-                }, cancellationToken: cancellationToken);
+                    await _client.GetObjectAsync(bucketName, objectName, (stream) =>
+                    {
+                        stream.CopyTo(responseStream);
+                        responseStream.Position = 0;
+                        stream.Dispose();
+                    }, cancellationToken: cancellationToken);
+                }
+                catch (MinioException ex)
+                {
+                    Console.WriteLine("===== ERROR: unable to get object - " + objectName + " =====" + ex);
+                }
+
+                var objectStat = await FindObject(bucketName, objectName, cancellationToken);
+
+                return new FileStreamResultAdapter(objectStat.ContentType, responseStream);
             }
-            catch(MinioException ex)
-            {
-                Console.WriteLine("===== ERROR: unable to get object - " + objectName + " =====" + ex);
-            }
-            return responseStream;
+
+            throw new NotAuthorizedException("form template", bucketName);
         }
 
         /// <summary>
@@ -125,7 +129,6 @@ namespace SimpleFormsService.Services.Application
 
             return objectNames;
         }
-
         
         /// <summary>
         /// This method removes an object from minio bucket.
@@ -155,9 +158,23 @@ namespace SimpleFormsService.Services.Application
             return status;
         }
 
-        #region private helpers
+        #region Private Helpers
 
-        private List<string> MatchFileWithContent(IFormFile file)
+       /// <summary>
+       /// Check whether the object exists. If it does, return the object
+       /// </summary>
+       /// <param name="bucketName"></param>
+       /// <param name="objectName"></param>
+       /// <param name="cancellationToken"></param>
+       /// <returns></returns>
+       private async Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
+       {
+           var objectStat = await _client.StatObjectAsync(bucketName, objectName, cancellationToken: cancellationToken);
+           Console.WriteLine("===== Object Stat: " + objectStat + " ======");
+           return objectStat;
+       }
+
+        private static List<string> MatchFileWithContent(IFormFile file)
         {
             var sniffer = new Sniffer();
 
@@ -183,7 +200,7 @@ namespace SimpleFormsService.Services.Application
             return results;
         }
 
-        private byte[] ReadFileHead(IFormFile file)
+        private static byte[] ReadFileHead(IFormFile file)
         {
             using var fs = new BinaryReader(file.OpenReadStream());
             var bytes = new byte[20];

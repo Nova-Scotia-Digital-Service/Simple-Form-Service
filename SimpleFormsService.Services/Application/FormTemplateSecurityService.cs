@@ -17,7 +17,13 @@ public class FormTemplateSecurityService : ServiceBase, IFormTemplateSecuritySer
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public async Task<bool> HasAccess(string templateId, CancellationToken cancellationToken = default)
+    /// <summary>
+    /// Determines whether or not the current user is authorized to work with the given form template.
+    /// </summary>
+    /// <param name="templateId"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task<bool> IsUserAuthorized(string templateId, CancellationToken cancellationToken = default)
     {
         var user = _httpContextAccessor.HttpContext.User;
         var email = user.Identity?.Name;

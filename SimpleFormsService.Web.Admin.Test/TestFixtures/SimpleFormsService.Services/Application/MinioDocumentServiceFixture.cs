@@ -26,6 +26,22 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
             _serviceManager = sharedFixture.Container.GetService<IServiceManager>()!;
         }
 
+        #region GetObject
+
+        [Fact]
+        public async void GetObject_WhenCalledWithValidParameters_ADocumentIdShouldBeReturned()
+        {
+            var documentIds = uploadAFileToMinio(out var formTemplateId);
+
+            var fileStreamResultAdapter = await _serviceManager.MinIoDocumentService.GetObject(formTemplateId, documentIds.FirstOrDefault());
+
+            Assert.True(fileStreamResultAdapter.MemoryStream != null);
+        }
+
+        #endregion
+
+        #region UploadFiles
+
         [Fact]
         public async void UploadFiles_WhenCalledWithAnEmptyFileList_ANullOrEmptyListExceptionShouldBeThrown()
         {
@@ -49,24 +65,38 @@ namespace SimpleFormsService.Test.TestFixtures.SimpleFormsService.Services.Appli
         }
 
         [Fact]
-        public async void UploadFiles_WhenCalledWithValidParameters_ADocumentIdShouldBeReturned()
+        public void UploadFiles_WhenCalledWithValidParameters_ADocumentIdShouldBeReturned()
+        {
+            var documentIds = uploadAFileToMinio(out var formTemplateId);
+
+            Assert.True(documentIds.Count == 1);
+        }
+
+        #endregion
+
+        #region Private Helpers
+
+        public List<string> uploadAFileToMinio(out string formTemplateId)
         {
             var formTemplate = _sharedFixture.CreateFormTemplate();
+            formTemplateId = formTemplate.Id.ToString();
 
             const string filePath = "C:\\Users\\Craig\\Downloads\\seuss.pdf";
             var fileName = filePath.Split(@"\").Last();
-            
-            await using var stream = new MemoryStream((await File.ReadAllBytesAsync(filePath)).ToArray());
-            
+
+            using var stream = new MemoryStream((File.ReadAllBytesAsync(filePath).Result).ToArray());
+
             var formFile = new FormFile(stream, 0, stream.Length, "streamFile", fileName)
             {
                 Headers = new HeaderDictionary(),
                 ContentType = "application/pdf"
             };
 
-            var documentIds = await _serviceManager.MinIoDocumentService.UploadFiles(formTemplate.Id.ToString(), new List<IFormFile> { formFile });
+            var documentIds = _serviceManager.MinIoDocumentService.UploadFiles(formTemplate.Id.ToString(), new List<IFormFile> {formFile}).Result;
 
-            Assert.True(documentIds.Count == 1);
+            return documentIds;
         }
+
+        #endregion
     }
 }

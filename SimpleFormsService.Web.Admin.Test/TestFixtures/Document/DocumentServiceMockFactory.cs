@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using SimpleFormsService.Domain.Entities.Supporting;
 
 namespace SimpleFormsService.Test.TestFixtures.Document
 {
@@ -24,16 +25,7 @@ namespace SimpleFormsService.Test.TestFixtures.Document
             client = new MinioClient("100.64.95.168:9000", "minioadmin", "minioadmin");
         }
 
-        public async Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
-        {
-            bucketName = bucketName;
-            objectName = objectName;
-            ObjectStat objectStat;
-            objectStat = await client.StatObjectAsync(bucketName, objectName);
-            return objectStat;
-        }
-
-        public async Task<MemoryStream> GetObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
+        public async Task<FileStreamResultAdapter> GetObject(string bucketName, string objectName, CancellationToken cancellationToken = default)
         {
             bucketName = bucketName;
             objectName = objectName;
@@ -44,7 +36,13 @@ namespace SimpleFormsService.Test.TestFixtures.Document
                 responseStream.Position = 0;
                 stream.Dispose();
             });
-            return responseStream;
+
+            bucketName = bucketName;
+            objectName = objectName;
+            ObjectStat objectStat;
+            objectStat = await client.StatObjectAsync(bucketName, objectName);
+
+            return new FileStreamResultAdapter(objectStat.ContentType, responseStream);
         }
 
         public Task<List<string>> UploadFiles(string bucketName, List<IFormFile> files, CancellationToken cancellationToken = default)

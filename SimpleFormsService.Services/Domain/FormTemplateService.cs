@@ -23,9 +23,9 @@ namespace SimpleFormsService.Services.Domain
             Guard.AgainstInvalidGuidFormat(templateId, nameof(templateId));
 
             // todo move this to an attribute that uses service locator to get access to the form template security service to genericise it accross this service
-            var hasAccess =  await _formTemplateSecurityService.HasAccess(templateId, cancellationToken);
+            var isUserAuthorized =  await _formTemplateSecurityService.IsUserAuthorized(templateId, cancellationToken);
 
-            if (hasAccess)
+            if (isUserAuthorized)
             {
                 var formTemplate = await _repositoryManager.FormTemplateRepository.GetFormTemplateByIdAsync(templateId, cancellationToken);
 

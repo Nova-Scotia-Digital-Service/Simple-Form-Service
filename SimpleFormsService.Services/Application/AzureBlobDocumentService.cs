@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Minio.DataModel;
+using SimpleFormsService.Domain.Entities.Supporting;
 using SimpleFormsService.Services.Abstractions.Application;
 
 namespace SimpleFormsService.Services.Application
 {
     public class AzureBlobDocumentService : ServiceBase, IDocumentService
     {
-        public Task<ObjectStat> FindObject(string bucketName, string objectName, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MemoryStream> GetObject(string bucketName, string objectName, CancellationToken cancellationToken)
+        public Task<FileStreamResultAdapter> GetObject(string bucketName, string objectName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

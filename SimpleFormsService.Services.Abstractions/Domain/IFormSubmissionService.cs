@@ -12,6 +12,5 @@ namespace SimpleFormsService.Services.Abstractions.Domain
         Task<FormSubmission> SubmitForm(string templateId, string submissionId, FormSubmissionData data, CancellationToken cancellationToken = default);
         Task<FormSubmission> GetFormSubmissionByIdAsync(string id, CancellationToken cancellationToken = default);
         Task<FormSubmission> GetFormSubmissionByIdTemplateIdAsync(string id, string templateId, CancellationToken cancellationToken = default);
-        Task<List<FormSubmission>> GetFormSubmissionsByTemplateIdAsync(string templateId, CancellationToken cancellationToken = default);
     }
 }
