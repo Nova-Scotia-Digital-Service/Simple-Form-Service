@@ -16,7 +16,9 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            //Enable search page post MVP
+            return RedirectToAction("Error", "Error");
+            //return View();
         }
 
         [HttpGet]
@@ -25,17 +27,24 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
         public async Task<IActionResult> SubmissionDetail(string templateId, string submissionId, CancellationToken cancellationToken)
         {         
             SubmissionDetailModel detail = new();
-            
-            detail.FormSubmission = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdTemplateIdAsync(submissionId, templateId, cancellationToken);
-            if (detail.FormSubmission != null)
+
+            try
             {
-                detail.FormItems = detail.FormSubmission.Data.FormItems;
-                detail.Documents = detail.FormSubmission.Data.DocumentReferences;
-                detail.SubmissionData = detail.FormSubmission.Data;
+                detail.FormSubmission = await _serviceManager.FormSubmissionService.GetFormSubmissionByIdTemplateIdAsync(submissionId, templateId, cancellationToken);
+                if (detail.FormSubmission != null)
+                {
+                    detail.FormItems = detail.FormSubmission.Data.FormItems;
+                    detail.Documents = detail.FormSubmission.Data.DocumentReferences;
+                    detail.SubmissionData = detail.FormSubmission.Data;
+                }
+                else
+                {
+                    Console.WriteLine("===== INFO: Admin UI Form submission is empty. ======");
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Console.WriteLine("===== INFO: Form submission is empty. ======");
+                Console.WriteLine("====== ERROR: Unable to render submission detail ====== " + ex.StackTrace);
             }
 
             return View(detail);
@@ -45,11 +54,10 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
         [HttpGet]
         [Route("Admin/View-Document/{templateId}/{documentId}")]
         public async Task<IActionResult> ViewDocument(string templateId, string documentId, CancellationToken cancellationToken)
-        {     
+        {
             var fileStreamResultAdapter = await _serviceManager.MinIoDocumentService.GetObject(templateId, documentId, cancellationToken);
             
             return File(fileStreamResultAdapter.MemoryStream, fileStreamResultAdapter.ContentType);
         }
-
     }
 }

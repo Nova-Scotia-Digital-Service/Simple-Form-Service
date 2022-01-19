@@ -142,6 +142,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred..
+        /// </summary>
+        public static string Error_Message {
+            get {
+                return ResourceManager.GetString("Error_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Government of Nova Scotia.
         /// </summary>
         public static string GNS {
@@ -246,6 +255,15 @@ namespace SimpleFormsService.Web.Admin.Resources {
         public static string Logo_link {
             get {
                 return ResourceManager.GetString("Logo_link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error .
+        /// </summary>
+        public static string PageTitle_Error {
+            get {
+                return ResourceManager.GetString("PageTitle_Error", resourceCulture);
             }
         }
         

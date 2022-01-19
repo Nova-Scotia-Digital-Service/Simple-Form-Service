@@ -144,6 +144,9 @@
   <data name="Dropdown_Default" xml:space="preserve">
     <value>Select</value>
   </data>
+  <data name="Error_Message" xml:space="preserve">
+    <value>An error occurred.</value>
+  </data>
   <data name="GNS" xml:space="preserve">
     <value>Government of Nova Scotia</value>
   </data>
@@ -179,6 +182,9 @@
   </data>
   <data name="Logo_link" xml:space="preserve">
     <value>https://novascotia.ca/clf/ignition/img/nsvip-en-white-flag.svg</value>
+  </data>
+  <data name="PageTitle_Error" xml:space="preserve">
+    <value>Error </value>
   </data>
   <data name="PageTitle_SearchSubmission" xml:space="preserve">
     <value>Search submissions</value>

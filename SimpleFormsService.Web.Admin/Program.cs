@@ -38,9 +38,9 @@ builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization(policies =>
     {
-        policies.AddPolicy("GroupAdmin", p =>
-        {
-            p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
+    policies.AddPolicy("GroupAdmin", p =>
+    {
+    p.RequireClaim("groups", Environment.GetEnvironmentVariable("GROUP_ADMIN_ID"));
         });
     });
 
@@ -109,10 +109,14 @@ var app = builder.Build();
 app.UseForwardedHeaders();
 app.UseCookiePolicy();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
+    app.UseExceptionHandler("/Error/Error");
     app.UseHsts();
+}
+else
+{
+    app.UseExceptionHandler("/Error/Error");
 }
 
 app.UseHttpsRedirection();
