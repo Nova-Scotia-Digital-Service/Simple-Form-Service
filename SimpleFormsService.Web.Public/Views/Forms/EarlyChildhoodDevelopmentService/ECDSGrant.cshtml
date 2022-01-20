@@ -1,0 +1,45 @@
+﻿@model SimpleFormsService.Web.Public.Models.ECDSGrant
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Views.Shared
+@using SimpleFormsService.Web.Public.Views.Forms.EarlyChildhoodDevelopmentService;
+
+
+                <div class="form-group">                   
+                    <label asp-for="Recipient" class="nslabel">@Html.Raw(StringResource.Label_Consultant)</label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="Recipient"></span>
+                    </div>
+                    <select asp-for="Recipient" asp-items="Model.Recipients()" class="dropdown fw-20">
+                        <option value="">@StringResource.Dropdown_Default</option>
+                    </select>                   
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CentreEmail" class="nslabel"></label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="CentreEmail"></span>
+                    </div>
+                    <input type="text" asp-for="CentreEmail" data-val="true" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CentreName" class="nslabel"></label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="CentreName"></span>
+                    </div>
+                    <input asp-for="CentreName" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CentreId" class="nslabel">@Html.Raw(StringResource.Label_CentreId)</label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="CentreId"></span>
+                    </div>
+                    <input asp-for="CentreId" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <h3>@Html.Raw(StringResource.ECDS_Submission)</h3>

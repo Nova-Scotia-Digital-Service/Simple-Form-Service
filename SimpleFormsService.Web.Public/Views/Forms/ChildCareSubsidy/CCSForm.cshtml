@@ -1,0 +1,67 @@
+﻿@model SimpleFormsService.Web.Public.Models.CCSForm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Views.Shared
+@using SimpleFormsService.Web.Public.Views.Forms.ChildCareSubsidy;
+
+
+
+                <h2 class="m-b-md">@StringResource.CCS_H2</h2>
+                <div class="form-group">
+                    <label asp-for="ApplicantEmail" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="ApplicantEmail"></span>
+                    </div>
+                    <input type="text" asp-for="ApplicantEmail" data-val="true" class="ns-input fw-20" autocomplete="off" spellcheck="false" />
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ApplicantName" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="ApplicantName"></span>
+                    </div>
+                    <input type="text" asp-for="ApplicantName" data-val="true" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <hr />
+                <h2 class="m-b-md">@StringResource.CCS_Other_H2</h2>
+                <div class="form-group">
+                    <label asp-for="RegionalOffice" class="nslabel">@Html.Raw(StringResource.Label_RegionalOffice)</label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="RegionalOffice"></span>
+                     </div>
+                    <select asp-for="RegionalOffice" asp-items="Model.RegionalOffices()" class="dropdown fw-20">
+                        <option value="">@StringResource.Dropdown_Default</option>
+                    </select>                
+                </div>
+
+                <div class="form-group">
+                    <fieldset>
+                        <legend class="legendQuestion"><label asp-for="SupportingDocument" class="nslabel"></label></legend>
+                        <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="SupportingDocument"></span>
+                     </div>
+                        @foreach (var item in Model.SupportDocuments())
+                        {
+                            <div class="govns-radios govns-radios--small">
+                                <div class="govns-radios__item">
+                                    <input type="radio" asp-for="SupportingDocument" value="@item.Description" class="govns-radios__input" id="@item.Code" />
+
+                                    <label class="govns-label govns-radios__label" for="@item.Code"><span class="govns-label-span">@item.Description</span></label>
+                                    <div id="reason-hint" class="ns-hint govns-radios__hint">
+                                        @Html.Raw(@item.Hint)
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>
+                </div>
+
+                <h3>@Html.Raw(StringResource.CCS_Submission)</h3>
+                               
+           

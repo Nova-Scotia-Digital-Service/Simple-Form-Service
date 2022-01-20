@@ -1,0 +1,67 @@
+﻿@model SimpleFormsService.Web.Public.Models.SPPForm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared
+@using SimpleFormsService.Web.Public.Forms.SpecialPatientProgram;
+
+@{
+    ViewData["Title"] = StringResource.PageTitle;
+}
+            <h2 class="m-b-md">@StringResource.SPP_H2</h2>
+            <div class="form-group">
+                <label asp-for="Email" class="nslabel"></label>
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <input type="text" asp-for="Email" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="nslabel"></label>
+                <div class="ns-hint">@SharedResource.Hint_OptionalField</div>
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="Name"></span>
+                </div>
+                <input asp-for="Name" class="ns-input fw-15" autocomplete="off" />
+            </div>
+                        
+            <div class="form-group">
+                <label asp-for="Phone" class="nslabel"></label>
+                <div class="ns-hint">@SharedResource.Hint_OptionalField</div>
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="Phone"></span>
+                </div>
+                <input asp-for="Phone" class="ns-input fw-15" autocomplete="off" />
+            </div>
+
+            <hr />
+
+            <h2 class="m-b-md">@StringResource.SPP_H2_2</h2>
+
+            <div class="form-group">
+                
+                <fieldset>
+                    <legend class="legendQuestion">
+                        <label asp-for="SubmissionType" class="nslabel"></label>                        
+                    </legend>
+                     <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="SubmissionType"></span>
+                     </div>
+                   
+                    @foreach (var item in Model.SubmissionTypes())
+                    {
+                    <div class="govns-radios govns-radios--small">
+                        <div class="govns-radios__item">
+                            <input type="radio" asp-for="SubmissionType" value="@item.Value" class="govns-radios__input" id="@item.Value" />
+                            <label class="govns-label govns-radios__label" for="@item.Value"><span class="govns-label-span">@item.Text</span></label>
+                        </div>
+                    </div>
+                    }
+                </fieldset>              
+            </div>
+
+            <h3>@Html.Raw(StringResource.SPP_Submission)</h3>
+            

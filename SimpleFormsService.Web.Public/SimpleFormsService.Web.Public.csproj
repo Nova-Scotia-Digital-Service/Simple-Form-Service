@@ -63,6 +63,41 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
+    <Compile Update="Views\Forms\ChildCareSubsidyReview\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Forms\ChildCareSubsidy\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Forms\DrugInformationSystem\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Forms\EarlyChildhoodDevelopmentService\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Forms\SpecialPatientProgram\StringResource.Designer.cs">
+      <DependentUpon>StringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Forms\ConfirmationStringResource.Designer.cs">
+      <DependentUpon>ConfirmationStringResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Views\Shared\SharedResource.Designer.cs">
+      <DependentUpon>SharedResource.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -92,6 +127,34 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Forms\Submission\StringResource.resx">
       <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\ChildCareSubsidyReview\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\ChildCareSubsidy\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\DrugInformationSystem\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\EarlyChildhoodDevelopmentService\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\SpecialPatientProgram\StringResource.resx">
+      <LastGenOutput>StringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Forms\ConfirmationStringResource.resx">
+      <LastGenOutput>ConfirmationStringResource.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Shared\SharedResource.resx">
+      <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>

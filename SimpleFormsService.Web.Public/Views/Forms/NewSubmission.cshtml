@@ -1,0 +1,132 @@
+﻿@model SimpleFormsService.Web.Public.Models.IForm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Views.Shared
+
+@{
+    ViewData["Title"] = Model.FormTitle;
+}
+
+@section featured
+{
+<section class="row ns-fieldset stickyFooter">
+    <div class="col-xs-12 col-md-9">
+        <h1 class="mb-5">@Model.FormTitle</h1>
+        <form method="post" asp-antiforgery="true" enctype="multipart/form-data">
+
+            <input type="hidden" asp-for="TemplateId" value="@Model.TemplateId" />
+            <input type="hidden" asp-for="SubmissionId" value="@Model.SubmissionId" />      
+            <input type="hidden" asp-for="FileIdToDelete" value="@Model.FileIdToDelete" />  
+            <input type="hidden" asp-for="FormCode" value="@Model.FormCode" />  
+            <input type="hidden" asp-for="FormTitle" value="@Model.FormTitle" />  
+            
+            @switch(Model.FormCode) {
+                case "SPPForm":
+                <partial name="~/Views/Forms/SpecialPatientProgram/SPPForm.cshtml" model="Model" />
+                break;
+                case "ECDSGrant":
+                <partial name="~/Views/Forms/EarlyChildhoodDevelopmentService/ECDSGrant.cshtml" model="Model" />
+                break;
+                case "DISPharmacy":
+                <partial name="~/Views/Forms/DrugInformationSystem/DISPharmacy.cshtml" model="Model" />
+                break;
+                case "CCSReview":
+                <partial name="~/Views/Forms/ChildCareSubsidyReview/CCSReview.cshtml" model="Model" />
+                break;
+                case "CCSForm":
+                <partial name="~/Views/Forms/ChildCareSubsidy/CCSForm.cshtml" model="Model" />
+                break;
+            }
+
+            <div class="form-group">
+            
+                <div class="help-block text-danger ns-error-message">
+                    <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                    <span asp-validation-for="NumberOfUploadedFiles"></span>
+                    <input type="hidden" asp-for="NumberOfUploadedFiles"/>
+                </div>
+
+                <!-- List all uploaded files -->
+                @if(Model.UploadedFiles != null && Model.UploadedFiles.Count > 0) {
+                <div class="row">
+                  <div class="col-md-10">
+                    <table class="table table-table-borderless mb-0">
+                      <caption class="ns-visually-hidden">@SharedResource.Caption_UploadedFile</caption>
+                      <thead class="uploadTable">
+                        <tr>
+                          <th>@SharedResource.Label_FileName</th>
+                          <th class="text-center"><span class="ns-visually-hidden">@SharedResource.Caption_RemoveFile</span></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+                      @foreach(var file in Model.UploadedFiles) 
+                      {
+                        <tr>
+                          <td class="align-middle">
+                              @file.Value
+                                <input type="hidden" asp-for="@Model.UploadedFiles[file.Key]" value="@file.Value">
+                          </td>
+                          <td class="text-center">
+                              
+                            <a data-docid="@file.Key" role="button" draggable="false" class="deletefile btn-lg ns-btn-2nd d-inline-block medfit-btn-inline-icon ns-link-button my-0">
+                              <i class="fa fa-trash" aria-hidden="true"><span class="ns-visually-hidden">@SharedResource.Label_Remove</span></i>
+                            </a>
+                            
+                          </td>
+                        </tr>
+                        }
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                }
+      
+                <label asp-for="Files" class="btn-lg btn-default ns-upload" aria-describedby="fileDescription">
+                    @SharedResource.Label_Upload
+                   <input type="file" class="ns-upload-button" asp-for="Files" accept="@SharedResource.Upload_AllowedTypes" />                   
+                </label>
+
+                <div id="fileDescription" class="nshinttext mt-0">
+                    <p class="mt-0 mb-0">@Html.Raw(SharedResource.AcceptedUploadType)</p>
+                    <p>@Html.Raw(SharedResource.Upload_MaxFileSize)</p>
+                </div>
+               
+                </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-12">
+                    <input type="submit" formaction="@Url.Content("~/NewSubmission/" + Model.TemplateId)" class="btn-default btn-lg ml-5" value="@SharedResource.Btn_Submit" />
+                </div>
+            </div>
+
+            </form>
+        
+    </div>
+</section>
+}
+
+@section Scripts {
+
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+          
+            $("#Files").on('change', function () {
+                document.forms[0].action = "@Url.Content("~/NewSubmission/" + Model.TemplateId)?handler=UploadFile"
+                document.forms[0].submit();
+            });
+
+            $(".deletefile").on('click', function () {
+                $("#FileIdToDelete").val($(this).data("docid"));
+                document.forms[0].action = "@Url.Content("~/NewSubmission/" + Model.TemplateId)?handler=RemoveFile"
+                document.forms[0].submit();
+            });
+
+        });
+        
+    </script>
+   
+
+}

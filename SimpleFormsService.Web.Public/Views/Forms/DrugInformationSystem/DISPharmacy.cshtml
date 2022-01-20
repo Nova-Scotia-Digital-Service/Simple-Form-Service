@@ -1,0 +1,109 @@
+﻿@model SimpleFormsService.Web.Public.Models.DISPharmacy
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Views.Shared
+@using SimpleFormsService.Web.Public.Views.Forms.DrugInformationSystem;
+
+
+                <div class="form-group">
+                    <label asp-for="Email" class="nslabel"></label>
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <input type="text" asp-for="Email" data-val="true" class="ns-input fw-20" autocomplete="off" />                   
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="Subject"></span>
+                    </div>
+                    <input type="text" asp-for="Subject" data-val="true" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                @*<div class="form-group">
+                    <fieldset>
+                        <legend class="legendQuestion"><label asp-for="SourceType" class="nslabel"></label></legend>
+                        <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="SourceType"></span>
+                     </div>
+                        @foreach (var item in Model.SourceTypes())
+                        {
+                            <div class="govns-radios govns-radios--small">
+                                <div class="govns-radios__item">
+                                    <input type="radio" asp-for="SourceType" value="@item.Value" class="govns-radios__input" id="@item.Value" />
+
+                                    <label class="govns-label govns-radios__label" for="@item.Value"><span class="govns-label-span">@item.Text</span></label>
+                                </div>
+                            </div>
+                        }
+                    </fieldset>                
+                </div>*@
+
+                <div class="form-group">
+                    <fieldset aria-describedby="SourceName-hint">
+                        <label asp-for="SourceName" class="nslabel"></label>
+@*                        <div class="ns-hint" id="SourceName-hint">
+                            @Html.Raw(@StringResource.Hint_SourceName)
+                        </div>*@
+                        <div class="help-block text-danger ns-error-message">
+                            <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                            <span asp-validation-for="SourceName"></span>
+                        </div>
+                        <input type="text" asp-for="SourceName" data-val="true" class="ns-input fw-20" autocomplete="off" />
+                    </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Contact" class="nslabel"></label>
+
+                    <div class="help-block text-danger ns-error-message">
+                        <i class="fa fa-exclamation-circle error-indicator errorAlert" aria-hidden="true"></i>
+                        <span asp-validation-for="Contact"></span>
+                    </div>
+                    <input type="text" asp-for="Contact" data-val="true" class="ns-input fw-20" autocomplete="off" />
+                </div>
+
+                <div class="form-group">
+                    <fieldset aria-describedby="ticketnumber-hint">
+                        <label asp-for="TicketNumber" class="nslabel">@Html.Raw(StringResource.Label_DISTicket)</label>
+                        <div class="ns-hint" id="ticketnumber-hint">
+                            @Html.Raw(StringResource.Hint_Optional)
+                        </div>
+                        <input asp-for="TicketNumber" class="ns-input fw-20" autocomplete="off"/>
+                    </fieldset>
+                </div>
+
+                <div class="form-group">
+                    <fieldset aria-describedby="vendorticket-hint">
+                        <label asp-for="VendorTicketNumber" class="nslabel"></label>
+                        <div class="ns-hint" id="vendorticket-hint">
+                            @Html.Raw(StringResource.Hint_Optional)
+                        </div>
+                        <input asp-for="VendorTicketNumber" mu class="ns-input fw-20" autocomplete="off"/>
+                    </fieldset>
+                </div>
+                
+                <div class="form-group">
+                    <fieldset aria-describedby="message-hint">
+                        <label asp-for="Message" class="nslabel"></label>
+                        <div class="ns-hint" id="vendorticket-hint">
+                            @Html.Raw(StringResource.Hint_Optional)
+                        </div>
+                        <textarea rows="5" asp-for="Message" class="ns-input fw-20" autocomplete="off"></textarea>
+                    </fieldset>
+                </div>
+
+                <h3>@Html.Raw(StringResource.DIS_Upload)</h3>
+
+                <div class="row">
+                        <div class="col-xs-10 blockquote-alert " role="alert">
+                            <p>
+                                <i class="fa fa-exclamation-triangle warning" aria-hidden="true"></i>
+                                @Html.Raw(StringResource.DIS_UploadNote)
+                            </p>
+                        </div>
+                    </div>

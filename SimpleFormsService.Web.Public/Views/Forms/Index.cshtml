@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using SimpleFormsService.Web.Public.Forms.Shared;
+@using SimpleFormsService.Web.Public.Forms;
+
+@{
+//    ViewData["Title"] = "Introduction";
+}
+
+@section featured
+{
+    <section class="row ns-fieldset stickyFooter" id="spp">
+        <div class="col-xs-12 col-md-9">
+            <h1 class="m-b-md">@SharedResource.App_Title</h1> MVC Forms Index
+            <p class="m-b-md">Introduction here</p>
+            <ul>
+                <li>
+                    <a href="/NewSubmission/a7b65d0f-5b87-4050-a5ef-ef79ef0ec753">new SPP Form</a>
+                </li>
+                <li>
+                    <a href="/NewSubmission/170e324d-7aa9-4faf-8b42-5a7f6363fda5">new Early Childhood Development Service Form</a>
+                </li>
+                <li>
+                    <a href="/NewSubmission/17fcd5c7-84cf-4cdc-bb2f-5649396ae8c6">new Drug Information System Form</a>
+                </li>
+                <li>
+                    <a href="/NewSubmission/0d9fe6dc-a167-4fe1-9de4-dac996a44ac8">new Child Care Subsidy Review Form</a>
+                </li>
+                <li>
+                    <a href="/NewSubmission/a84c16c0-5ea6-4cc0-87ae-2fdd575715e0">new Child Care Subsidy Form</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+}     
