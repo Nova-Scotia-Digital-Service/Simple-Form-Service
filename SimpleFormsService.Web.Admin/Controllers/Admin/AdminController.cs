@@ -50,7 +50,6 @@ namespace SimpleFormsService.Web.Admin.Controllers.Admin
             return View(detail);
         }
 
-
         [HttpGet]
         [Route("Admin/View-Document/{templateId}/{documentId}")]
         public async Task<IActionResult> ViewDocument(string templateId, string documentId, CancellationToken cancellationToken)

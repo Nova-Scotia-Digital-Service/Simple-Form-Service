@@ -5,6 +5,8 @@ namespace SimpleFormsService.Domain.Exceptions
 {
     public sealed class ObjectNotFoundException : NotFoundException
     {
+        public ObjectNotFoundException(string objectName) : base($"The {objectName} was/were not found.")
+        { }
         public ObjectNotFoundException(string objectName, string argumentValue, string argumentName) : base($"The {objectName} with the {argumentName} '{argumentValue}' was not found.")
         { }
     }

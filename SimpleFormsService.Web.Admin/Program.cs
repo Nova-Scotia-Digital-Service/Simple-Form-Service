@@ -15,6 +15,7 @@ using SimpleFormsService.Services;
 using SimpleFormsService.Services.Abstractions;
 using SimpleFormsService.Services.Abstractions.Application;
 using SimpleFormsService.Services.Application;
+using SimpleFormsService.Web.Admin.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appSettings.json", true, true);
@@ -100,6 +101,8 @@ builder.Services.AddControllersWithViews(options =>
         options.Filters.Add(new AuthorizeFilter(policy));
     }).AddRazorRuntimeCompilation();
 
+builder.Services.AddTransient<ExceptionHandlingMiddleware>();
+
 #endregion
 
 var app = builder.Build();
@@ -124,6 +127,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 

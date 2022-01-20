@@ -19,8 +19,15 @@ public static class Guard
         }
     }
 
-    public static void AgainstObjectNotFound(object instance, string objectName, string argumentValue,
-        string argumentName)
+    public static void AgainstObjectNotFound(object instance, string objectName)
+    {
+        if (instance is null)
+        {
+            throw new ObjectNotFoundException(objectName);
+        }
+    }
+
+    public static void AgainstObjectNotFound(object instance, string objectName, string argumentValue, string argumentName)
     {
         if (instance is null)
         {

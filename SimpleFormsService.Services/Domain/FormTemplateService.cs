@@ -1,4 +1,5 @@
 ﻿using SimpleFormsService.Domain.Entities;
+using SimpleFormsService.Domain.Entities.Supporting.JSON;
 using SimpleFormsService.Domain.Exceptions;
 using SimpleFormsService.Domain.Repositories;
 using SimpleFormsService.Services.Abstractions.Application;
@@ -35,6 +36,18 @@ namespace SimpleFormsService.Services.Domain
             }
 
             throw new NotAuthorizedException("form template", templateId);
+        }
+
+        public async Task<List<Identifier>> GetFormTemplatesAsync(CancellationToken cancellationToken = default)
+        {
+            var formTemplates = await _repositoryManager.FormTemplateRepository.GetFormTemplatesAsync(cancellationToken);
+
+            Guard.AgainstObjectNotFound(formTemplates, "form templates");
+
+            var formTemplateIdentifiers = new List<Identifier>(formTemplates.Count);
+            formTemplateIdentifiers.AddRange(formTemplates.Select(formTemplate => formTemplate.Data.Identifier));
+
+            return formTemplateIdentifiers;
         }
     }
 }

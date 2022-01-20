@@ -18,5 +18,12 @@ namespace SimpleFormsService.Persistence.Repositories
             
             return formTemplate!;
         }
+
+        public async Task<List<FormTemplate>> GetFormTemplatesAsync(CancellationToken cancellationToken = default)
+        {
+            var formTemplate = await _dbContext.FormTemplates.ToListAsync(cancellationToken);
+                
+            return formTemplate;
+        }
     }
 }

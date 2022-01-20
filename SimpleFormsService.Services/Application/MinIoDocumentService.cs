@@ -13,7 +13,7 @@ namespace SimpleFormsService.Services.Application
     {
         public MinioClient _client;
         private readonly IFormTemplateSecurityService _formTemplateSecurityService;
-
+        
         public MinioDocumentService(MinioClient client, IFormTemplateSecurityService formTemplateSecurityService)
         {
             _client = client;

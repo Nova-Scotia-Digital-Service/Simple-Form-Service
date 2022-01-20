@@ -1,0 +1,46 @@
+﻿using System.Text.Json;
+using SimpleFormsService.Domain.Exceptions.Abstract;
+
+namespace SimpleFormsService.Web.Admin.Middleware;
+
+// todo remove this in the future (this really belongs on the api but i have added it here whereas we are consuming services directly until after initial go-live)
+internal sealed class ExceptionHandlingMiddleware : IMiddleware
+{
+    private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+
+    public ExceptionHandlingMiddleware(ILogger<ExceptionHandlingMiddleware> logger) => _logger = logger;
+
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        try
+        {
+            await next(context);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, e.Message);
+
+            await HandleExceptionAsync(context, e);
+        }
+    }
+
+    private static async Task HandleExceptionAsync(HttpContext httpContext, Exception exception)
+    {
+        httpContext.Response.ContentType = "application/json";
+
+        httpContext.Response.StatusCode = exception switch
+        {
+            BadRequestException _ => StatusCodes.Status400BadRequest,
+            NotFoundException _ => StatusCodes.Status404NotFound,
+            _ => StatusCodes.Status500InternalServerError
+        };
+
+        var response = new
+        {
+            error = exception.Message, 
+            type = exception.GetType().Name
+        };
+
+        await httpContext.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+}
